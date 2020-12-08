@@ -551,7 +551,7 @@ public class ParsingController {
             BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
             obj = new JSONParser().parse(in);
         }else{
-            File file = new ClassPathResource("volna-mista-full.json").getFile();
+            File file = new ClassPathResource("offers.json").getFile();
             obj = new JSONParser().parse(new FileReader(file));
         }
 

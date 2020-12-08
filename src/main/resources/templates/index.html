@@ -1,47 +1,84 @@
 <!DOCTYPE html>
 
-<html  layout:decorate="~{main_layout}"
-       xmlns:th="https://www.thymeleaf.org"
-       xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout"
-       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html layout:decorate="~{main_layout}"
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout">
 <head>
-    <title>Firemni system</title>
+    <title>Pracovní portál</title>
 </head>
 
 <body>
 <div layout:fragment="content">
-    <img style="max-width: 100%; height: auto" class="img-responsive" src="../static/resources/images/icon.jpg" th:src="@{/resources/images/icon.jpg}"/>
-<p></p>
-<h2 class="text-center">Vítejte v aplikaci firemní systém</h2>
-<p></p>
-    <p class="text-center" id="datetime"></p>
-    <script>
-        var today = new Date();
-        var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-        var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-        var dateTime = date+' '+time;
-        document.getElementById("datetime").innerHTML = "Dnes je: " + dateTime;
-    </script>
-    <div class="row">
-        <div class="col-sm-2"></div>
-        <div class="col-sm-3"><p><i style="color:blue" class="far fa-user"></i> Správa zaměstnaneckých účtů</p></div>
-        <div class="col-sm-2"></div>
-        <div class="col-sm-3"><i style="color:blue" class="far fa-calendar-alt"></i> Přehled o pracovních plánech</div>
-        <div class="col-sm-2"></div>
+    <h1 class="text-center">Pracovní portál</h1>
+    <div class="container">
+        <p></p>
+        <form action="#" th:action="@{/personalizedOffers}"  method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label >Vyberte nebo přetáhněte PDF/DOCX soubor se životopisem:</label>
+                <input type="file" name="file" class="btn btn-info">
+                <button type="submit" class="btn btn-success">Získat nabídku na míru na základě CV</button>
+            </div>
+        </form>
     </div>
-    <div class="row">
-        <div class="col-sm-2"></div>
-        <div class="col-sm-3"><p><i style="color:blue" class="far fa-plus-square"></i> Management a přidělování domén</p></div>
-        <div class="col-sm-2"></div>
-        <div class="col-sm-3"><i style="color:blue" class="fas fa-star-half-alt"></i> Management hodnocení dokončené práce</div>
-        <div class="col-sm-2"></div>
+
+    <div class="container" th:if="${cvProfile == null}">
+        <p>Nabídka zatím není personalizovaná. Přiložte prosím životopis.</p>
     </div>
-    <div class="row">
-        <div class="col-sm-2"></div>
-        <div class="col-sm-3"><p><i style="color:blue" class="fas fa-business-time"></i> Vedení pracovních výkazů</p></div>
-        <div class="col-sm-2"></div>
-        <div class="col-sm-3"><i style="color:blue" class="fab fa-font-awesome-flag"></i> Správa a management priorit</div>
-        <div class="col-sm-2"></div>
+
+    <div class="container" th:if="${cvProfile != null}">
+        <span style="color:green"><b>Extrahované informace o uchazeči: </b></span>
+            <span th:text="${cvProfile.firstName} + ' ' + ${cvProfile.lastName}
+            + ', ' + ${cvProfile.gender} + ', ' + ${cvProfile.age} + ' let, narozen(a) '"></span>
+            <span th:if="${cvProfile.birthDate != null}" th:text="${cvProfile.birthDate}"></span>
+            <span th:if="${cvProfile.birthDate == null}" th:text="${cvProfile.birthYear}"></span>
+            <span th:text="', email: ' + ${cvProfile.email} + ', mobil: ' + ${cvProfile.mobile} +
+', nejvyšší dosažený stupeň vzdělání: ' + ${cvProfile.maxEducation.maxEduLvl.maxEduLvlName} + ', obor nejvyššího stupně vzdělání: ' +
+${cvProfile.maxEducation.generalEduField}"></span>
+        </p>
+    </div>
+
+    <div class="container" style="margin-bottom:3em" th:if="${relevanceScore != null}">
+        <span style="color:green"><b>Predikovaná skóre relevancí pro jednotlivé obory: </b></span>
+        <table class="table table-sm text-center" style="font-size:0.7em">
+            <thead class="thead-dark">
+            <tr>
+                <th th:each="i : ${#numbers.sequence(0, 14)}" th:text="${relevanceScore.getFieldName(i)}"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td style="color:green" th:each="i : ${#numbers.sequence(0, 14)}"><b th:text="${relevanceScore.getPercentRelevanceScore(i)}"></b></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h4 th:if="${relevanceScore == null}" class="text-center">Pracovní nabídky</h4>
+    <h4 th:if="${relevanceScore != null}" class="text-center">Personalizované pracovní nabídky</h4>
+    <div class="container" th:each="offer : ${offers}">
+        <p style="font-size: 0.8em; color:red; margin:0">Id: <span th:text="${offer.id}"></span></p>
+        <table class="table table-sm" style="width:95%; margin-bottom:3em" id="offer">
+            <thead class="thead-dark">
+            <tr>
+                <th colspan="2" th:text="${offer.title}"></th>
+                <th style="width:45%">Obory: <span th:each="field : ${offer.profession.getFields()}"
+                                                   th:text="'|' + ${field.name} + '| '"></span></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td th:if="${#strings.length(offer.offerText) >= 250}" colspan="3"
+                    th:text="${#strings.substring(offer.offerText,0,249)} + '...'"></td>
+                <td th:if="${#strings.length(offer.offerText) < 250}" colspan="3"
+                    th:text="${offer.offerText} + '...'"></td>
+            </tr>
+            <tr style="background-color:#CACEDF">
+                <td style="color:#045204" colspan="2"
+                    th:text="'Mzda od ' + ${offer.monthlyRateFrom} + ' Kč' + ' do ' + ${offer.monthlyRateTo} + ' Kč'"></td>
+                <td style="color:#0C1546" th:text="'Zaměstnavatel: ' + ${offer.employer.name}"></td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 </div>
 </body>

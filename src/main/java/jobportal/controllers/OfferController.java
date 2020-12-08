@@ -1,41 +1,49 @@
 package jobportal.controllers;
+
+import jobportal.models.Offer;
 import jobportal.models.cv_support.*;
 import jobportal.services.CzechNameService;
+import jobportal.services.OfferService;
 import jobportal.services.TitleService;
 import jobportal.utils.CVExtractor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import java.io.*;
+
+import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.Collection;
 import java.util.List;
 
 @Controller
-public class CVController {
+public class OfferController {
     @Autowired
-    private CzechNameService czechNameService;
+    private OfferService offerService;
+
     @Autowired
     private TitleService titleService;
 
-    @RequestMapping(value = "/demo")
-    public String showDemoIndex() {
-        return "demoIndex";
+    @Autowired
+    private CzechNameService czechNameService;
+
+    @RequestMapping(value = "/")
+    public String showIndexWithAllOffers(Model model) {
+        Collection<Offer> offers = offerService.findAllOffers();
+        model.addAttribute("offers", offers);
+        return "index";
     }
 
-    @RequestMapping(value = "/loadCvFile")
-    public String showLoadCvFileForm() {
-        return "loadCvFile";
-    }
-
-    @RequestMapping(value = "/demo/processCv", method = RequestMethod.POST)
-    public String processCV(Model model, @RequestParam("file") MultipartFile[] files) throws IOException {
+    @RequestMapping(value = "/personalizedOffers")
+    public String showIndexWithPersonalizedOffers(Model model, @RequestParam("file") MultipartFile[] files) throws IOException {
         EduLog eduLog = new EduLog();
         CVExtractor cvExtractor = new CVExtractor(eduLog);
         CVProfile cvProfile = new CVProfile();
@@ -47,14 +55,12 @@ public class CVController {
         try {
             Files.write(fileNameAndPath,files[0].getBytes());
         } catch (IOException e) {
-                e.printStackTrace();
+            e.printStackTrace();
         }
 
         File savedFile = new File("D:\\" + files[0].getOriginalFilename());
         //File savedFile = new File(String.valueOf(fileNameAndPath));
-
         String extractedText = cvExtractor.getCvTextData(savedFile, fileName);
-        System.out.print(extractedText);
 
         //Deleting of saved file
         if(savedFile.delete()) {
@@ -90,45 +96,19 @@ public class CVController {
             cvProfile.setAge((int) years);
         }
 
-        //      >>> LOG DO CONSOLE <<<
-        System.out.println("");
-        System.out.println("Extrahovane informace o uchazeci:");
-        System.out.println("Jmeno: " + cvProfile.getFirstName());
-        System.out.println("Prijmeni: " + cvProfile.getLastName());
-        System.out.println("Pohlavi: " + cvProfile.getGender());
-        if(cvProfile.getBirthDate() != null) {
-            System.out.println("Datum narozeni: " + cvProfile.getBirthDate());
-        }else if(cvProfile.getBirthYear() != 0) {
-            System.out.println("Rok narozeni: " + cvProfile.getBirthYear());
-        }
-        if(cvProfile.getAge() != 0) {
-            System.out.println("Vek: " + cvProfile.getAge() + " let");
-        }
-        System.out.print("Ziskane akademicke tituly: ");
-        if(!cvProfile.getTitleList().isEmpty()) {
-            for (Title title: cvProfile.getTitleList()) {
-                System.out.print(" " + title.getOfficialVersion());
-            }
-        }else{
-            System.out.print("bez titulu");
-        }
-        System.out.print("\n");
-        System.out.println("Email: " + cvProfile.getEmail());
-        System.out.println("Mobil: " + cvProfile.getMobile());
-        System.out.println("Nejvyssi dosazeny stupen vzdelani: " + cvProfile.getMaxEducation().getMaxEduLvl().getMaxEduLvlName());
-        System.out.println("Obecny obor vzdelani: " + cvProfile.getMaxEducation().getGeneralEduField());
-
         relevanceScore.getPredictions(cvProfile);
-        System.out.println("Relevance scores:");
+        int [] fiveHighest = relevanceScore.getFiveHighest();
 
-        for(int i=0;i<relevanceScore.getRelevanceScores().length;i++) {
-            System.out.println(relevanceScore.getRelevanceScores()[i]);
-        }
+        Collection<Offer> offers = offerService.findAllOffers();
+        offers = offerService.sortOffersAccToPredictions(offers, String.valueOf(fiveHighest[0]),
+                String.valueOf(fiveHighest[1]), String.valueOf(fiveHighest[2]), String.valueOf(fiveHighest[3]),
+                String.valueOf(fiveHighest[4]));
 
+        model.addAttribute("offers", offers);
         model.addAttribute("cvProfile", cvProfile);
         model.addAttribute("relevanceScore", relevanceScore);
-        model.addAttribute("eduLog", cvExtractor.getEduLog());
-
-        return "demoExtractedCVProfile";
+        return "index";
     }
+
+
 }

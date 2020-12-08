@@ -7,10 +7,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import jobportal.models.cv_support.CzechName;
-import jobportal.models.cv_support.MaxEduLvl;
-import jobportal.models.cv_support.MaxEducation;
-import jobportal.models.cv_support.Title;
+import jobportal.models.cv_support.*;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.apache.poi.openxml4j.opc.OPCPackage;
@@ -21,6 +18,15 @@ import org.apache.poi.xwpf.usermodel.XWPFDocument;
 public class CVExtractor {
     private String extractedText;
     private int aroundArea = 70;
+    private EduLog eduLog;
+
+    public CVExtractor(EduLog eduLog) {
+        this.eduLog = eduLog;
+    }
+
+    public EduLog getEduLog() {
+        return eduLog;
+    }
 
     public String getCvTextData(File file, String fileName) {
         if (fileName.endsWith(".pdf")) {
@@ -295,80 +301,65 @@ public class CVExtractor {
             if(maxEducation.getGeneralEduField() != null) {
                 return maxEducation;
             } else {
-                maxEduLvl.findAreaIndexesForVSLevel(extractedText, aroundArea);
+                maxEduLvl.findAreaIndexesForVSLevel(extractedText, aroundArea, eduLog);
                 maxEducation.setMaxEduLvl(maxEduLvl);
-                if (maxEducation.findFieldForVSLevel(extractedText, true, false)) {
+                if (maxEducation.findFieldForVSLevel(extractedText, true, false, eduLog)) {
                     return maxEducation;
-                } else if (maxEducation.findFieldForVSLevel(extractedText, false, true)) {
+                } else if (maxEducation.findFieldForVSLevel(extractedText, false, true, eduLog)) {
                     return maxEducation;
-                } else if (maxEducation.findFieldForVSLevel(extractedText, false, false)) {
+                } else if (maxEducation.findFieldForVSLevel(extractedText, false, false, eduLog)) {
                     return maxEducation;
                 } else {
                     return null;
                 }
             }
         } else {
-            if(maxEducation.findEduSectionStartIndex(extractedText)) {
-                boolean success = maxEduLvl.findMaxEduLvl(extractedText, maxEducation.getEduSectionStartIndex(), aroundArea);
+            if(maxEducation.findEduSectionStartIndex(extractedText, eduLog)) {
+                boolean success = maxEduLvl.findMaxEduLvl(extractedText, maxEducation.getEduSectionStartIndex(), aroundArea, eduLog);
                 if(!success) {
-                    maxEduLvl.findMaxEduLvl(extractedText, 0, aroundArea);
+                    maxEduLvl.findMaxEduLvl(extractedText, 0, aroundArea, eduLog);
                 }
             }else{
-                maxEduLvl.findMaxEduLvl(extractedText, 0, aroundArea);
+                maxEduLvl.findMaxEduLvl(extractedText, 0, aroundArea, eduLog);
             }
             maxEducation.setMaxEduLvl(maxEduLvl);
             switch (maxEduLvl.getMaxEduLvlName()) {
                 case "Vysokoskolske_doktorske": case "Vysokoskolske_magisterske": case "Vysokoskolske_bakalarske":
-                    if (maxEducation.findFieldForVSLevel(extractedText, true, false)) {
+                    if (maxEducation.findFieldForVSLevel(extractedText, true, false, eduLog)) {
                         return maxEducation;
-                    } else if (maxEducation.findFieldForVSLevel(extractedText, false, true)) {
+                    } else if (maxEducation.findFieldForVSLevel(extractedText, false, true, eduLog)) {
                         return maxEducation;
-                    } else if (maxEducation.findFieldForVSLevel(extractedText, false, false)) {
+                    } else if (maxEducation.findFieldForVSLevel(extractedText, false, false, eduLog)) {
                         return maxEducation;
                     } else {
                         return null;
                     }
                 case "Vyssi_odborne": case "Stredoskolske_s_maturitou":
-                    if (maxEducation.findFieldForVOSSSMatLevel(extractedText, true, false)) {
+                    if (maxEducation.findFieldForVOSSSMatLevel(extractedText, true, false, eduLog)) {
                         return maxEducation;
-                    } else if (maxEducation.findFieldForVOSSSMatLevel(extractedText, false, true)) {
+                    } else if (maxEducation.findFieldForVOSSSMatLevel(extractedText, false, true, eduLog)) {
                         return maxEducation;
-                    } else if (maxEducation.findFieldForVOSSSMatLevel(extractedText, false, false)) {
+                    } else if (maxEducation.findFieldForVOSSSMatLevel(extractedText, false, false, eduLog)) {
                         return maxEducation;
                     } else {
                         return null;
                     }
                 case "Vyuceni_nebo_Stredoskolske_bez_maturity":
-                    if (maxEducation.findFieldForSSLevel(extractedText, true, false)) {
+                    if (maxEducation.findFieldForSSLevel(extractedText, true, false, eduLog)) {
                         return maxEducation;
-                    } else if (maxEducation.findFieldForSSLevel(extractedText, false, true)) {
+                    } else if (maxEducation.findFieldForSSLevel(extractedText, false, true, eduLog)) {
                         return maxEducation;
-                    } else if (maxEducation.findFieldForSSLevel(extractedText, false, false)) {
+                    } else if (maxEducation.findFieldForSSLevel(extractedText, false, false, eduLog)) {
                         return maxEducation;
                     } else {
                         return null;
                     }
                 case "Zakladni":
-                    maxEducation.setGeneralEduField("Zakladni_skola");
+                    maxEducation.setGeneralEduField("Gymnazium_ZS");
                     return maxEducation;
             }
         }
 
         return null;
     }
-
-    /*public void getPredictions() throws IOException {
-       URL url = new URL("https://fieldpredictor.herokuapp.com/prediction");
-
-       // Get the input stream through URL Connection
-       URLConnection connection = url.openConnection();
-       InputStream is = connection.getInputStream();
-
-       BufferedReader br = new BufferedReader(new InputStreamReader(is));
-
-       String line = null;
-       while ((line = br.readLine()) != null) {
-           System.out.println(line);
-       }
-    }*/
 }
