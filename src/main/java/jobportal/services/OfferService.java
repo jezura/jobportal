@@ -4,6 +4,9 @@ import jobportal.dao.OfferRepository;
 import jobportal.models.Field;
 import jobportal.models.Offer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -20,6 +23,11 @@ public class OfferService {
             offers.add(offer);
         }
         return offers;
+    }
+
+    public Page<Offer> listAllOffers(int pageNumber){
+        Pageable pageable = PageRequest.of(pageNumber-1,20);
+        return offerRepository.findAll(pageable);
     }
 
     public Collection<Offer> sortOffersAccToPredictions(Collection<Offer> offersToSort,

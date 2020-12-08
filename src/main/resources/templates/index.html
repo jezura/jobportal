@@ -9,16 +9,19 @@
 
 <body>
 <div layout:fragment="content">
-    <h1 class="text-center">Pracovní portál</h1>
-    <div class="container">
-        <p></p>
-        <form action="#" th:action="@{/personalizedOffers}"  method="post" enctype="multipart/form-data">
-            <div class="form-group">
-                <label >Vyberte nebo přetáhněte PDF/DOCX soubor se životopisem:</label>
-                <input type="file" name="file" class="btn btn-info">
-                <button type="submit" class="btn btn-success">Získat nabídku na míru na základě CV</button>
-            </div>
-        </form>
+    <div style="background-color: #19325a; padding-top:0.5em; padding-bottom: 4em; color:white; ; border-radius:0.2em">
+        <a href="/demo" style="color:white">Demo režim</a>
+    <h1 class="text-center" style="margin-bottom:1.5em">Pracovní portál</h1>
+        <div class="container text-center">
+            <p></p>
+            <form action="#" th:action="@{/personalizedOffers}"  method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label class="text-center">Vyberte nebo přetáhněte PDF/DOCX soubor se životopisem:</label><br>
+                    <input type="file" name="file" class="btn btn-info">
+                    <button type="submit" class="btn btn-success">Získat nabídku na míru na základě CV</button>
+                </div>
+            </form>
+        </div>
     </div>
 
     <div class="container" th:if="${cvProfile == null}">

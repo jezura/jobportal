@@ -7,11 +7,10 @@ import jobportal.services.OfferService;
 import jobportal.services.TitleService;
 import jobportal.utils.CVExtractor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -37,7 +36,13 @@ public class OfferController {
 
     @RequestMapping(value = "/")
     public String showIndexWithAllOffers(Model model) {
-        Collection<Offer> offers = offerService.findAllOffers();
+        return showAllOffersPageable(model, 1);
+    }
+
+    @GetMapping(value = "/page/{pageNumber}")
+    public String showAllOffersPageable(Model model, @PathVariable("pageNumber") int currentPage) {
+        Page<Offer> offerPage = offerService.listAllOffers(currentPage);
+        Collection<Offer> offers = offerPage.getContent();
         model.addAttribute("offers", offers);
         return "index";
     }
