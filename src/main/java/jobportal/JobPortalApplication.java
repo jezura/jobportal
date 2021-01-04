@@ -14,8 +14,11 @@ package jobportal;/*
  * limitations under the License.
  */
 
+import jobportal.models.cv_support.RelevanceScore;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import java.io.IOException;
 
 /**
  * FiremniSystem Spring Boot Application.
@@ -28,6 +31,9 @@ public class JobPortalApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(JobPortalApplication.class, args);
+
+        RelevanceScore rs = new RelevanceScore();
+        rs.wakeUp();
     }
 
 }

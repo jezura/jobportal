@@ -270,7 +270,7 @@ public class MaxEduLvl {
         }
 
 
-        regex = "([Ss]třední|[Ss]tředškolsk|SPŠ|SOU|SŠ|SOŠ|SOUe|SLŠ)";
+        regex = "([Ss]třední|[Ss]tředškolsk|SPŠ|SOU|SŠ|SOŠ|SOUe|SLŠ|[Vv]yučen([ía])?)";
         pattern = Pattern.compile(regex);
         matcher = pattern.matcher(textAreaSubstring);
 

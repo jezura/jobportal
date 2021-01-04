@@ -173,7 +173,7 @@ public class MaxEducation {
         int[] VSFieldsMatches = new int[VSFields.length];
         eduLog.addLogText("Nalezl jsem nasledujici oborova klicova slova:");
 
-        regex = "([Ii]nformatik[ay]|[Ii]nformační|[Mm]anagement|[Dd]at[ao]|\\sFIM\\s|\\sFIT\\s|\\sFI\\s|\\sFIS\\s|\\sFAI\\s)";
+        regex = "([Ii]nformatik[ay]|[Ii]nformační|[Mm]anagement|[Dd]ata|[Dd]atov[áý]|\\sFIM\\s|\\sFIT\\s|\\sFI\\s|\\sFIS\\s|\\sFAI\\s)";
         pattern = Pattern.compile(regex);
         matcher = pattern.matcher(textAreaSubString);
 
@@ -247,7 +247,7 @@ public class MaxEducation {
 
         regex = "([Ff]ilosofie|[Ff]ilosofick|[Pp]olitologie|[Pp]olitologick|[Pp]sychologie|[Pp]sychologic|" +
                 "[Ss]ociální|[Ss]ociolog|[Ss]tátní\\sspráva|[Vv]eřejnosprávní\\s|[Ss]právní|[Hh]istorie|" +
-                "[Hh]istoric|[Žž]urnalist|\\sFF|\\sFMV|\\sÚSP|([Tt]eologi(e|cká))|\\sTS|\\sTF|\\sKTF|" +
+                "[Hh]istoric|[Žž]urnalist|[Mm]ezinárodní(ch)?\\svztah|[Dd]ějiny|[Pp]oliti[ck]|\\sFF|\\sFMV|\\sÚSP|([Tt]eologi(e|cká))|\\sTS|\\sTF|\\sKTF|" +
                 "\\sETF|\\sHTF|CMTF)";
         pattern = Pattern.compile(regex);
         matcher = pattern.matcher(textAreaSubString);
@@ -473,7 +473,7 @@ public class MaxEducation {
 
         regex = "([Pp]sychologie|[Pp]sychologic|[Ss]ociáln[ěí]|[Ss]ociolog|[Ss]tátní\\sspráva" +
                 "|[Vv]eřejnosprávní\\s|[Ss]právní|[Hh]istorie|[Hh]istoric|[Dd]ějin|[Žž]urnalist|" +
-                "([Tt]eologi(e|cká)))";
+                "([Tt]eologi(e|cká))|[Mm]ezinárodní(ch)?\\svztah|[Dd]ějiny|[Pp]oliti[ck])";
         pattern = Pattern.compile(regex);
         matcher = pattern.matcher(textAreaSubString);
 

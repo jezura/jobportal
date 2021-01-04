@@ -69,7 +69,7 @@ public class CVExtractor {
     }
 
     public String extractEmail (String extractedText) {
-        String regexEmail = "(\\s?[a-z0-9._-]+@[a-z0-9.-]+\\.[a-z]{2,5}\\s?)";
+        String regexEmail = "(\\s?[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,5}\\s?)";
         Pattern pattern = Pattern.compile(regexEmail);
         Matcher matcher = pattern.matcher(extractedText);
 
@@ -200,15 +200,18 @@ public class CVExtractor {
 
 
     public LocalDate extractBirthDate (String extractedText) {
-        String regexBirthDate = "([Dd]atum narozen[ií]|[Nn]arozen[a]?)\\s?(:|-|–|_)?\\s?([0-2][1-9]|[1-3][0-9]|[1-9]|30|31)(\\.\\s?|/|_)(0[1-9]|[1-9]|1[0-2])(\\.\\s?|/|_)(19[5-9][0-9]|200[0-3])";
+        String regexBirthDate = "([Dd]atum narozen[ií]|[Nn]arozen[a]?)\\s?(:|-|–|_)?\\s?([0-2][1-9]|[1-3][0-9]|[1-9]|30|31)" +
+                                    "(\\.\\s?|/|_)(0[1-9]|[1-9]|1[0-2])(\\.\\s?|/|_)(19[5-9][0-9]|200[0-3])";
         Pattern pattern = Pattern.compile(regexBirthDate);
         Matcher matcher = pattern.matcher(extractedText);
 
         if (matcher.find()){
-            return LocalDate.of(Integer.valueOf(matcher.group(7)),Integer.valueOf(matcher.group(5)),Integer.valueOf(matcher.group(3)));
+            return LocalDate.of(Integer.valueOf(matcher.group(7)),Integer.valueOf(matcher.group(5)),
+                    Integer.valueOf(matcher.group(3)));
 
         } else {
-            regexBirthDate = "([0-2][1-9]|[1-3][0-9]|[1-9]|30|31)(\\.\\s?|/|_)(0[1-9]|[1-9]|1[0-2])(\\.\\s?|/|_)(19[5-9][0-9]|200[0-3])";
+            regexBirthDate = "([0-2][1-9]|[1-3][0-9]|[1-9]|30|31)(\\.\\s?|/|_)(0[1-9]|[1-9]|1[0-2])(\\.\\s?|/|_)" +
+                                "(19[5-9][0-9]|200[0-3])";
             pattern = Pattern.compile(regexBirthDate);
             matcher = pattern.matcher(extractedText);
 

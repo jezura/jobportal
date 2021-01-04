@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.text.DecimalFormat;
@@ -146,6 +147,24 @@ public class RelevanceScore {
         public IndexValuePair(int index, float value) {
             this.index = index;
             this.value = value;
+        }
+    }
+
+    public void wakeUp() {
+        // Constructing of the query URL to ask neural network to predict relevance scores
+        URL url = null;
+        try {
+            url = new URL("https://fieldpredictor.herokuapp.com/get-jobfields-relevance-scores?" +
+                    "gender=0&age=25&edu_lvl=5&edu_field=1");
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            URLConnection connection = url.openConnection();
+            connection.getInputStream();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

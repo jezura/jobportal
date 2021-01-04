@@ -42,7 +42,7 @@ public class OfferController {
 
     @GetMapping(value = "/page/{pageNumber}")
     public String showAllOffersPageable(Model model, @PathVariable("pageNumber") int currentPage) {
-        Page<Offer> offerPage = offerService.listAllOffers(currentPage);
+        Page<Offer> offerPage = offerService.listAllOffers(currentPage, 20);
         Collection<Offer> offers = offerPage.getContent();
         model.addAttribute("offers", offers);
         return "index";
@@ -105,7 +105,9 @@ public class OfferController {
         relevanceScore.getPredictions(cvProfile);
         int [] fiveHighest = relevanceScore.getFiveHighest();
 
-        Collection<Offer> offers = offerService.findAllOffers();
+        Page<Offer> offerPage = offerService.listAllOffers(1, 600);
+        Collection<Offer> offers = offerPage.getContent();
+
         offers = offerService.sortOffersAccToPredictions(offers, String.valueOf(fiveHighest[0]),
                 String.valueOf(fiveHighest[1]), String.valueOf(fiveHighest[2]), String.valueOf(fiveHighest[3]),
                 String.valueOf(fiveHighest[4]));

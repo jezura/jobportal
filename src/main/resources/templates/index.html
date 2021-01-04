@@ -5,6 +5,8 @@
       xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <title>Pracovní portál</title>
+    <link rel="stylesheet" type="text/css" href="/css/loading.css"/>
+    <script type="text/javascript" src="/js/loadinscript.js"></script>
 </head>
 
 <body>
@@ -18,15 +20,18 @@
                 <div class="form-group">
                     <label class="text-center">Vyberte nebo přetáhněte PDF/DOCX soubor se životopisem:</label><br>
                     <input type="file" name="file" class="btn btn-info">
-                    <button type="submit" class="btn btn-success">Získat nabídku na míru na základě CV</button>
+                    <button type="submit" onclick="loading()" class="btn btn-success">Získat nabídku na míru na základě CV</button>
                 </div>
             </form>
         </div>
+        <div id="l"></div>
+        <p  style="margin-top:0em" class="text-center" id="info"></p>
     </div>
 
     <div class="container" th:if="${cvProfile == null}">
         <p>Nabídka zatím není personalizovaná. Přiložte prosím životopis.</p>
     </div>
+
 
     <div class="container" th:if="${cvProfile != null}">
         <span style="color:green"><b>Extrahované informace o uchazeči: </b></span>

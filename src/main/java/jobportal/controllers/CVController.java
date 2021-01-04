@@ -119,6 +119,8 @@ public class CVController {
         System.out.println("Obecny obor vzdelani: " + cvProfile.getMaxEducation().getGeneralEduField());
 
         relevanceScore.getPredictions(cvProfile);
+
+
         System.out.println("Relevance scores:");
 
         for(int i=0;i<relevanceScore.getRelevanceScores().length;i++) {
