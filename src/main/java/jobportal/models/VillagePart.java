@@ -28,23 +28,6 @@ import javax.validation.constraints.NotNull;
 @Table(name = "village_parts")
 public class VillagePart extends CodedEntity {
 
-    @ManyToOne
-    @NotNull(message = "Choose village")
-    @JoinColumn(name = "village_id")
-    private Village village;
-
     public VillagePart() {
-    }
-
-    public VillagePart(@NotNull(message = "Choose village") Village village) {
-        this.village = village;
-    }
-
-    public Village getVillage() {
-        return village;
-    }
-
-    public void setVillage(Village village) {
-        this.village = village;
     }
 }
