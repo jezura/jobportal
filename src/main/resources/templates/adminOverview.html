@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+
+<html layout:decorate="~{admin_layout}"
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title>Administrace - Pracovní portál</title>
+    <script type="text/javascript" src="/js/adminOverview.js"></script>
+</head>
+<body>
+<div layout:fragment="content">
+<h4 class="text-center">Vítejte v administračním prostředí</h4>
+    <p class="text-center" id="datetime"></p>
+    <script>
+        var today = new Date();
+        var date = today.getDate() + '-' + (today.getMonth()+1) + '-' + today.getFullYear();
+        var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        var dateTime = date+' '+time;
+        document.getElementById("datetime").innerHTML = "Dnes je: " + dateTime;
+    </script>
+    <p style="color:blue" class="text-center"><i style="color:blue" class="fas fa-info-circle"></i> Pracovní portál je napojen na otevřená data poskytovaná Ministerstvem práce a sociálních věcí ČR.</p>
+    <p style="padding-top:1.5em" class="text-center" id="codebookCheckResult"></p>
+    <p class="text-center" id="offersCount"></p>
+</div>
+</body>
+</html>

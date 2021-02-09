@@ -9,6 +9,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -171,6 +173,29 @@ public class OfferService {
             }
         }
         return offers;*/
+    }
+
+    public long getCount() {
+        return offerRepository.count();
+    }
+
+    public int deleteAllExpiredOffers() {
+        LocalDate today = LocalDate.now().plusDays(2);
+        return offerRepository.deleteByExpireDateBefore(today);
+    }
+
+    public int deleteAllOffersBeforeGivenDates(LocalDate oldestInsertionDate, LocalDate oldestEditDate) {
+        if(oldestInsertionDate == null) {
+            return offerRepository.deleteByEditDateBefore(oldestEditDate.plusDays(1));
+        }else if(oldestEditDate == null) {
+            return offerRepository.deleteByInsertionDateBefore(oldestInsertionDate.plusDays(1));
+        }else{
+            return offerRepository.deleteByInsertionDateBeforeAndEditDateBefore(oldestInsertionDate.plusDays(1), oldestEditDate.plusDays(1));
+        }
+    }
+
+    public void deleteAllOffers() {
+        offerRepository.deleteAll();
     }
 
     public Offer findOfferById(Long id) {

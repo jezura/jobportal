@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+
+<html layout:decorate="~{admin_layout}"
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title>Administrace - Pracovní portál</title>
+    <link rel="stylesheet" type="text/css" href="/css/loading.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/switch.css"/>
+    <script type="text/javascript" src="/js/adminOfferDataLoad.js"></script>
+</head>
+<body>
+<div layout:fragment="content">
+    <span id="message_notification"></span>
+    <h4 style="padding-bottom: 0.8em; padding-top:1em" class="text-center">Správa dat pracovních nabídek</h4>
+    <p class="text-center" id="offersCount"></p>
+    <div class="container text-center">
+        <p></p>
+        <h5 style="padding-bottom: 0.5em; padding-top:0.2em" class="text-center">Nahrát nová data</h5>
+        <form name="dateForm">
+            <label class="switch">
+                <input type="checkbox" id="skipEmptyDescription" checked>
+                <span class="slider round"></span>
+            </label>
+            <span style="font-size: 0.85em">Přeskakovat nabídky bez vyplněného popisu (doporučeno)</span><br>
+            <label class="switch">
+                <input type="checkbox" id="useApiSource">
+                <span class="slider round"></span>
+            </label>
+            <span style="font-size: 0.85em">Jako datový zdroj využít internetvou API na https://data.mpsv.cz/... (pomalejší)</span><br>
+            <div class="input-group" style="max-width: 85%; margin: 0 auto">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" style="width:15em">Datum vložení od-do</span>
+                </div>
+                <input type="date" name="insertionDateFrom" class="form-control">
+                <input type="date" name="insertionDateTo" class="form-control">
+            </div>
+            <div class="input-group" style="max-width: 85%; margin: 0 auto">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" style="width:15em">Datum poslední změny od-do</span>
+                </div>
+                <input type="date" name="editDateFrom" class="form-control">
+                <input type="date" name="editDateTo" class="form-control">
+            </div>
+            <div class="form-group" style="padding-top:1em">
+                <button id= "buttonLoad" type="button" onclick="return parseOffers()" class="btn btn-success">Nahrát odpovídající pracovní nabídky</button>
+            </div>
+        </form>
+        <div id="loader" style="padding-top:1em"></div>
+        <p style="margin-top:0em" class="text-center" id="info"></p>
+        <p style="margin-top:0em; font-size:0.8em" class="text-center" id="filters"></p>
+        <p style="margin:0 auto" class="text-center" id="count"></p>
+        <p style="margin:0 auto; font-size:0.8em" class="text-center" id="actualInsertionDate"></p>
+        <p style="margin:0 auto; font-size:0.8em" class="text-center" id="actualEditDate"></p>
+        <span style="padding-bottom: 0.3em; padding-top:1.5em; visibility:hidden" class="text-center"><a id="down">down</a></span>
+    </div>
+</div>
+</body>
+</html>

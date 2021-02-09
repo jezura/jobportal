@@ -25,6 +25,10 @@ public class PlaceTypeService {
         return placeTypes;
     }
 
+    public long getCount() {
+        return placeTypeRepository.count();
+    }
+
     public PlaceType findPlaceTypeById(String id) {
         return placeTypeRepository.findPlaceTypeById(id);
     }

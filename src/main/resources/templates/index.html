@@ -6,7 +6,7 @@
 <head>
     <title>Pracovní portál</title>
     <link rel="stylesheet" type="text/css" href="/css/loading.css"/>
-    <script type="text/javascript" src="/js/loadinscript.js"></script>
+    <script type="text/javascript" src="/js/predictionLoaderAnimation.js"></script>
 </head>
 
 <body>
@@ -24,8 +24,8 @@
                 </div>
             </form>
         </div>
-        <div id="l"></div>
-        <p  style="margin-top:0em" class="text-center" id="info"></p>
+        <div id="loader"></div>
+        <p style="margin-top:0em" class="text-center" id="info"></p>
     </div>
 
     <div class="container" th:if="${cvProfile == null}">

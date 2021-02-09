@@ -26,6 +26,10 @@ public class EducationService {
         return educations;
     }
 
+    public long getCount() {
+        return educationRepository.count();
+    }
+
     public Education findEducationById(String id) {
         return educationRepository.findEducationById(id);
     }

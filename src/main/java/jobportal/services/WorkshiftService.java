@@ -25,6 +25,10 @@ public class WorkshiftService {
         return workshifts;
     }
 
+    public long getCount() {
+        return workshiftRepository.count();
+    }
+
     public Workshift findWorkshiftById(String id) {
         return workshiftRepository.findWorkshiftById(id);
     }

@@ -25,6 +25,10 @@ public class WorkshipService {
         return workships;
     }
 
+    public long getCount() {
+        return workshipRepository.count();
+    }
+
     public Workship findWorkshipById(String id) {
         return workshipRepository.findWorkshipById(id);
     }

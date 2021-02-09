@@ -1,7 +1,5 @@
 package jobportal.dao;
 
-
-import jobportal.models.District;
 import jobportal.models.Village;
 import org.springframework.data.repository.CrudRepository;
 

@@ -26,6 +26,10 @@ public class SkillService {
         return skills;
     }
 
+    public long getCount() {
+        return skillRepository.count();
+    }
+
     public Skill findSkillById(String id) {
         return skillRepository.findSkillById(id);
     }

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+
+<html layout:decorate="~{admin_layout}"
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title>Administrace - Pracovní portál</title>
+    <link rel="stylesheet" type="text/css" href="/css/loading.css"/>
+    <script type="text/javascript" src="/js/adminCodebook.js"></script>
+</head>
+<body>
+<div layout:fragment="content">
+    <span id="message_notification"></span>
+    <h4 style="padding-bottom: 1em; padding-top:1em" class="text-center">Správa dat číselníků</h4>
+    <p class="text-center" id="codebookCheckResult"></p>
+    <div class="container text-center">
+        <p></p>
+        <form>
+            <div class="form-group">
+                <button id= "buttonLoad" type="button" onclick="parseAllCodebookData()" class="btn btn-success"></button>
+            </div>
+        </form>
+        <div id="loader"></div>
+        <p style="margin-top:0em" class="text-center" id="info"></p>
+        <p style="margin:0 auto" class="text-center" id="progress"></p>
+        <p style="margin-top:0em" class="text-center" id="count"></p>
+        <p style="margin-top:0em; font-size: 0.8em" class="text-center" id="time"></p>
+    </div>
+</div>
+</body>
+</html>

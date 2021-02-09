@@ -200,8 +200,9 @@ public class CVExtractor {
 
 
     public LocalDate extractBirthDate (String extractedText) {
-        String regexBirthDate = "([Dd]atum narozen[ií]|[Nn]arozen[a]?)\\s?(:|-|–|_)?\\s?([0-2][1-9]|[1-3][0-9]|[1-9]|30|31)" +
-                                    "(\\.\\s?|/|_)(0[1-9]|[1-9]|1[0-2])(\\.\\s?|/|_)(19[5-9][0-9]|200[0-3])";
+        String regexBirthDate = "([Dd]atum narozen[ií]|[Nn]arozen[a]?)\\s?(:|-|–|_)?\\s?" +
+                "([0-2][1-9]|[1-3][0-9]|[1-9]|30|31)(\\.\\s?|/|_)(0[1-9]|[1-9]|1[0-2])" +
+                "(\\.\\s?|/|_)(19[5-9][0-9]|200[0-3])";
         Pattern pattern = Pattern.compile(regexBirthDate);
         Matcher matcher = pattern.matcher(extractedText);
 

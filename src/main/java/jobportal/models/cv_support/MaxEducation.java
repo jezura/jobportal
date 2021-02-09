@@ -193,8 +193,8 @@ public class MaxEducation {
         }
 
 
-        regex = "([Oo]bchod|[Ff]inan|[Ee]konomi|\\sNF\\s|\\sFPH\\s|\\sECON\\s|\\sFEK\\s|\\sFSE\\s|\\sFES\\s|\\sEKF\\s|" +
-                "\\sOPF\\s|\\sF[Aa]ME\\s|\\sPEF\\s)";
+        regex = "([Oo]bchod|[Ff]inan|[Ee]konomi|\\sNF\\s|\\sFPH\\s|\\sECON\\s|\\sFEK\\s|" +
+                "\\sFSE\\s|\\sFES\\s|\\sEKF\\s|\\sOPF\\s|\\sF[Aa]ME\\s|\\sPEF\\s)";
         pattern = Pattern.compile(regex);
         matcher = pattern.matcher(textAreaSubString);
 

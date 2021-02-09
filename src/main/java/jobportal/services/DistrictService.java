@@ -25,6 +25,10 @@ public class DistrictService {
         return districts;
     }
 
+    public long getCount() {
+        return districtRepository.count();
+    }
+
     public District findDistrictById(String id) {
         return districtRepository.findDistrictById(id);
     }

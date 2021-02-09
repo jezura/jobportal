@@ -1,7 +1,7 @@
 function loading() {
-var l = document.getElementById("l");
+var loader = document.getElementById("loader");
 var info = document.getElementById("info");
-l.innerHTML = "<div class='loader' style='margin:0 auto'></div>";
+loader.innerHTML = "<div class='loader' style='margin:0 auto'></div>";
 var i = 0;
   if (i == 0) {
     i = 1;

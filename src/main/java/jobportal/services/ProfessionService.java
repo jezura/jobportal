@@ -25,6 +25,10 @@ public class ProfessionService {
         return professions;
     }
 
+    public long getCount() {
+        return professionRepository.count();
+    }
+
     public Profession findProfessionById(String id) {
         return professionRepository.findProfessionById(id);
     }

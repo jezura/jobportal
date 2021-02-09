@@ -25,6 +25,10 @@ public class BenefitService {
         return benefits;
     }
 
+    public long getCount() {
+        return benefitRepository.count();
+    }
+
     public Benefit findBenefitById(String id) {
         return benefitRepository.findBenefitById(id);
     }

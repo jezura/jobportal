@@ -25,6 +25,10 @@ public class LanguageService {
         return languages;
     }
 
+    public long getCount() {
+        return languageRepository.count();
+    }
+
     public Language findLanguageById(String id) {
         return languageRepository.findLanguageById(id);
     }

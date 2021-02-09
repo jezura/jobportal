@@ -23,6 +23,10 @@ public class RegionService {
         return regions;
     }
 
+    public long getCount() {
+        return regionRepository.count();
+    }
+
     public Region findRegionById(String id) {
         return regionRepository.findRegionById(id);
     }

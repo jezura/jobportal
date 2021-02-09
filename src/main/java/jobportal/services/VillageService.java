@@ -1,12 +1,9 @@
 package jobportal.services;
 
-import jobportal.dao.DistrictRepository;
 import jobportal.dao.VillageRepository;
-import jobportal.models.District;
 import jobportal.models.Village;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -18,11 +15,15 @@ public class VillageService {
 
     public Collection<Village> findAllVillages(){
         List<Village> villages = new ArrayList<Village>();
-        for (Village village :villageRepository.findAll())
+        for (Village village : villageRepository.findAll())
         {
             villages.add(village);
         }
         return villages;
+    }
+
+    public long getCount() {
+        return villageRepository.count();
     }
 
     public Village findVillageById(String id) {

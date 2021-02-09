@@ -25,6 +25,10 @@ public class FieldService {
         return fields;
     }
 
+    public long getCount() {
+        return fieldRepository.count();
+    }
+
     public Field findFieldById(String id) {
         return fieldRepository.findFieldById(id);
     }

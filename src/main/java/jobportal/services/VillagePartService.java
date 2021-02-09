@@ -25,6 +25,10 @@ public class VillagePartService {
         return villageParts;
     }
 
+    public long getCount() {
+        return villagePartRepository.count();
+    }
+
     public VillagePart findVillagePartById(String id) {
         return villagePartRepository.findVillagePartById(id);
     }

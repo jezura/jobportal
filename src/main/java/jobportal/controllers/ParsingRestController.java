@@ -4,6 +4,7 @@ import jobportal.models.*;
 import jobportal.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.data.repository.query.Param;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.json.simple.JSONObject;
@@ -18,7 +19,13 @@ import java.util.Iterator;
 import java.util.Set;
 
 @RestController
-public class ParsingController {
+public class ParsingRestController {
+    private int codebookParsingProgress = 0;
+    private int codebookParsedRecords = 0;
+    private int parsedOffersCount = 1;
+    private String actualParsedOfferInsertionDate = "zatím žádný";
+    private String actualParsedOfferEditDate = "zatím žádný";
+
     @Autowired
     private RegionService regionService;
     @Autowired
@@ -62,11 +69,40 @@ public class ParsingController {
     @Autowired
     private OfferService offerService;
 
-    // If true - parse from online web source | If false - parse from already downloaded offline json data files in directory
-    private boolean dataSourceFromInternetApi = false;
 
+    // method returns codebook parsing progress, it is number of processed codebook tables from total
+    @GetMapping(value = "/admin/codebookParsingProgress")
+    public int getCodebookParsingProgress() {
+        return codebookParsingProgress;
+    }
+
+    // method returns actual count of already parsed and loaded codebook data records
+    @GetMapping(value = "/admin/codebookParsedRecords")
+    public int getCodebookParsedRecords() {
+        return codebookParsedRecords;
+    }
+
+    // method returns insertion date of actually parsed job offer
+    @GetMapping(value = "/admin/actualParsedOfferInsertionDate")
+    public String getActualParsedOfferInsertionDate() {
+        return actualParsedOfferInsertionDate;
+    }
+
+    // method returns edit date of actually parsed job offer
+    @GetMapping(value = "/admin/actualParsedOfferEditDate")
+    public String getActualParsedOfferEditDate() {
+        return actualParsedOfferEditDate;
+    }
+
+    // method returns progress/actual count of already parsed and loaded job offers data records
+    @GetMapping(value = "/admin/parsedOffersCount")
+    public int getParsedOffersCount() {
+        return parsedOffersCount;
+    }
+
+    // method parse all codebook data and store to the app database, if success returns true
     @GetMapping(value = "/admin/parseAllCodeBookData")
-    public String parseAllCodeBookData(Model model) throws IOException, ParseException {
+    public boolean parseAllCodeBookData(Model model) throws IOException, ParseException {
         File file = new ClassPathResource("kraje.json").getFile();
         Object obj = new JSONParser().parse(new FileReader(file));
         JSONObject jsonObject = (JSONObject) obj;
@@ -82,7 +118,9 @@ public class ParsingController {
             region.setName(nextObject.get("nazev").toString());
 
             regionService.saveRegion(region);
+            codebookParsedRecords++;
         }
+        codebookParsingProgress++;
 
         file = new ClassPathResource("okresy.json").getFile();
         obj = new JSONParser().parse(new FileReader(file));
@@ -100,7 +138,9 @@ public class ParsingController {
             district.setRegion(regionService.findRegionById(nextObject.get("kraj").toString()));
 
             districtService.saveDistrict(district);
+            codebookParsedRecords++;
         }
+        codebookParsingProgress++;
 
         file = new ClassPathResource("obce.json").getFile();
         obj = new JSONParser().parse(new FileReader(file));
@@ -117,7 +157,9 @@ public class ParsingController {
             village.setDistrict(districtService.findDistrictById(nextObject.get("okres").toString()));
 
             villageService.saveVillage(village);
+            codebookParsedRecords++;
         }
+        codebookParsingProgress++;
 
         file = new ClassPathResource("casti-obci.json").getFile();
         obj = new JSONParser().parse(new FileReader(file));
@@ -131,10 +173,11 @@ public class ParsingController {
             villagePart.setId(nextObject.get("id").toString());
             villagePart.setCode(nextObject.get("kod").toString());
             villagePart.setName(nextObject.get("nazev").toString());
-            villagePart.setVillage(villageService.findVillageById(nextObject.get("obec").toString()));
 
             villagePartService.saveVillagePart(villagePart);
+            codebookParsedRecords++;
         }
+        codebookParsingProgress++;
 
         file = new ClassPathResource("dovednosti.json").getFile();
         obj = new JSONParser().parse(new FileReader(file));
@@ -150,7 +193,9 @@ public class ParsingController {
             skill.setName(nextObject.get("nazev").toString());
 
             skillService.saveSkill(skill);
+            codebookParsedRecords++;
         }
+        codebookParsingProgress++;
 
         file = new ClassPathResource("typy-mista-vykonu-prace.json").getFile();
         obj = new JSONParser().parse(new FileReader(file));
@@ -166,7 +211,9 @@ public class ParsingController {
             placeType.setName(nextObject.get("nazev").toString());
 
             placeTypeService.savePlaceType(placeType);
+            codebookParsedRecords++;
         }
+        codebookParsingProgress++;
 
         file = new ClassPathResource("vhodnosti-pro-typ-zamestnance.json").getFile();
         obj = new JSONParser().parse(new FileReader(file));
@@ -182,7 +229,9 @@ public class ParsingController {
             suitability.setName(nextObject.get("nazev").toString());
 
             suitabilityService.saveSuitability(suitability);
+            codebookParsedRecords++;
         }
+        codebookParsingProgress++;
 
         file = new ClassPathResource("vyhody-volneho-mista.json").getFile();
         obj = new JSONParser().parse(new FileReader(file));
@@ -198,7 +247,9 @@ public class ParsingController {
             benefit.setName(nextObject.get("nazev").toString());
 
             benefitService.saveBenefit(benefit);
+            codebookParsedRecords++;
         }
+        codebookParsingProgress++;
 
         file = new ClassPathResource("jazyky.json").getFile();
         obj = new JSONParser().parse(new FileReader(file));
@@ -214,7 +265,9 @@ public class ParsingController {
             language.setName(nextObject.get("nazev").toString());
 
             languageService.saveLanguage(language);
+            codebookParsedRecords++;
         }
+        codebookParsingProgress++;
 
         file = new ClassPathResource("obory-cinnosti-vm.json").getFile();
         obj = new JSONParser().parse(new FileReader(file));
@@ -230,7 +283,9 @@ public class ParsingController {
             field.setName(nextObject.get("nazev").toString());
 
             fieldService.saveField(field);
+            codebookParsedRecords++;
         }
+        codebookParsingProgress++;
 
         file = new ClassPathResource("czisco.json").getFile();
         obj = new JSONParser().parse(new FileReader(file));
@@ -263,7 +318,9 @@ public class ParsingController {
             }
 
             professionService.saveProfession(profession);
+            codebookParsedRecords++;
         }
+        codebookParsingProgress++;
 
         file = new ClassPathResource("pracovnepravni-vztahy.json").getFile();
         obj = new JSONParser().parse(new FileReader(file));
@@ -279,7 +336,9 @@ public class ParsingController {
             workship.setName(nextObject.get("nazev").toString());
 
             workshipService.saveWorkship(workship);
+            codebookParsedRecords++;
         }
+        codebookParsingProgress++;
 
         file = new ClassPathResource("smennosti.json").getFile();
         obj = new JSONParser().parse(new FileReader(file));
@@ -295,7 +354,9 @@ public class ParsingController {
             workshift.setName(nextObject.get("nazev").toString());
 
             workshiftService.saveWorkshift(workshift);
+            codebookParsedRecords++;
         }
+        codebookParsingProgress++;
 
         file = new ClassPathResource("vzdelani.json").getFile();
         obj = new JSONParser().parse(new FileReader(file));
@@ -311,9 +372,12 @@ public class ParsingController {
             education.setName(nextObject.get("nazev").toString());
 
             educationService.saveEducation(education);
+            codebookParsedRecords++;
         }
+        codebookParsingProgress++;
+        resetCodebookCounters();
 
-        return "redirect:/admin/index";
+        return true;
     }
 
     @GetMapping(value = "/admin/parseRegions")
@@ -541,17 +605,57 @@ public class ParsingController {
         return "redirect:/admin/index";
     }
 
+// method parse all job offers data according to given parameters and store to the app database, if success returns true
     @GetMapping(value = "/admin/parseOffers")
-    public String parseOffers(Model model) throws IOException, ParseException {
+    public boolean parseOffers(
+            @Param("insertionDateFrom") String insertionDateFrom,
+            @Param("insertionDateTo") String insertionDateTo,
+            @Param("editDateFrom") String editDateFrom,
+            @Param("editDateTo") String editDateTo,
+            @Param("useApiSource") String useApiSource,
+            @Param("skipEmptyDescription") String skipEmptyDescription)
+            throws IOException, ParseException {
         Object obj = new Object();
+        LocalDate localInsertionDateFrom;
+        LocalDate localInsertionDateTo;
+        LocalDate localEditDateFrom;
+        LocalDate localEditDateTo;
 
-        if(dataSourceFromInternetApi)
+        if(!insertionDateFrom.isEmpty()) {
+            localInsertionDateFrom = LocalDate.parse(insertionDateFrom);
+        }else{
+            localInsertionDateFrom = LocalDate.parse("2020-01-01");
+        }
+
+        if(!insertionDateTo.isEmpty()) {
+            localInsertionDateTo = LocalDate.parse(insertionDateTo);
+        }else{
+            localInsertionDateTo = LocalDate.parse("2025-01-01");
+        }
+
+        if(!editDateFrom.isEmpty()) {
+            localEditDateFrom = LocalDate.parse(editDateFrom);
+        }else{
+            localEditDateFrom = LocalDate.parse("2020-01-01");
+        }
+
+        if(!editDateTo.isEmpty()) {
+            localEditDateTo = LocalDate.parse(editDateTo);
+        }else{
+            localEditDateTo = LocalDate.parse("2025-01-01");
+        }
+
+        System.out.println("Use api source: " + useApiSource);
+        System.out.println("Delete empty: " + skipEmptyDescription);
+
+        // pokud je zapnuta moznost stahovani dat z internetu
+        if(useApiSource.equals("switchedOn"))
         {
             URL url = new URL("https://data.mpsv.cz/od/soubory/volna-mista/volna-mista.json");
             BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
             obj = new JSONParser().parse(in);
         }else{
-            File file = new ClassPathResource("offers.json").getFile();
+            File file = new ClassPathResource("offers10.json").getFile();
             obj = new JSONParser().parse(new FileReader(file));
         }
 
@@ -560,12 +664,14 @@ public class ParsingController {
 
         Iterator<JSONObject> iterator = polozky.iterator();
         System.out.println("Mam offer objekty.");
-        int counter = 0;
         while (iterator.hasNext()) {
             JSONObject nextObject =  iterator.next();
 
             String stringDateInsertion = nextObject.get("datumVlozeni").toString();
             String correctedDateInsertion = stringDateInsertion.substring(0,10);
+
+            System.out.println("Offer date insertion " + correctedDateInsertion);
+
             LocalDate localDateInsertion = LocalDate.parse(correctedDateInsertion);
 
             String stringDateEdit = nextObject.get("datumZmeny").toString();
@@ -580,18 +686,21 @@ public class ParsingController {
 
             try
             {
-                // pokud datum vlozeni je max jeden rok stare a datum editace je max tyden stare - pridej do db
-                //if((localDateInsertion.isAfter(yearAgo)) && (localDateEdit.isAfter(weekAgo))) {
+                // pokud datumove rozsahy odpovidaji definovanym parametrum
+                if((localDateInsertion.isAfter(localInsertionDateFrom.minusDays(1)))
+                        && (localDateInsertion.isBefore(localInsertionDateTo.plusDays(1)))
+                        && (localDateEdit.isAfter(localEditDateFrom.minusDays(1)))
+                        && (localDateEdit.isBefore(localEditDateTo.plusDays(1)))) {
                     // pokud jsou vyplneny upresnujiciInformace
                     // a pokud je povoleno zverejnovat - pridej do db
                     if((nextObject.get("upresnujiciInformace") != null)
                             && zverejnovat.get("id").toString() != "ZverejnovatVpm/ne") {
-                        counter ++;
-                        System.out.println("Count is -->" + counter);
                         Offer offer = new Offer();
                         offer.setId(Long.valueOf(nextObject.get("referencniCislo").toString()));
                         offer.setOfferText(nextObject.get("upresnujiciInformace").toString());
                         offer.setTitle(nextObject.get("pozadovanaProfese").toString());
+                        actualParsedOfferInsertionDate = localDateInsertion.toString();
+                        actualParsedOfferEditDate = localDateEdit.toString();
                         offer.setInsertionDate(localDateInsertion.plusDays(1));
                         offer.setEditDate(localDateEdit.plusDays(1));
 
@@ -982,16 +1091,25 @@ public class ParsingController {
 
                                         offer.setWorkPlace(workPlace);
                                     }
-                        offerService.saveOffer(offer);
+                                    offerService.saveOffer(offer);
+                                    parsedOffersCount++;
+
                     }
-                //}
+                }
             }
             catch (java.lang.NullPointerException exception)
             {
                System.out.println("Offer - nullpointer exception");
             }
         }
+        parsedOffersCount = 1;
+        actualParsedOfferInsertionDate = "zatím žádný";
+        actualParsedOfferEditDate = "zatím žádný";
+        return true;
+    }
 
-        return "redirect:/admin/index";
+    private void resetCodebookCounters() {
+        codebookParsedRecords = 0;
+        codebookParsingProgress = 0;
     }
 }

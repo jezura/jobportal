@@ -25,6 +25,10 @@ public class SuitabilityService {
         return suitabilities;
     }
 
+    public long getCount() {
+        return suitabilityRepository.count();
+    }
+
     public Suitability findSuitabilityById(String id) {
         return suitabilityRepository.findSuitabilityById(id);
     }

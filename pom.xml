@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.uhk</groupId>
-    <artifactId>firemni_system</artifactId>
+    <artifactId>job_portal</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>jobportal</name>
-    <description>Demo project for Spring Boot</description>
+    <description>Job portal web application</description>
 
     <properties>
         <java.version>1.8</java.version>
