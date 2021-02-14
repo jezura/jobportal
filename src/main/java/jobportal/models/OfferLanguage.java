@@ -7,16 +7,16 @@ import javax.validation.constraints.NotNull;
 public class OfferLanguage {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private int id;
 
-    @NotNull
-    @Column(name = "offer_id")
-    private Long offerId;
+    @ManyToOne
+    @JoinColumn(name = "offer_id")
+    private Offer offer;
 
-    @NotNull
-    @Column(name = "language_id")
-    private String languageId;
+    @ManyToOne
+    @JoinColumn(name = "language_id")
+    private Language language;
 
     @Column(name = "level")
     private String level;
@@ -26,10 +26,10 @@ public class OfferLanguage {
 
     public OfferLanguage() {}
 
-    public OfferLanguage(int id, @NotNull Long offerId, @NotNull String languageId, String level, String description) {
+    public OfferLanguage(int id, Offer offer, Language language, String level, String description) {
         this.id = id;
-        this.offerId = offerId;
-        this.languageId = languageId;
+        this.offer = offer;
+        this.language = language;
         this.level = level;
         this.description = description;
     }
@@ -42,20 +42,20 @@ public class OfferLanguage {
         this.id = id;
     }
 
-    public Long getOfferId() {
-        return offerId;
+    public Offer getOffer() {
+        return offer;
     }
 
-    public void setOfferId(Long offerId) {
-        this.offerId = offerId;
+    public void setOffer(Offer offer) {
+        this.offer = offer;
     }
 
-    public String getLanguageId() {
-        return languageId;
+    public Language getLanguage() {
+        return language;
     }
 
-    public void setLanguageId(String languageId) {
-        this.languageId = languageId;
+    public void setLanguage(Language language) {
+        this.language = language;
     }
 
     public String getLevel() {

@@ -16,7 +16,7 @@
     <h1 class="text-center" style="margin-bottom:1.5em">Pracovní portál</h1>
         <div class="container text-center">
             <p></p>
-            <form action="#" th:action="@{/personalizedOffers}"  method="post" enctype="multipart/form-data">
+            <form action="#" th:action="@{/personalizedOffers}"  method="POST" enctype="multipart/form-data">
                 <div class="form-group">
                     <label class="text-center">Vyberte nebo přetáhněte PDF/DOCX soubor se životopisem:</label><br>
                     <input type="file" name="file" class="btn btn-info">
@@ -80,7 +80,7 @@ ${cvProfile.maxEducation.generalEduField}"></span>
                 <td th:if="${#strings.length(offer.offerText) < 250}" colspan="3"
                     th:text="${offer.offerText} + '...'"></td>
             </tr>
-            <tr style="background-color:#CACEDF">
+            <tr style="background-color:#E6E6FA">
                 <td style="color:#045204" colspan="2"
                     th:text="'Mzda od ' + ${offer.monthlyRateFrom} + ' Kč' + ' do ' + ${offer.monthlyRateTo} + ' Kč'"></td>
                 <td style="color:#0C1546" th:text="'Zaměstnavatel: ' + ${offer.employer.name}"></td>

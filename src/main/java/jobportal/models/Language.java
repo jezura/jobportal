@@ -15,8 +15,12 @@
  */
 package jobportal.models;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  *
@@ -25,6 +29,31 @@ import javax.persistence.Table;
 @Table(name = "languages")
 public class Language extends CodedEntity {
 
-    public Language() {
+    /*@OneToMany(
+            mappedBy = "language",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private Set<OfferLanguage> offers;*/
+
+    @OneToMany(mappedBy = "language")
+    private Set<OfferLanguage> offerLanguages = new HashSet<OfferLanguage>();
+
+    public Language() {}
+
+    public Language(Set<OfferLanguage> offerLanguages) {
+        this.offerLanguages = offerLanguages;
+    }
+
+    public Set<OfferLanguage> getOfferLanguages() {
+        return offerLanguages;
+    }
+
+    public void setOfferLanguages(Set<OfferLanguage> offerLanguages) {
+        this.offerLanguages = offerLanguages;
+    }
+
+    public void addOfferLanguage(OfferLanguage offerLanguage) {
+        this.offerLanguages.add(offerLanguage);
     }
 }

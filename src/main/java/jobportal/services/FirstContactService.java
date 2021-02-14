@@ -33,4 +33,8 @@ public class FirstContactService {
         firstContactRepository.save(fc);
     }
 
+    public void deleteFirstContact(FirstContact fc){
+        firstContactRepository.delete(fc);
+    }
+
 }

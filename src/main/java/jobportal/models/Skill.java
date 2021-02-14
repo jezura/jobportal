@@ -18,6 +18,7 @@ package jobportal.models;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -27,6 +28,31 @@ import java.util.Set;
 @Table(name = "skills")
 public class Skill extends CodedEntity {
 
-    public Skill() {
+    /*@OneToMany(
+            mappedBy = "skill",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private Set<OfferSkill> offers;*/
+
+    @OneToMany(mappedBy = "skill")
+    private Set<OfferSkill> offerSkills = new HashSet<OfferSkill>();
+
+    public Skill() {}
+
+    public Skill(Set<OfferSkill> offerSkills) {
+        this.offerSkills = offerSkills;
+    }
+
+    public Set<OfferSkill> getOfferSkills() {
+        return offerSkills;
+    }
+
+    public void setOfferSkills(Set<OfferSkill> offerSkills) {
+        this.offerSkills = offerSkills;
+    }
+
+    public void addOfferSkill(OfferSkill offerSkill) {
+        this.offerSkills.add(offerSkill);
     }
 }

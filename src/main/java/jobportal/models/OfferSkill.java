@@ -5,29 +5,30 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
+@Table(name = "offer_skill")
 public class OfferSkill {
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private int id;
 
-    @NotNull
-    @Column(name = "offer_id")
-    private Long offerId;
+    @ManyToOne
+    @JoinColumn(name = "offer_id")
+    private Offer offer;
 
-    @NotNull
-    @Column(name = "skill_id")
-    private String skillId;
+    @ManyToOne
+    @JoinColumn(name = "skill_id")
+    private Skill skill;
 
     @Column(name = "description")
     private String description;
 
     public OfferSkill() {}
 
-    public OfferSkill(int id, @NotNull Long offerId, @NotNull String skillId, String description) {
+    public OfferSkill(int id, Offer offer, Skill skill, String description) {
         this.id = id;
-        this.offerId = offerId;
-        this.skillId = skillId;
+        this.offer = offer;
+        this.skill = skill;
         this.description = description;
     }
 
@@ -39,20 +40,20 @@ public class OfferSkill {
         this.id = id;
     }
 
-    public Long getOfferId() {
-        return offerId;
+    public Offer getOffer() {
+        return offer;
     }
 
-    public void setOfferId(Long offerId) {
-        this.offerId = offerId;
+    public void setOffer(Offer offer) {
+        this.offer = offer;
     }
 
-    public String getSkillId() {
-        return skillId;
+    public Skill getSkill() {
+        return skill;
     }
 
-    public void setSkillId(String skillId) {
-        this.skillId = skillId;
+    public void setSkill(Skill skill) {
+        this.skill = skill;
     }
 
     public String getDescription() {

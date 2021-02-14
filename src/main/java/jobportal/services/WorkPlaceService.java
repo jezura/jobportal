@@ -4,6 +4,7 @@ import jobportal.dao.WorkPlaceRepository;
 import jobportal.dao.WorkshiftRepository;
 import jobportal.models.WorkPlace;
 import jobportal.models.Workshift;
+import org.hibernate.jdbc.Work;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,11 +26,15 @@ public class WorkPlaceService {
         return workPlaces;
     }
 
-    public WorkPlace findWorkPlaceById(String id) {
+    public WorkPlace findWorkPlaceById(int id) {
         return workPlaceRepository.findWorkPlaceById(id);
     }
 
     public void saveWorkPlace(WorkPlace wp){
         workPlaceRepository.save(wp);
+    }
+
+    public void deleteWorkPlace(int id){
+        workPlaceRepository.deleteById(id);
     }
 }

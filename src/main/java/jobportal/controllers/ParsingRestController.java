@@ -849,11 +849,16 @@ public class ParsingRestController {
                                 JSONObject skillObject = iteratorSkills.next();
                                 JSONObject dovednostObject = (JSONObject) skillObject.get("dovednost");
                                 OfferSkill offerSkill = new OfferSkill();
-                                offerSkill.setSkillId(dovednostObject.get("id").toString());
-                                offerSkill.setOfferId((Long.valueOf(nextObject.get("referencniCislo").toString())));
-                                if(skillObject.get("popis") != null)
+                                Skill skill = skillService.findSkillById(dovednostObject.get("id").toString());
+                                offerSkill.setSkill(skill);
+                                offerSkill.setOffer(offerService.findOfferById(Long.valueOf(nextObject.get("referencniCislo").toString())));
+                                if(skillObject.get("popis") != null) {
                                     offerSkill.setDescription(skillObject.get("popis").toString());
-                                offerSkillService.saveOfferSkill(offerSkill);
+                                }
+                                offer.addOfferSkill(offerSkill);
+                                offerSkill.setOffer(offer);
+                                skill.addOfferSkill(offerSkill);
+                                offerSkill.setSkill(skill);
                             }
                         }
                         catch (java.lang.NullPointerException exception)
@@ -870,11 +875,16 @@ public class ParsingRestController {
                                 JSONObject benefitObject = iteratorBenefits.next();
                                 JSONObject vyhodaObject = (JSONObject) benefitObject.get("vyhoda");
                                 OfferBenefit offerBenefit = new OfferBenefit();
-                                offerBenefit.setBenefitId(vyhodaObject.get("id").toString());
-                                offerBenefit.setOfferId((Long.valueOf(nextObject.get("referencniCislo").toString())));
-                                if(benefitObject.get("popis") != null)
+                                Benefit benefit = benefitService.findBenefitById(vyhodaObject.get("id").toString());
+                                offerBenefit.setBenefit(benefit);
+                                offerBenefit.setOffer(offerService.findOfferById(Long.valueOf(nextObject.get("referencniCislo").toString())));
+                                if(benefitObject.get("popis") != null) {
                                     offerBenefit.setDescription(benefitObject.get("popis").toString());
-                                offerBenefitService.saveOfferBenefit(offerBenefit);
+                                }
+                                offer.addOfferBenefit(offerBenefit);
+                                offerBenefit.setOffer(offer);
+                                benefit.addOfferBenefit(offerBenefit);
+                                offerBenefit.setBenefit(benefit);
                             }
                         }
                         catch (java.lang.NullPointerException exception)
@@ -891,8 +901,9 @@ public class ParsingRestController {
                                 JSONObject languageObject = iteratorLanguages.next();
                                 JSONObject jazykObject = (JSONObject) languageObject.get("jazyk");
                                 OfferLanguage offerLanguage = new OfferLanguage();
-                                offerLanguage.setLanguageId(jazykObject.get("id").toString());
-                                offerLanguage.setOfferId((Long.valueOf(nextObject.get("referencniCislo").toString())));
+                                Language language = languageService.findLanguageById(jazykObject.get("id").toString());
+                                offerLanguage.setLanguage(language);
+                                offerLanguage.setOffer(offerService.findOfferById(Long.valueOf(nextObject.get("referencniCislo").toString())));
 
                                 JSONObject urovenObject = (JSONObject) languageObject.get("urovenZnalosti");
                                 switch (urovenObject.get("id").toString()) {
@@ -910,7 +921,10 @@ public class ParsingRestController {
                                 if(languageObject.get("popis") != null) {
                                     offerLanguage.setDescription(languageObject.get("popis").toString());
                                 }
-                                offerLanguageService.saveOfferLanguage(offerLanguage);
+                                offer.addOfferLanguage(offerLanguage);
+                                offerLanguage.setOffer(offer);
+                                language.addOfferLanguage(offerLanguage);
+                                offerLanguage.setLanguage(language);
                             }
                         }
                         catch (java.lang.NullPointerException exception)

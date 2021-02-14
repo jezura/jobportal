@@ -13,6 +13,7 @@ import java.util.Comparator;
 
 public class RelevanceScore {
     private float[] relevanceScores;
+    private static String idPrefix = "OborCinnostiProVm/";
     private static String[] fieldNames = {
             "Administrativa",
             "Doprava",
@@ -94,12 +95,14 @@ public class RelevanceScore {
        }
     }
 
-    public int[] getFiveHighest() {
+    public String[] getFiveHighestRelevanceFieldsIds() {
+        String[] fiveHighestRelevanceFieldsIds = new String[5];
         float [] relevances = relevanceScores;
         for(int i = 0; i <= relevances.length-1; i++) {
             System.out.println(relevances[i] + ",|, ");
         }
 
+        // get top 5 highest relevances from all 15 relevance scores list
         int [] fiveHighest = getBestKIndices(relevances, 5);
         System.out.println("Five highest: " + fiveHighest[0] + ", "+ fiveHighest[1] + ", "+ fiveHighest[2] +
                 ", "+ fiveHighest[3] + ", "+ fiveHighest[4]);
@@ -115,7 +118,12 @@ public class RelevanceScore {
         System.out.println("Five highest: " + fiveHighest[0] + ", "+ fiveHighest[1] + ", "+ fiveHighest[2] +
                 ", "+ fiveHighest[3] + ", "+ fiveHighest[4]);
 
-        return fiveHighest;
+        // retype to Strings and add Field_id prefixes before
+        for(int i = 0; i <= fiveHighest.length-1; i++){
+            fiveHighestRelevanceFieldsIds[i] = idPrefix + String.valueOf(fiveHighest[i]);
+        }
+
+        return fiveHighestRelevanceFieldsIds;
     }
 
     private int[] getBestKIndices(float[] array, int num) {

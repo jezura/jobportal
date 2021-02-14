@@ -15,8 +15,12 @@
  */
 package jobportal.models;
 
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.util.*;
 
 /**
  *
@@ -25,6 +29,27 @@ import javax.persistence.Table;
 @Table(name = "benefits")
 public class Benefit extends CodedEntity {
 
+    /*@OneToMany(
+            mappedBy = "benefit",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private Set<OfferBenefit> offers;*/
+    @OneToMany(mappedBy = "benefit")
+    private Set<OfferBenefit> offerBenefits = new HashSet<OfferBenefit>();
+
     public Benefit() {
+    }
+
+    public Set<OfferBenefit> getOfferBenefits() {
+        return offerBenefits;
+    }
+
+    public void setOfferBenefits(Set<OfferBenefit> offerBenefits) {
+        this.offerBenefits = offerBenefits;
+    }
+
+    public void addOfferBenefit(OfferBenefit offerBenefit) {
+        this.offerBenefits.add(offerBenefit);
     }
 }

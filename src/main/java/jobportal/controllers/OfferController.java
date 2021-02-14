@@ -26,12 +26,13 @@ import java.util.List;
 
 @Controller
 public class OfferController {
+    private CVProfile cvProfile;
+    private RelevanceScore relevanceScore;
+
     @Autowired
     private OfferService offerService;
-
     @Autowired
     private TitleService titleService;
-
     @Autowired
     private CzechNameService czechNameService;
 
@@ -48,24 +49,26 @@ public class OfferController {
         return "index";
     }
 
-    @RequestMapping(value = "/personalizedOffers")
-    public String showIndexWithPersonalizedOffers(Model model, @RequestParam("file") MultipartFile[] files) throws IOException {
+    @RequestMapping(value = "/personalizedOffers", method = RequestMethod.POST)
+    public String extractCVInfoAndPredictRelevances(
+            Model model,
+            @RequestParam("file") MultipartFile[] files) throws IOException {
+        cvProfile = new CVProfile();
+        relevanceScore = new RelevanceScore();
         EduLog eduLog = new EduLog();
         CVExtractor cvExtractor = new CVExtractor(eduLog);
-        CVProfile cvProfile = new CVProfile();
-        RelevanceScore relevanceScore = new RelevanceScore();
 
         String fileName = files[0].getOriginalFilename();
-        //Path fileNameAndPath = Paths.get("D:\\",fileName);
-        Path fileNameAndPath = Paths.get(new ClassPathResource("filename").getPath());
+        Path fileNameAndPath = Paths.get("D:\\",fileName);
+        //Path fileNameAndPath = Paths.get(new ClassPathResource("filename").getPath());
         try {
             Files.write(fileNameAndPath,files[0].getBytes());
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        //File savedFile = new File("D:\\" + files[0].getOriginalFilename());
-        File savedFile = new File(String.valueOf(fileNameAndPath));
+        File savedFile = new File("D:\\" + files[0].getOriginalFilename());
+        //File savedFile = new File(String.valueOf(fileNameAndPath));
         String extractedText = cvExtractor.getCvTextData(savedFile, fileName);
 
         //Deleting of saved file
@@ -103,20 +106,20 @@ public class OfferController {
         }
 
         relevanceScore.getPredictions(cvProfile);
-        int [] fiveHighest = relevanceScore.getFiveHighest();
 
-        Page<Offer> offerPage = offerService.listAllOffers(1, 600);
-        Collection<Offer> offers = offerPage.getContent();
+        return showIndexWithPersonalizedOffersPageable(model, 1);
+    }
 
-        offers = offerService.sortOffersAccToPredictions(offers, String.valueOf(fiveHighest[0]),
-                String.valueOf(fiveHighest[1]), String.valueOf(fiveHighest[2]), String.valueOf(fiveHighest[3]),
-                String.valueOf(fiveHighest[4]));
+    @RequestMapping(value = "/personalizedOffers/page/{pageNumber}")
+    public String showIndexWithPersonalizedOffersPageable(
+            Model model, @PathVariable("pageNumber") int currentPage) {
+
+        Collection<Offer> offers = offerService.getOffersAccToPredictions(
+                currentPage, relevanceScore);
 
         model.addAttribute("offers", offers);
         model.addAttribute("cvProfile", cvProfile);
         model.addAttribute("relevanceScore", relevanceScore);
         return "index";
     }
-
-
 }

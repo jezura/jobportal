@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+
+<html layout:decorate="~{admin_layout}"
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title>Administrace - Pracovní portál</title>
+    <script type="text/javascript" src="/js/adminAllOffers.js"></script>
+</head>
+<body>
+<div layout:fragment="content">
+    <div th:if="${message_notification !=''}" class="alert alert-success alert-dismissible fade show">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <i class="fas fa-check-circle" style="color:green"></i>
+        <strong th:text="' ' + ${message_notification}"></strong>
+    </div>
+    <h4 style="padding-bottom: 0.3em; padding-top:1em" class="text-center">Editace nahraných pracovních nabídek</h4>
+    <p class="text-center" id="offersCount"></p>
+    <div class="container">
+        <p style="width:95%" th:text="'Nalezeno celkem ' + ${totalOffers} + ' nabídek'"></p>
+    </div>
+    <div class="container" th:each="offer : ${offers}">
+        <p style="font-size: 0.6em; color:red; margin:0">Id: <span th:text="${offer.id}"></span>
+            <button id="buttonEdit" type="button" data-toggle="modal" th:attr="data-target='#modalEdit'+*{offer.id}" class="btn btn-primary" style="margin-left: 1em;font-size: 1em;padding: 0.05em 0.6em 0.02em 0.6em"><i style="color:white" class="far fa-edit"></i> Editovat </button>
+            <button id="buttonDelete" type="button" data-toggle="modal" th:attr="data-target='#modalDelete'+*{offer.id}" class="btn btn-danger" style="margin-left: 1em;font-size: 1em;padding: 0.05em 0.6em 0.02em 0.6em;"><i style="color:white" class="far fa-trash-alt"></i> Smazat</button>
+        </p>
+        <table class="table table-sm" style="width:95%; margin-bottom:1.2em" id="offer">
+            <thead style="background-color: #5d7aca; color:white">
+            <tr>
+                <th style="font-size:0.7em; width:40%" th:text="${offer.title}"></th>
+                <th style="font-size:0.7em; width:30%">Obory: <span th:each="field : ${offer.profession.getFields()}"
+                                                   th:text="'|' + ${field.name} + '| '"></span></th>
+                <th style="font-size:0.7em; width:30%" th:text="'Zaměstnavatel: ' + ${offer.employer.name}"></td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td style="font-size: 0.6em" th:if="${#strings.length(offer.offerText) >= 400}" colspan="3"
+                    th:text="${#strings.substring(offer.offerText,0,399)} + '...'"></td>
+                <td style="font-size: 0.6em" th:if="${#strings.length(offer.offerText) < 400}" colspan="3"
+                    th:text="${offer.offerText} + '...'"></td>
+            </tr>
+            <tr style="background-color:#E6E6FA">
+                <th style="font-size:0.7em; color: #1160c3" th:text="'Datum vložení: ' + ${offer.insertionDate}"></th>
+                <th style="font-size:0.7em; color: #1160c3" th:text="'Datum editace: ' + ${offer.editDate}"></th>
+                <th style="font-size:0.7em; color: #1160c3" th:if="${offer.expireDate != null}" th:text="'Datum expirace: ' + ${offer.expireDate}"></th>
+                <th style="font-size:0.7em; color: #1160c3" th:if="${offer.expireDate == null}" th:text="'Datum expirace: N/A'"></th>
+            </tr>
+            </tbody>
+        </table>
+
+
+        <!-- Modal delete -->
+        <div class="modal fade" th:id="*{'modalDelete'+{offer.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalDeleteTitle">Potvrdit odstranění</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <span>ID odstraňované nabídky</span>
+                            <input type="text" th:value="*{offer.id}" disabled="disabled">
+                        </form>
+                        <p>Opravdu si přejete odstranit data této pracovní nabídky?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <form action="#" th:action="@{'/admin/deleteOffer/' + ${offer.id}}"  method="post">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Zpět</button>
+                            <button type="submit" class="btn btn-danger">Odstranit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal edit -->
+        <div class="modal fade" th:id="*{'modalEdit'+{offer.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" style="max-width:50em" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalEditTitle">Editace pracovní nabídky</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form action="#" th:action="@{'/admin/updateOffer/' + ${offer.id}}" method="post">
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="offerId">ID upravované nabídky:</label>
+                                <input type="text" class="form-control" id="offerId" th:value="*{offer.id}" disabled="disabled">
+                            </div>
+                            <div class="form-group">
+                                <label for="offerTitle">Titulek/Název:</label>
+                                <input type="text" class="form-control" name="offerTitle" id="offerTitle" th:value="*{offer.title}" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="offerText">Upřesňující informace:</label>
+                                <textarea class="form-control" rows="6"
+                                          name="offerText" id="offerText" th:inline="text" required>[[${offer.offerText}]]</textarea>
+                            </div>
+                    </div>
+                    <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Zpět</button>
+                            <button type="submit" class="btn btn-success">Uložit změny</button>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <nav aria-label="pagenav" style="padding-top:1.5em">
+        <ul class="pagination justify-content-center">
+            <li class="page-item" th:if="${currentPage > 1}"><a style="color:white; background-color:seagreen" class="page-link" th:href="'/admin/allOffers/page/' + ${currentPage-1}"> <i style="color:white" class="fas fa-arrow-left"></i> </a></li>
+            <li class="page-item"><button type="button" class="btn btn-light" disabled th:text="'Stránka ' + ${currentPage} + ' z ' + ${totalPages}"></button></li>
+            <li class="page-item" th:if="${currentPage < totalPages}"><a style="color:white; background-color:seagreen" class="page-link" th:href="'/admin/allOffers/page/' + ${currentPage+1}"> <i style="color:white" class="fas fa-arrow-right"></i> </a></li>
+        </ul>
+    </nav>
+    <p style="font-size:0.8em" class="text-center" th:text="'Zobrazuji nabídky ' + ${firstOfferNum} + ' - ' + ${lastOfferNum} + ' z celkem ' + ${totalOffers}"></p>
+</div>
+</body>
+</html>

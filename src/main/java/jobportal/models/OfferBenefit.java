@@ -3,31 +3,33 @@ package jobportal.models;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Objects;
 
 @Entity
+@Table(name = "offer_benefit")
 public class OfferBenefit {
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private int id;
 
-    @NotNull
-    @Column(name = "offer_id")
-    private Long offerId;
+    @ManyToOne
+    @JoinColumn(name = "offer_id")
+    private Offer offer;
 
-    @NotNull
-    @Column(name = "benefit_id")
-    private String benefitId;
+    @ManyToOne
+    @JoinColumn(name = "benefit_id")
+    private Benefit benefit;
 
     @Column(name = "description")
     private String description;
 
     public OfferBenefit() {}
 
-    public OfferBenefit(int id, @NotNull Long offerId, @NotNull String benefitId, String description) {
+    public OfferBenefit(int id, Offer offer, Benefit benefit, String description) {
         this.id = id;
-        this.offerId = offerId;
-        this.benefitId = benefitId;
+        this.offer = offer;
+        this.benefit = benefit;
         this.description = description;
     }
 
@@ -39,20 +41,20 @@ public class OfferBenefit {
         this.id = id;
     }
 
-    public Long getOfferId() {
-        return offerId;
+    public Offer getOffer() {
+        return offer;
     }
 
-    public void setOfferId(Long offerId) {
-        this.offerId = offerId;
+    public void setOffer(Offer offer) {
+        this.offer = offer;
     }
 
-    public String getBenefitId() {
-        return benefitId;
+    public Benefit getBenefit() {
+        return benefit;
     }
 
-    public void setBenefitId(String benefitId) {
-        this.benefitId = benefitId;
+    public void setBenefit(Benefit benefit) {
+        this.benefit = benefit;
     }
 
     public String getDescription() {

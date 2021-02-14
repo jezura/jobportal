@@ -21,6 +21,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -93,6 +94,22 @@ public class Offer extends LongIdEntity {
     @JoinColumn(name = "education_id")
     private Education education;
 
+
+    @OneToMany
+            (mappedBy = "offer",
+            cascade=CascadeType.ALL)
+    private Set<OfferLanguage> offerLanguages = new HashSet<OfferLanguage>();
+
+    @OneToMany
+            (mappedBy = "offer",
+            cascade=CascadeType.ALL)
+    private Set<OfferBenefit> offerBenefits = new HashSet<OfferBenefit>();
+
+    @OneToMany
+            (mappedBy = "offer",
+            cascade=CascadeType.ALL)
+    private Set<OfferSkill> offerSkills = new HashSet<OfferSkill>();
+
     @ManyToMany
     @JoinTable(name = "offer_workship",
             joinColumns = @JoinColumn(name = "offer_id"),
@@ -110,12 +127,12 @@ public class Offer extends LongIdEntity {
     @JoinColumn(name = "placetype_id")
     private PlaceType placeType;
 
-    @OneToOne
+    @OneToOne(cascade=CascadeType.ALL)
     @NotNull(message = "Choose work place")
     @JoinColumn(name = "workplace_id")
     private WorkPlace workPlace;
 
-    @OneToOne
+    @OneToOne(cascade=CascadeType.ALL)
     @JoinColumn(name = "firstcontact_id")
     private FirstContact firstContact;
 
@@ -128,7 +145,7 @@ public class Offer extends LongIdEntity {
                  LocalDate workStartDate,
                  LocalDate workEndDate,
                  @NotNull @Size(min = 1, max = 6000, message = "offerText must be between 1 and 3000 characters long") String offerText,
-                 @NotNull @Size(min = 1, max = 300, message = "title must be between 1 and 3000 characters long") String title,
+                 @NotNull @Size(min = 1, max = 300, message = "title must be between 1 and 300 characters long") String title,
                  Double monthlyRateFrom,
                  Double monthlyRateTo,
                  String salaryType,
@@ -137,11 +154,13 @@ public class Offer extends LongIdEntity {
                  @NotNull(message = "Choose workshift type") Workshift workshift,
                  @NotNull(message = "Choose employer") Employer employer,
                  Education education,
+                 Set<OfferSkill> offerSkills,
+                 Set<OfferLanguage> offerLanguages,
+                 Set<OfferBenefit> offerBenefits,
                  Set<Workship> workships,
-                 Set <Suitability> suitabilities,
-                 @NotNull (message = "Choose type of work place") PlaceType placeType,
-                 @NotNull (message = "Choose work place") WorkPlace workPlace,
-                 FirstContact firstContact) {
+                 Set<Suitability> suitabilities,
+                 @NotNull(message = "Choose type of work place") PlaceType placeType,
+                 @NotNull(message = "Choose work place") WorkPlace workPlace, FirstContact firstContact) {
         this.insertionDate = insertionDate;
         this.editDate = editDate;
         this.expireDate = expireDate;
@@ -157,6 +176,9 @@ public class Offer extends LongIdEntity {
         this.workshift = workshift;
         this.employer = employer;
         this.education = education;
+        this.offerSkills = offerSkills;
+        this.offerLanguages = offerLanguages;
+        this.offerBenefits = offerBenefits;
         this.workships = workships;
         this.suitabilities = suitabilities;
         this.placeType = placeType;
@@ -282,6 +304,42 @@ public class Offer extends LongIdEntity {
 
     public void setEducation(Education education) {
         this.education = education;
+    }
+
+    public Set<OfferLanguage> getOfferLanguages() {
+        return offerLanguages;
+    }
+
+    public void setOfferLanguages(Set<OfferLanguage> offerLanguages) {
+        this.offerLanguages = offerLanguages;
+    }
+
+    public void addOfferLanguage(OfferLanguage offerLanguage) {
+        this.offerLanguages.add(offerLanguage);
+    }
+
+    public Set<OfferBenefit> getOfferBenefits() {
+        return offerBenefits;
+    }
+
+    public void setOfferBenefits(Set<OfferBenefit> offerBenefits) {
+        this.offerBenefits = offerBenefits;
+    }
+
+    public void addOfferBenefit(OfferBenefit offerBenefit) {
+        this.offerBenefits.add(offerBenefit);
+    }
+
+    public Set<OfferSkill> getOfferSkills() {
+        return offerSkills;
+    }
+
+    public void setOfferSkills(Set<OfferSkill> offerSkills) {
+        this.offerSkills = offerSkills;
+    }
+
+    public void addOfferSkill(OfferSkill offerSkill) {
+        this.offerSkills.add(offerSkill);
     }
 
     public Set<Workship> getWorkships() {
