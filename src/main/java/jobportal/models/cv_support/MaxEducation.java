@@ -1,7 +1,5 @@
 package jobportal.models.cv_support;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

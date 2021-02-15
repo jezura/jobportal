@@ -31,16 +31,16 @@ public class OfferService {
     }
 
     public Collection<Offer> getOffersAccToPredictions(int pageNumber, RelevanceScore relevanceScore) {
-        int limitField1 = 6;
-        int offsetField1 = pageNumber * limitField1;
-        int limitField2 = 4;
-        int offsetField2 = pageNumber * limitField1;
-        int limitField3 = 2;
-        int offsetField3 = pageNumber * limitField1;
-        int limitField4 = 1;
-        int offsetField4 = pageNumber * limitField1;
-        int limitField5 = 1;
-        int offsetField5 = pageNumber * limitField1;
+        int limitField1 = 12;
+        int offsetField1 = (pageNumber-1) * limitField1;
+        int limitField2 = 9;
+        int offsetField2 = (pageNumber-1) * limitField2;
+        int limitField3 = 6;
+        int offsetField3 = (pageNumber-1) * limitField3;
+        int limitField4 = 3;
+        int offsetField4 = (pageNumber-1) * limitField4;
+        int limitField5 = 2;
+        int offsetField5 = (pageNumber-1) * limitField5;
 
         return offerRepository.getOffersAccToPredictedRelevances(
                 limitField1,

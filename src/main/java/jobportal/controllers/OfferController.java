@@ -1,5 +1,6 @@
 package jobportal.controllers;
 
+import jobportal.models.Field;
 import jobportal.models.Offer;
 import jobportal.models.cv_support.*;
 import jobportal.services.CzechNameService;
@@ -57,54 +58,10 @@ public class OfferController {
         relevanceScore = new RelevanceScore();
         EduLog eduLog = new EduLog();
         CVExtractor cvExtractor = new CVExtractor(eduLog);
-
-        String fileName = files[0].getOriginalFilename();
-        Path fileNameAndPath = Paths.get("D:\\",fileName);
-        //Path fileNameAndPath = Paths.get(new ClassPathResource("filename").getPath());
-        try {
-            Files.write(fileNameAndPath,files[0].getBytes());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        File savedFile = new File("D:\\" + files[0].getOriginalFilename());
-        //File savedFile = new File(String.valueOf(fileNameAndPath));
-        String extractedText = cvExtractor.getCvTextData(savedFile, fileName);
-
-        //Deleting of saved file
-        if(savedFile.delete()) {
-            System.out.println("Saved CV file was immediately deleted after all text extracted.");
-        } else {
-            System.out.println("NOT POSSIBLE TO DELETE SAVED FILE");
-        }
+        cvExtractor.processCvAndSetTextContentToExtractedTextVariable(files);
 
         //       >>> EXTRACTING PROCESS <<<
-
-        CzechName extractedFirstName = cvExtractor.extractFirstName(extractedText,
-                czechNameService.findAllCzechNames(), 40);
-        cvProfile.setFirstName(extractedFirstName.getName());
-        cvProfile.setGender(extractedFirstName.getGender());
-        cvProfile.setLastName(cvExtractor.extractLastName(extractedText, extractedFirstName.getName()));
-        cvProfile.setTitleList(cvExtractor.extractTitle(extractedText, titleService.findAllTitles()));
-        cvProfile.setEmail(cvExtractor.extractEmail(extractedText));
-        cvProfile.setMobile(cvExtractor.extractMobile(extractedText));
-        cvProfile.setMaxEducation(cvExtractor.extractMaxEducationAndGeneralEduField(extractedText, cvProfile.getTitleList()));
-
-        // extract and set age and birthDate or birthYear
-        LocalDate extractedBirthDate = cvExtractor.extractBirthDate(extractedText);
-        if (extractedBirthDate != null) {
-            long years;
-            if(extractedBirthDate.getYear() < 1950)
-            {
-                extractedBirthDate = extractedBirthDate.plusYears(100);
-                cvProfile.setBirthYear(extractedBirthDate.getYear());
-            }else{
-                cvProfile.setBirthDate(extractedBirthDate);
-            }
-            years = ChronoUnit.YEARS.between(extractedBirthDate, LocalDate.now());
-            cvProfile.setAge((int) years);
-        }
-
+        cvProfile.buildCompleteCvProfile(cvExtractor, czechNameService.findAllCzechNames(), titleService.findAllTitles());
         relevanceScore.getPredictions(cvProfile);
 
         return showIndexWithPersonalizedOffersPageable(model, 1);
@@ -116,7 +73,6 @@ public class OfferController {
 
         Collection<Offer> offers = offerService.getOffersAccToPredictions(
                 currentPage, relevanceScore);
-
         model.addAttribute("offers", offers);
         model.addAttribute("cvProfile", cvProfile);
         model.addAttribute("relevanceScore", relevanceScore);

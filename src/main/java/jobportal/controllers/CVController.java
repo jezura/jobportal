@@ -9,11 +9,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 
 @Controller
 public class CVController {
@@ -38,55 +33,12 @@ public class CVController {
         CVExtractor cvExtractor = new CVExtractor(eduLog);
         CVProfile cvProfile = new CVProfile();
         RelevanceScore relevanceScore = new RelevanceScore();
+        cvExtractor.processCvAndSetTextContentToExtractedTextVariable(files);
 
-        String fileName = files[0].getOriginalFilename();
-        Path fileNameAndPath = Paths.get("D:\\",fileName);
-        //Path fileNameAndPath = Paths.get(new ClassPathResource("filename").getPath());
-        try {
-            Files.write(fileNameAndPath,files[0].getBytes());
-        } catch (IOException e) {
-                e.printStackTrace();
-        }
-
-        File savedFile = new File("D:\\" + files[0].getOriginalFilename());
-        //File savedFile = new File(String.valueOf(fileNameAndPath));
-
-        String extractedText = cvExtractor.getCvTextData(savedFile, fileName);
-        System.out.print(extractedText);
-
-        //Deleting of saved file
-        if(savedFile.delete()) {
-            System.out.println("Saved CV file was immediately deleted after all text extracted.");
-        } else {
-            System.out.println("NOT POSSIBLE TO DELETE SAVED FILE");
-        }
+        System.out.print(cvExtractor.getExtractedText());
 
         //       >>> EXTRACTING PROCESS <<<
-
-        CzechName extractedFirstName = cvExtractor.extractFirstName(extractedText,
-                czechNameService.findAllCzechNames(), 40);
-        cvProfile.setFirstName(extractedFirstName.getName());
-        cvProfile.setGender(extractedFirstName.getGender());
-        cvProfile.setLastName(cvExtractor.extractLastName(extractedText, extractedFirstName.getName()));
-        cvProfile.setTitleList(cvExtractor.extractTitle(extractedText, titleService.findAllTitles()));
-        cvProfile.setEmail(cvExtractor.extractEmail(extractedText));
-        cvProfile.setMobile(cvExtractor.extractMobile(extractedText));
-        cvProfile.setMaxEducation(cvExtractor.extractMaxEducationAndGeneralEduField(extractedText, cvProfile.getTitleList()));
-
-        // extract and set age and birthDate or birthYear
-        LocalDate extractedBirthDate = cvExtractor.extractBirthDate(extractedText);
-        if (extractedBirthDate != null) {
-            long years;
-            if(extractedBirthDate.getYear() < 1950)
-            {
-                extractedBirthDate = extractedBirthDate.plusYears(100);
-                cvProfile.setBirthYear(extractedBirthDate.getYear());
-            }else{
-                cvProfile.setBirthDate(extractedBirthDate);
-            }
-            years = ChronoUnit.YEARS.between(extractedBirthDate, LocalDate.now());
-            cvProfile.setAge((int) years);
-        }
+        cvProfile.buildCompleteCvProfile(cvExtractor, czechNameService.findAllCzechNames(), titleService.findAllTitles());
 
         //      >>> LOG DO CONSOLE <<<
         System.out.println("");

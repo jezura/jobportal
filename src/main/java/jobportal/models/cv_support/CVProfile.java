@@ -1,12 +1,20 @@
 package jobportal.models.cv_support;
 
+import jobportal.services.CzechNameService;
+import jobportal.services.TitleService;
+import jobportal.utils.CVExtractor;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class CVProfile {
+
     private String firstName;
     private String lastName;
     private String gender;
@@ -114,5 +122,31 @@ public class CVProfile {
 
     public void setMaxEducation(MaxEducation maxEducation) {
         this.maxEducation = maxEducation;
+    }
+
+    public void buildCompleteCvProfile(CVExtractor cvExtractor, Collection<CzechName> allCzechNames, Collection<Title> allTitles) {
+        CzechName extractedFirstName = cvExtractor.extractFirstName(allCzechNames, 40);
+        setFirstName(extractedFirstName.getName());
+        setGender(extractedFirstName.getGender());
+        setLastName(cvExtractor.extractLastName(extractedFirstName.getName()));
+        setTitleList(cvExtractor.extractTitle(allTitles));
+        setEmail(cvExtractor.extractEmail());
+        setMobile(cvExtractor.extractMobile());
+        setMaxEducation(cvExtractor.extractMaxEducationAndGeneralEduField(getTitleList()));
+
+        // extract and set age and birthDate or birthYear
+        LocalDate extractedBirthDate = cvExtractor.extractBirthDate();
+        if (extractedBirthDate != null) {
+            long years;
+            if(extractedBirthDate.getYear() < 1950)
+            {
+                extractedBirthDate = extractedBirthDate.plusYears(100);
+                setBirthYear(extractedBirthDate.getYear());
+            }else{
+                setBirthDate(extractedBirthDate);
+            }
+            years = ChronoUnit.YEARS.between(extractedBirthDate, LocalDate.now());
+            setAge((int) years);
+        }
     }
 }

@@ -1,6 +1,9 @@
 package jobportal.utils;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -13,6 +16,7 @@ import org.apache.pdfbox.text.PDFTextStripper;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.springframework.web.multipart.MultipartFile;
 
 
 public class CVExtractor {
@@ -26,6 +30,32 @@ public class CVExtractor {
 
     public EduLog getEduLog() {
         return eduLog;
+    }
+
+    public String getExtractedText() {
+        return this.extractedText;
+    }
+
+    public void processCvAndSetTextContentToExtractedTextVariable(MultipartFile[] files){
+        String fileName = files[0].getOriginalFilename();
+        Path fileNameAndPath = Paths.get("D:\\",fileName);
+        //Path fileNameAndPath = Paths.get(new ClassPathResource("filename").getPath());
+        try {
+            Files.write(fileNameAndPath,files[0].getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        File savedFile = new File("D:\\" + files[0].getOriginalFilename());
+        //File savedFile = new File(String.valueOf(fileNameAndPath));
+        this.extractedText = getCvTextData(savedFile, fileName);
+
+        //Deleting of saved file
+        if(savedFile.delete()) {
+            System.out.println("Saved CV file was immediately deleted after all text extracted.");
+        } else {
+            System.out.println("NOT POSSIBLE TO DELETE SAVED FILE");
+        }
     }
 
     public String getCvTextData(File file, String fileName) {
@@ -68,7 +98,7 @@ public class CVExtractor {
         return extractedText;
     }
 
-    public String extractEmail (String extractedText) {
+    public String extractEmail () {
         String regexEmail = "(\\s?[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,5}\\s?)";
         Pattern pattern = Pattern.compile(regexEmail);
         Matcher matcher = pattern.matcher(extractedText);
@@ -81,7 +111,7 @@ public class CVExtractor {
         }
     }
 
-    public String extractMobile (String extractedText) {
+    public String extractMobile () {
         String regexMobile = "(\\s?(\\+\\s?420)?\\s? ?[4-9]{1}[0-9]{2}\\s? ?[0-9]{3}\\s? ?[0-9]{3}\\s?)";
         Pattern pattern = Pattern.compile(regexMobile);
         Matcher matcher = pattern.matcher(extractedText);
@@ -94,7 +124,7 @@ public class CVExtractor {
         }
     }
 
-    public List<Title> extractTitle (String extractedText, Collection<Title> titles) {
+    public List<Title> extractTitle (Collection<Title> titles) {
         String regexTitle;
         Boolean unique;
         List<Title> titlesList = new ArrayList<Title>();
@@ -126,7 +156,7 @@ public class CVExtractor {
     }
 
 
-    public CzechName extractFirstName (String extractedText, Collection<CzechName> czechNames, int sizeOfStartArea) {
+    public CzechName extractFirstName (Collection<CzechName> czechNames, int sizeOfStartArea) {
 
         for(int counter = 0; counter < 10; counter++) {
             String startSubString = extractedText.substring(0, sizeOfStartArea);
@@ -160,7 +190,7 @@ public class CVExtractor {
     }
 
 
-    public String extractLastName (String extractedText, String firstName) {
+    public String extractLastName (String firstName) {
         String regexLastName = "(((" + firstName + "\\s)(D[´'´])?[A-Z][a-záščěřžýíé'´]{2,20})" + "|((" + firstName.toUpperCase() + "\\s)[A-ZÁŠČĚŘŽÝÍÉ'´]{2,20}\\s))";
         Pattern pattern = Pattern.compile(regexLastName);
         Matcher matcher = pattern.matcher(extractedText);
@@ -199,7 +229,7 @@ public class CVExtractor {
     }
 
 
-    public LocalDate extractBirthDate (String extractedText) {
+    public LocalDate extractBirthDate () {
         String regexBirthDate = "([Dd]atum narozen[ií]|[Nn]arozen[a]?)\\s?(:|-|–|_)?\\s?" +
                 "([0-2][1-9]|[1-3][0-9]|[1-9]|30|31)(\\.\\s?|/|_)(0[1-9]|[1-9]|1[0-2])" +
                 "(\\.\\s?|/|_)(19[5-9][0-9]|200[0-3])";
@@ -268,7 +298,7 @@ public class CVExtractor {
         }
     }
 
-    public MaxEducation extractMaxEducationAndGeneralEduField (String extractedText, Collection<Title> titles) {
+    public MaxEducation extractMaxEducationAndGeneralEduField (Collection<Title> titles) {
         MaxEduLvl maxEduLvl = new MaxEduLvl();
         MaxEducation maxEducation = new MaxEducation();
 
