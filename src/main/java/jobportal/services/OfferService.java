@@ -92,11 +92,6 @@ public class OfferService {
     }
 
     public void deleteOffer(Offer o) {
-        try {
-            offerRepository.delete(o);
-        } catch (StaleStateException sse) {
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        offerRepository.delete(o);
     }
 }

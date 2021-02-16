@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -36,6 +37,7 @@ public class OfferController {
     private TitleService titleService;
     @Autowired
     private CzechNameService czechNameService;
+
 
     @RequestMapping(value = "/")
     public String showIndexWithAllOffers(Model model) {

@@ -7,10 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 
@@ -73,7 +70,7 @@ public class AdministrationController {
         return "adminAllOffers";
     }
 
-    @RequestMapping(value = "/admin/deleteOffer/{id}")
+    @PostMapping(value = "/admin/deleteOffer/{id}")
     public String deleteOffer(@PathVariable(name = "id") Long id) {
         offerService.deleteOffer(offerService.findOfferById(id));
         message_notification = "Vybraná pracovní nabídka byla úspěšně smazána";

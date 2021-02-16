@@ -6,59 +6,54 @@
 <head>
     <title>Pracovní portál</title>
     <link rel="stylesheet" type="text/css" href="/css/loading.css"/>
+    <script type="text/javascript" src="/js/index.js"></script>
     <script type="text/javascript" src="/js/predictionLoaderAnimation.js"></script>
 </head>
 
 <body>
 <div layout:fragment="content">
-    <div style="background-color: #19325a; padding-top:0.5em; padding-bottom: 4em; color:white; ; border-radius:0.2em">
+    <div style="background-color: #19325a; padding-top:0.5em; padding-bottom: 0.4em; color:white; border-radius:0.2em">
         <a href="/demo" style="color:white">Demo režim</a>
-    <h1 class="text-center" style="margin-bottom:1.5em">Pracovní portál</h1>
+        <h1 class="text-center" style="margin-bottom:1.5em">Pracovní portál</h1>
         <div class="container text-center">
             <p></p>
-            <form action="#" th:action="@{/personalizedOffers}"  method="POST" enctype="multipart/form-data">
-                <div class="form-group">
-                    <label class="text-center">Vyberte nebo přetáhněte PDF/DOCX soubor se životopisem:</label><br>
-                    <input type="file" name="file" class="btn btn-info">
-                    <button type="submit" onclick="loading()" class="btn btn-success">Získat nabídku na míru na základě CV</button>
-                </div>
-            </form>
+            <button type="button" id="buttonPersonalizeByCv" data-toggle="modal" data-target="#modalPersonalizeByCv"
+                    class="btn btn-success">Získat nabídku na míru na základě CV
+            </button>
         </div>
-        <div id="loader"></div>
-        <p style="margin-top:0em" class="text-center" id="info"></p>
+        <p th:if="${cvProfile != null}" style="font-size:0.9em; color:white; padding-top:3em; margin-block-end: 0.4em" class="text-center">
+            <i style="color:lightgreen" class="fas fa-user-check"></i> Nabídka práce je nyní inteligentně personalizovaná</p>
+        <p id="flip" th:if="${cvProfile != null}" style="font-size:0.75em; color:white; text-decoration: underline; margin-block: 0.3em" class="text-center"><i style="color:white" class="fas fa-caret-down"></i> zobrazit detaily personalizace <i style="color:white" class="fas fa-caret-down"></i></p>
     </div>
 
-    <div class="container" th:if="${cvProfile == null}">
-        <p>Nabídka zatím není personalizovaná. Přiložte prosím životopis.</p>
-    </div>
-
-
-    <div class="container" th:if="${cvProfile != null}">
-        <span style="color:green"><b>Extrahované informace o uchazeči: </b></span>
+    <div id="personalizationDetails" style="display: none">
+        <div class="container" th:if="${cvProfile != null}">
+            <span style="color:green"><b>Extrahované informace o uchazeči: </b></span>
             <span th:text="${cvProfile.firstName} + ' ' + ${cvProfile.lastName}
             + ', ' + ${cvProfile.gender} + ', ' + ${cvProfile.age} + ' let, narozen(a) '"></span>
             <span th:if="${cvProfile.birthDate != null}" th:text="${cvProfile.birthDate}"></span>
             <span th:if="${cvProfile.birthDate == null}" th:text="${cvProfile.birthYear}"></span>
             <span th:text="', email: ' + ${cvProfile.email} + ', mobil: ' + ${cvProfile.mobile} +
-', nejvyšší dosažený stupeň vzdělání: ' + ${cvProfile.maxEducation.maxEduLvl.maxEduLvlName} + ', obor nejvyššího stupně vzdělání: ' +
-${cvProfile.maxEducation.generalEduField}"></span>
-        </p>
-    </div>
-
-    <div class="container" style="margin-bottom:3em" th:if="${relevanceScore != null}">
-        <span style="color:green"><b>Predikovaná skóre relevancí pro jednotlivé obory: </b></span>
-        <table class="table table-sm text-center" style="font-size:0.7em">
-            <thead class="thead-dark">
-            <tr>
-                <th th:each="i : ${#numbers.sequence(0, 14)}" th:text="${relevanceScore.getFieldName(i)}"></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td style="color:green" th:each="i : ${#numbers.sequence(0, 14)}"><b th:text="${relevanceScore.getPercentRelevanceScore(i)}"></b></td>
-            </tr>
-            </tbody>
-        </table>
+            ', nejvyšší dosažený stupeň vzdělání: ' + ${cvProfile.maxEducation.maxEduLvl.maxEduLvlName} +
+            ', obor nejvyššího stupně vzdělání: ' + ${cvProfile.maxEducation.generalEduField}"></span>
+            </p>
+        </div>
+        <div class="container" style="margin-bottom:3em" th:if="${relevanceScore != null}">
+            <span style="color:green"><b>Predikovaná skóre relevancí pro jednotlivé obory: </b></span>
+            <table class="table table-sm text-center" style="font-size:0.7em">
+                <thead class="thead-dark">
+                <tr>
+                    <th th:each="i : ${#numbers.sequence(0, 14)}" th:text="${relevanceScore.getFieldName(i)}"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td style="color:green" th:each="i : ${#numbers.sequence(0, 14)}"><b
+                            th:text="${relevanceScore.getPercentRelevanceScore(i)}"></b></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <h4 th:if="${relevanceScore == null}" class="text-center">Pracovní nabídky</h4>
@@ -87,6 +82,40 @@ ${cvProfile.maxEducation.generalEduField}"></span>
             </tr>
             </tbody>
         </table>
+    </div>
+
+    <!-- Modal personalizeByCv -->
+    <div class="modal fade" id="modalPersonalizeByCv" tabindex="-1" role="dialog"
+         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div style="max-width: 40em" class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalDeleteTitle">Inteligentní personalizace nabídek pomocí
+                        životopisu</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="#" th:action="@{/personalizedOffers}" method="post" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label style="font-size: 0.85em" class="text-center">Vyberte nebo přetáhněte PDF/DOCX soubor
+                                se
+                                životopisem:</label><br>
+                            <input style="padding: 1em; min-width: 100%" class="btn btn-info" type="file" name="file">
+                        </div>
+
+                        <div style="display: block; min-height:13em" class="modal-footer text-center">
+                            <button id="buttonPersonalizationStart" style="margin: 0 auto" class="btn btn-success"
+                                    type="submit" onclick="loading()">Získat nabídku na míru
+                            </button>
+                            <div id="loader" class="text-center"></div>
+                            <p style="margin-top:0em; font-size: 0.8em" class="text-center" id="info"></p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 </body>
