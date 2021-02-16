@@ -1,7 +1,7 @@
 package jobportal.services;
 
 import jobportal.dao.VillageRepository;
-import jobportal.models.Village;
+import jobportal.models.offer_data_models.codebooks.Village;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;

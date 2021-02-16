@@ -1,9 +1,7 @@
 package jobportal.services;
 
 import jobportal.dao.FieldRepository;
-import jobportal.dao.LanguageRepository;
-import jobportal.models.Field;
-import jobportal.models.Language;
+import jobportal.models.offer_data_models.codebooks.Field;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

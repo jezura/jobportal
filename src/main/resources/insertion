@@ -1,1 +1,1 @@
-INSERT INTO `administrators` (`id`, `first_name`, `last_name`, `login`, `password`, `role`) VALUES ('1', 'Jaroslav', 'Ježek', 'administrator', '$2y$12$FZ2nqZkH1GlOjKaEw3Dnu.T8jxaZzAqdJwlLA2Cw56K/ue/PwamfG', 'ADMINISTRATOR');
+INSERT INTO `administrators` (`id`, `first_name`, `last_name`, `email`, `password`, `role`) VALUES ('1', 'Jaroslav', 'Ježek', 'administrator@jobportal.cz', '$2y$12$FZ2nqZkH1GlOjKaEw3Dnu.T8jxaZzAqdJwlLA2Cw56K/ue/PwamfG', 'ADMINISTRATOR');

@@ -1,8 +1,7 @@
 package jobportal.dao;
 
 
-import jobportal.models.Suitability;
-import jobportal.models.Workship;
+import jobportal.models.offer_data_models.codebooks.Suitability;
 import org.springframework.data.repository.CrudRepository;
 
 public interface SuitabilityRepository extends CrudRepository <Suitability, Integer>

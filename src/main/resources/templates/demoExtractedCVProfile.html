@@ -59,11 +59,11 @@
             </tr>
             <tr>
                 <td>Nejvyšší dosažený stupeň vzdělání: </td>
-                <td style="color:green" th:text="${cvProfile.maxEducation.maxEduLvl.maxEduLvlName}"></td>
+                <td style="color:green" th:text="${cvProfile.maxEducation.maxEduLvl.eduLevel.prettyName}"></td>
             </tr>
             <tr>
                 <td>Obecný obor nejvyššího dosaženého vzdělání: </td>
-                <td style="color:green" th:text="${cvProfile.maxEducation.generalEduField}"></td>
+                <td style="color:green" th:text="${cvProfile.maxEducation.eduGeneralField.prettyName}"></td>
             </tr>
             </tbody>
         </table>

@@ -1,8 +1,7 @@
 package jobportal.dao;
 
 
-import jobportal.models.Skill;
-import jobportal.models.Workship;
+import jobportal.models.offer_data_models.codebooks.Workship;
 import org.springframework.data.repository.CrudRepository;
 
 public interface WorkshipRepository extends CrudRepository <Workship, Integer>

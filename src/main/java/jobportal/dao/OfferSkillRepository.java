@@ -1,8 +1,7 @@
 package jobportal.dao;
 
 
-import jobportal.models.OfferSkill;
-import jobportal.models.Skill;
+import jobportal.models.offer_data_models.codebooks.OfferSkill;
 import org.springframework.data.repository.CrudRepository;
 
 public interface OfferSkillRepository extends CrudRepository <OfferSkill, Integer>

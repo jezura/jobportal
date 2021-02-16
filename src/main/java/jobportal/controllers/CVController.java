@@ -1,5 +1,10 @@
 package jobportal.controllers;
-import jobportal.models.cv_support.*;
+import jobportal.dao.EduGeneralFieldRepository;
+import jobportal.dao.EduLevelRepository;
+import jobportal.models.internal_models.cv_support.CVProfile;
+import jobportal.models.internal_models.cv_support.EduLog;
+import jobportal.models.internal_models.cv_support.RelevanceScore;
+import jobportal.models.internal_models.cv_support.Title;
 import jobportal.services.CzechNameService;
 import jobportal.services.TitleService;
 import jobportal.utils.CVExtractor;
@@ -16,6 +21,10 @@ public class CVController {
     private CzechNameService czechNameService;
     @Autowired
     private TitleService titleService;
+    @Autowired
+    private EduLevelRepository eduLevelRepository;
+    @Autowired
+    private EduGeneralFieldRepository eduGeneralFieldRepository;
 
     @RequestMapping(value = "/demo")
     public String showDemoIndex() {
@@ -27,10 +36,10 @@ public class CVController {
         return "loadCvFile";
     }
 
-    @RequestMapping(value = "/demo/processCv", method = RequestMethod.POST)
+    @PostMapping(value = "/demo/processCv")
     public String processCV(Model model, @RequestParam("file") MultipartFile[] files) throws IOException {
         EduLog eduLog = new EduLog();
-        CVExtractor cvExtractor = new CVExtractor(eduLog);
+        CVExtractor cvExtractor = new CVExtractor(eduLog, eduLevelRepository, eduGeneralFieldRepository);
         CVProfile cvProfile = new CVProfile();
         RelevanceScore relevanceScore = new RelevanceScore();
         cvExtractor.processCvAndSetTextContentToExtractedTextVariable(files);
@@ -65,8 +74,8 @@ public class CVController {
         System.out.print("\n");
         System.out.println("Email: " + cvProfile.getEmail());
         System.out.println("Mobil: " + cvProfile.getMobile());
-        System.out.println("Nejvyssi dosazeny stupen vzdelani: " + cvProfile.getMaxEducation().getMaxEduLvl().getMaxEduLvlName());
-        System.out.println("Obecny obor vzdelani: " + cvProfile.getMaxEducation().getGeneralEduField());
+        System.out.println("Nejvyssi dosazeny stupen vzdelani: " + cvProfile.getMaxEducation().getMaxEduLvl().getEduLevel().getPrettyName());
+        System.out.println("Obecny obor vzdelani: " + cvProfile.getMaxEducation().getEduGeneralField().getPrettyName());
 
         relevanceScore.getPredictions(cvProfile);
 

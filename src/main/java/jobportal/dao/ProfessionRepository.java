@@ -1,8 +1,7 @@
 package jobportal.dao;
 
 
-import jobportal.models.Field;
-import jobportal.models.Profession;
+import jobportal.models.offer_data_models.codebooks.Profession;
 import org.springframework.data.repository.CrudRepository;
 
 public interface ProfessionRepository extends CrudRepository <Profession, Integer>

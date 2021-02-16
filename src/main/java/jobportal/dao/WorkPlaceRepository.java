@@ -1,11 +1,8 @@
 package jobportal.dao;
 
 
-import jobportal.models.WorkPlace;
-import jobportal.models.Workshift;
+import jobportal.models.offer_data_models.WorkPlace;
 import org.springframework.data.repository.CrudRepository;
-
-import java.util.List;
 
 public interface WorkPlaceRepository extends CrudRepository <WorkPlace, Integer>
 {

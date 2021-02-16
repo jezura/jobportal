@@ -1,9 +1,7 @@
 package jobportal.services;
 
 import jobportal.dao.DistrictRepository;
-import jobportal.dao.RegionRepository;
-import jobportal.models.District;
-import jobportal.models.Region;
+import jobportal.models.offer_data_models.codebooks.District;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

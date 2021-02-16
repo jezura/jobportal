@@ -1,5 +1,5 @@
 package jobportal.controllers;
-import jobportal.models.Offer;
+import jobportal.models.offer_data_models.Offer;
 import jobportal.services.FirstContactService;
 import jobportal.services.OfferService;
 import jobportal.services.WorkPlaceService;

@@ -1,9 +1,7 @@
 package jobportal.dao;
 
 
-import jobportal.models.District;
-import jobportal.models.Skill;
-import jobportal.models.Village;
+import jobportal.models.offer_data_models.codebooks.Skill;
 import org.springframework.data.repository.CrudRepository;
 
 public interface SkillRepository extends CrudRepository <Skill, Integer>

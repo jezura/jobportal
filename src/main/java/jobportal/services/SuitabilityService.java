@@ -1,9 +1,7 @@
 package jobportal.services;
 
 import jobportal.dao.SuitabilityRepository;
-import jobportal.dao.WorkshipRepository;
-import jobportal.models.Suitability;
-import jobportal.models.Workship;
+import jobportal.models.offer_data_models.codebooks.Suitability;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

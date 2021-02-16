@@ -1,13 +1,10 @@
 package jobportal.services;
 
 import jobportal.dao.EducationRepository;
-import jobportal.dao.SkillRepository;
-import jobportal.models.Education;
-import jobportal.models.Skill;
+import jobportal.models.offer_data_models.codebooks.Education;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.xml.stream.events.EndDocument;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;

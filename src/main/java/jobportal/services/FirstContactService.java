@@ -1,9 +1,7 @@
 package jobportal.services;
 
-import jobportal.dao.EmployerRepository;
 import jobportal.dao.FirstContactRepository;
-import jobportal.models.Employer;
-import jobportal.models.FirstContact;
+import jobportal.models.offer_data_models.FirstContact;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

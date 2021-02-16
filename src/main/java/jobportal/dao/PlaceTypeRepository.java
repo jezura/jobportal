@@ -1,8 +1,7 @@
 package jobportal.dao;
 
 
-import jobportal.models.PlaceType;
-import jobportal.models.Skill;
+import jobportal.models.offer_data_models.codebooks.PlaceType;
 import org.springframework.data.repository.CrudRepository;
 
 public interface PlaceTypeRepository extends CrudRepository <PlaceType, Integer>

@@ -34,8 +34,8 @@
             <span th:if="${cvProfile.birthDate != null}" th:text="${cvProfile.birthDate}"></span>
             <span th:if="${cvProfile.birthDate == null}" th:text="${cvProfile.birthYear}"></span>
             <span th:text="', email: ' + ${cvProfile.email} + ', mobil: ' + ${cvProfile.mobile} +
-            ', nejvyšší dosažený stupeň vzdělání: ' + ${cvProfile.maxEducation.maxEduLvl.maxEduLvlName} +
-            ', obor nejvyššího stupně vzdělání: ' + ${cvProfile.maxEducation.generalEduField}"></span>
+            ', nejvyšší dosažený stupeň vzdělání: ' + ${cvProfile.maxEducation.maxEduLvl.eduLevel.prettyName} +
+            ', obor nejvyššího stupně vzdělání: ' + ${cvProfile.maxEducation.eduGeneralField.prettyName}"></span>
             </p>
         </div>
         <div class="container" style="margin-bottom:3em" th:if="${relevanceScore != null}">

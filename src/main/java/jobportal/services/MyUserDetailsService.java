@@ -1,9 +1,9 @@
 package jobportal.services;
 
 
-import jobportal.models.Administrator;
-import jobportal.models.RegisteredUser;
-import jobportal.security.MyUser;
+import jobportal.models.internal_models.user.Administrator;
+import jobportal.models.internal_models.user.RegisteredUser;
+import jobportal.models.internal_models.security.MyUser;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,14 +20,14 @@ public class MyUserDetailsService implements UserDetailsService {
     PersonService personService;
 
     @Override
-    public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-        Optional <RegisteredUser> optionalRegisteredUser = Optional.ofNullable(personService.findRegisteredUserByLogin(userName));
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        Optional <RegisteredUser> optionalRegisteredUser = Optional.ofNullable(personService.findRegisteredUserByEmail(email));
         if(optionalRegisteredUser.isPresent()) {
-            return new  MyUser(optionalRegisteredUser.get().getLogin(), optionalRegisteredUser.get().getPassword(), optionalRegisteredUser.get().getRole() ,optionalRegisteredUser.get().getId());
+            return new  MyUser(optionalRegisteredUser.get().getEmail(), optionalRegisteredUser.get().getPassword(), optionalRegisteredUser.get().getRole() ,optionalRegisteredUser.get().getId());
         }
-        Optional <Administrator> optionalAdministrator = Optional.ofNullable(personService.findAdministratorByLogin(userName));
+        Optional <Administrator> optionalAdministrator = Optional.ofNullable(personService.findAdministratorByEmail(email));
         if(optionalAdministrator.isPresent()) {
-            return new  MyUser(optionalAdministrator.get().getLogin(), optionalAdministrator.get().getPassword(), optionalAdministrator.get().getRole() ,optionalAdministrator.get().getId());
+            return new  MyUser(optionalAdministrator.get().getEmail(), optionalAdministrator.get().getPassword(), optionalAdministrator.get().getRole() ,optionalAdministrator.get().getId());
         }
         return null;
     }

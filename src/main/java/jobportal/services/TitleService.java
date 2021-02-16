@@ -1,9 +1,7 @@
 package jobportal.services;
 
-import jobportal.dao.CzechNameRepository;
 import jobportal.dao.TitleRepository;
-import jobportal.models.cv_support.CzechName;
-import jobportal.models.cv_support.Title;
+import jobportal.models.internal_models.cv_support.Title;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

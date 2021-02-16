@@ -1,30 +1,24 @@
 package jobportal.controllers;
 
-import jobportal.models.Field;
-import jobportal.models.Offer;
-import jobportal.models.cv_support.*;
+import jobportal.dao.EduGeneralFieldRepository;
+import jobportal.dao.EduLevelRepository;
+import jobportal.models.internal_models.cv_support.CVProfile;
+import jobportal.models.internal_models.cv_support.EduLog;
+import jobportal.models.internal_models.cv_support.RelevanceScore;
+import jobportal.models.offer_data_models.Offer;
 import jobportal.services.CzechNameService;
 import jobportal.services.OfferService;
 import jobportal.services.TitleService;
 import jobportal.utils.CVExtractor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.annotation.PostConstruct;
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import java.util.Collection;
-import java.util.List;
 
 @Controller
 public class OfferController {
@@ -37,6 +31,10 @@ public class OfferController {
     private TitleService titleService;
     @Autowired
     private CzechNameService czechNameService;
+    @Autowired
+    private EduLevelRepository eduLevelRepository;
+    @Autowired
+    private EduGeneralFieldRepository eduGeneralFieldRepository;
 
 
     @RequestMapping(value = "/")
@@ -59,7 +57,7 @@ public class OfferController {
         cvProfile = new CVProfile();
         relevanceScore = new RelevanceScore();
         EduLog eduLog = new EduLog();
-        CVExtractor cvExtractor = new CVExtractor(eduLog);
+        CVExtractor cvExtractor = new CVExtractor(eduLog, eduLevelRepository, eduGeneralFieldRepository);
         cvExtractor.processCvAndSetTextContentToExtractedTextVariable(files);
 
         //       >>> EXTRACTING PROCESS <<<

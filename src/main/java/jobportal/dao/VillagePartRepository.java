@@ -1,8 +1,7 @@
 package jobportal.dao;
 
 
-import jobportal.models.Village;
-import jobportal.models.VillagePart;
+import jobportal.models.offer_data_models.codebooks.VillagePart;
 import org.springframework.data.repository.CrudRepository;
 
 public interface VillagePartRepository extends CrudRepository <VillagePart, Integer>

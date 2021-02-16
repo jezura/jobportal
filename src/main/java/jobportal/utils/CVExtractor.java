@@ -10,7 +10,10 @@ import java.util.Collection;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import jobportal.models.cv_support.*;
+
+import jobportal.dao.EduGeneralFieldRepository;
+import jobportal.dao.EduLevelRepository;
+import jobportal.models.internal_models.cv_support.*;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.apache.poi.openxml4j.opc.OPCPackage;
@@ -20,12 +23,17 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 public class CVExtractor {
+    private EduLevelRepository eduLevelRepository;
+    private EduGeneralFieldRepository eduGeneralFieldRepository;
+
     private String extractedText;
     private int aroundArea = 70;
     private EduLog eduLog;
 
-    public CVExtractor(EduLog eduLog) {
+    public CVExtractor(EduLog eduLog, EduLevelRepository eduLevelRepository, EduGeneralFieldRepository eduGeneralFieldRepository) {
         this.eduLog = eduLog;
+        this.eduLevelRepository = eduLevelRepository;
+        this.eduGeneralFieldRepository = eduGeneralFieldRepository;
     }
 
     public EduLog getEduLog() {
@@ -299,40 +307,40 @@ public class CVExtractor {
     }
 
     public MaxEducation extractMaxEducationAndGeneralEduField (Collection<Title> titles) {
-        MaxEduLvl maxEduLvl = new MaxEduLvl();
-        MaxEducation maxEducation = new MaxEducation();
+        MaxEduLvl maxEduLvl = new MaxEduLvl(eduLevelRepository);
+        MaxEducation maxEducation = new MaxEducation(eduGeneralFieldRepository);
 
         if(!titles.isEmpty()) {
             for (Title title : titles) {
                 if (title.getDegree().equals("Vysokoskolske_bakalarske")) {
-                    maxEduLvl.setMaxEduLvlName(title.getDegree());
+                    maxEduLvl.setEduLevel(title.getDegree());
                     if(title.getTitleEduField() != null) {
-                        maxEducation.setGeneralEduField(title.getTitleEduField());
+                        maxEducation.setEduGeneralField(title.getTitleEduField());
                     }
                 }
             }
 
             for (Title title : titles) {
                 if (title.getDegree().equals("Vysokoskolske_magisterske")) {
-                    maxEduLvl.setMaxEduLvlName(title.getDegree());
+                    maxEduLvl.setEduLevel(title.getDegree());
                     if(title.getTitleEduField() != null) {
-                        maxEducation.setGeneralEduField(title.getTitleEduField());
+                        maxEducation.setEduGeneralField(title.getTitleEduField());
                     }
                 }
             }
 
             for (Title title : titles) {
                 if (title.getDegree().equals("Vysokoskolske_doktorske")) {
-                    maxEduLvl.setMaxEduLvlName(title.getDegree());
+                    maxEduLvl.setEduLevel(title.getDegree());
                     if(title.getTitleEduField() != null) {
-                        maxEducation.setGeneralEduField(title.getTitleEduField());
+                        maxEducation.setEduGeneralField(title.getTitleEduField());
                     }
                 }
             }
 
             maxEducation.setMaxEduLvl(maxEduLvl);
 
-            if(maxEducation.getGeneralEduField() != null) {
+            if(maxEducation.getEduGeneralField() != null) {
                 return maxEducation;
             } else {
                 maxEduLvl.findAreaIndexesForVSLevel(extractedText, aroundArea, eduLog);
@@ -357,7 +365,7 @@ public class CVExtractor {
                 maxEduLvl.findMaxEduLvl(extractedText, 0, aroundArea, eduLog);
             }
             maxEducation.setMaxEduLvl(maxEduLvl);
-            switch (maxEduLvl.getMaxEduLvlName()) {
+            switch (maxEduLvl.getEduLevel().getName()) {
                 case "Vysokoskolske_doktorske": case "Vysokoskolske_magisterske": case "Vysokoskolske_bakalarske":
                     if (maxEducation.findFieldForVSLevel(extractedText, true, false, eduLog)) {
                         return maxEducation;
@@ -389,7 +397,7 @@ public class CVExtractor {
                         return null;
                     }
                 case "Zakladni":
-                    maxEducation.setGeneralEduField("Gymnazium_ZS");
+                    maxEducation.setEduGeneralField("Gymnazium_ZS");
                     return maxEducation;
             }
         }

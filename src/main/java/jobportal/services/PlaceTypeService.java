@@ -1,9 +1,7 @@
 package jobportal.services;
 
 import jobportal.dao.PlaceTypeRepository;
-import jobportal.dao.SkillRepository;
-import jobportal.models.PlaceType;
-import jobportal.models.Skill;
+import jobportal.models.offer_data_models.codebooks.PlaceType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

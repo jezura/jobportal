@@ -1,9 +1,8 @@
 package jobportal.services;
 
 import jobportal.dao.OfferRepository;
-import jobportal.models.Offer;
-import jobportal.models.cv_support.RelevanceScore;
-import org.hibernate.StaleStateException;
+import jobportal.models.offer_data_models.Offer;
+import jobportal.models.internal_models.cv_support.RelevanceScore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

@@ -1,6 +1,10 @@
 package jobportal.controllers;
 
-import jobportal.models.*;
+import jobportal.models.offer_data_models.Employer;
+import jobportal.models.offer_data_models.FirstContact;
+import jobportal.models.offer_data_models.Offer;
+import jobportal.models.offer_data_models.WorkPlace;
+import jobportal.models.offer_data_models.codebooks.*;
 import jobportal.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;

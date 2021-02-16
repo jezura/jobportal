@@ -1,10 +1,7 @@
 package jobportal.services;
 
 import jobportal.dao.WorkPlaceRepository;
-import jobportal.dao.WorkshiftRepository;
-import jobportal.models.WorkPlace;
-import jobportal.models.Workshift;
-import org.hibernate.jdbc.Work;
+import jobportal.models.offer_data_models.WorkPlace;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

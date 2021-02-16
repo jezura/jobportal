@@ -1,8 +1,7 @@
 package jobportal.dao;
 
 
-import jobportal.models.OfferLanguage;
-import jobportal.models.OfferSkill;
+import jobportal.models.offer_data_models.codebooks.OfferLanguage;
 import org.springframework.data.repository.CrudRepository;
 
 public interface OfferLanguageRepository extends CrudRepository <OfferLanguage, Integer>

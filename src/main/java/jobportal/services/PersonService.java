@@ -2,8 +2,8 @@ package jobportal.services;
 
 import jobportal.dao.RegisteredUserRepository;
 import jobportal.dao.AdministratorRepository;
-import jobportal.models.Administrator;
-import jobportal.models.RegisteredUser;
+import jobportal.models.internal_models.user.Administrator;
+import jobportal.models.internal_models.user.RegisteredUser;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
@@ -39,23 +39,23 @@ public class PersonService {
     }
 
 
-    public RegisteredUser findRegisteredUserByLogin(String login){
-        RegisteredUser registeredUser = registeredUserRepository.findRegisteredUserByLogin(login);
+    public RegisteredUser findRegisteredUserByEmail(String email){
+        RegisteredUser registeredUser = registeredUserRepository.findRegisteredUserByEmail(email);
         return registeredUser;
     }
 
-    public Administrator findAdministratorByLogin(String login){
-        Administrator administrator = administratorRepository.findAdministratorByLogin(login);
+    public Administrator findAdministratorByEmail(String email){
+        Administrator administrator = administratorRepository.findAdministratorByEmail(email);
         return administrator;
     }
 
-    public boolean isUnique(String login){
+    public boolean isUnique(String email){
         boolean unique = true;
 
-        if(findRegisteredUserByLogin(login) != null)
+        if(findRegisteredUserByEmail(email) != null)
             unique = false;
 
-        if(findAdministratorByLogin(login) != null)
+        if(findAdministratorByEmail(email) != null)
             unique = false;
 
         return unique;

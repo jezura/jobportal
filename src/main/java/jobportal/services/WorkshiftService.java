@@ -1,9 +1,7 @@
 package jobportal.services;
 
 import jobportal.dao.WorkshiftRepository;
-import jobportal.dao.WorkshipRepository;
-import jobportal.models.Workshift;
-import jobportal.models.Workship;
+import jobportal.models.offer_data_models.codebooks.Workshift;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

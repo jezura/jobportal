@@ -1,9 +1,7 @@
 package jobportal.services;
 
 import jobportal.dao.OfferBenefitRepository;
-import jobportal.dao.OfferSkillRepository;
-import jobportal.models.OfferBenefit;
-import jobportal.models.OfferSkill;
+import jobportal.models.offer_data_models.codebooks.OfferBenefit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

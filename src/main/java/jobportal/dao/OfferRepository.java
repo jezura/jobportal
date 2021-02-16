@@ -1,16 +1,14 @@
 package jobportal.dao;
 
-import jobportal.models.Offer;
+import jobportal.models.offer_data_models.Offer;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.Collection;
-import java.util.List;
 
 public interface OfferRepository extends PagingAndSortingRepository<Offer, Long>
 {
