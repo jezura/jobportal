@@ -4,7 +4,7 @@ import jobportal.dao.EduLevelRepository;
 import jobportal.models.internal_models.cv_support.CVProfile;
 import jobportal.models.internal_models.cv_support.EduLog;
 import jobportal.models.internal_models.cv_support.RelevanceScore;
-import jobportal.models.internal_models.cv_support.Title;
+import jobportal.models.internal_models.codebooks.Title;
 import jobportal.services.CzechNameService;
 import jobportal.services.TitleService;
 import jobportal.utils.CVExtractor;

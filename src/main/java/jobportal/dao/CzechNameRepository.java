@@ -1,7 +1,7 @@
 package jobportal.dao;
 
 
-import jobportal.models.internal_models.cv_support.CzechName;
+import jobportal.models.internal_models.codebooks.CzechName;
 import org.springframework.data.repository.CrudRepository;
 
 public interface CzechNameRepository extends CrudRepository <CzechName, Integer>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <header xmlns:th="https://www.thymeleaf.org"
+            th:fragment="header">
+
+        <nav style="padding-bottom:0.15em; padding-right:2em; padding-left:2em"
+             class="navbar navbar-expand-sm bg-dark navbar-dark">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a href="/"><img class="img-responsive" src="../static/resources/images/pracovo_icon.png"
+                                     th:src="@{/resources/images/pracovo_icon.png}" height="60em"/></a>
+                </li>
+                <li class="nav-item-active active">
+                    <a id="top" href="/"><h4
+                            style="color:white; padding-top: 0.6em; font-family: 'Tahoma';font-weight: bold;"
+                            class="nav-link">Pracovo.cz</h4></a>
+                </li>
+                <div sec:authorize="isAnonymous()"
+                     style="position:absolute; right: 0; margin-right: 2em; margin-top: 0.5em;">
+                    <li style="float:left" class="nav-item-active">
+                        <a class="nav-link" href="/login">Přihlášení</a>
+                    </li>
+                    <li style="float:left" class="nav-item-active">
+                        <a class="nav-link" href="/registration">Registrace</a>
+                    </li>
+                </div>
+                <div sec:authorize="hasRole('REGISTERED_USER')"
+                     style="position:absolute; right: 0; margin-right: 2em; margin-top: 0.5em;">
+                    <li style="float:left" class="nav-item-active">
+                        <a class="nav-link" href="/login">Můj účet</a>
+                    </li>
+                    <li style="float:left" class="nav-item-active">
+                        <a class="nav-link" href="/logout">Odhlásit se</a>
+                    </li>
+                </div>
+                <div sec:authorize="hasRole('ADMINISTRATOR')"
+                     style="position:absolute; right: 0; margin-right: 2em; margin-top: 0.5em;">
+                    <li style="float:left" class="nav-item-active">
+                        <a class="nav-link" href="/admin/overview">Administrační rozhraní</a>
+                    </li>
+                    <li style="float:left" class="nav-item-active">
+                        <a class="nav-link" href="/logout">Odhlásit se</a>
+                    </li>
+                </div>
+            </ul>
+        </nav>
+    </header>
+</head>
+<body>
+
+</body>
+</html>

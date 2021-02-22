@@ -13,6 +13,8 @@ import java.util.regex.Pattern;
 
 import jobportal.dao.EduGeneralFieldRepository;
 import jobportal.dao.EduLevelRepository;
+import jobportal.models.internal_models.codebooks.CzechName;
+import jobportal.models.internal_models.codebooks.Title;
 import jobportal.models.internal_models.cv_support.*;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+
+<html layout:decorate="~{admin_layout}"
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title>Administrace - Pracovní portál</title>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script type="text/javascript" src="/js/searchAutocomplete.js"></script>
+</head>
+<body>
+<div layout:fragment="content">
+    <div th:if="${message_notification !=''}" class="alert alert-success alert-dismissible fade show">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <i class="fas fa-check-circle" style="color:green"></i>
+        <strong th:text="' ' + ${message_notification}"></strong>
+    </div>
+    <h4 style="padding-bottom: 0.3em; padding-top:1em" class="text-center">Správa uživatelských účtů</h4>
+    <p class="text-center" th:if="${usersCount > 0}"><i style='color:green' class='fas fa-users'></i> <span
+            th:text="'V databázi je celkem ' + ${usersCount} + ' registrovaných uživatelů'"></span></p>
+    <p class="text-center" th:if="${usersCount == 0}"><i style='color:red' class='fas fa-users-slash'></i> Databáze
+        zatím neobsahuje žádné registrované uživatele...</p>
+    <div class="container">
+        <form class="form-inline" style="padding: 25px" action="#" th:action="@{/admin/searchUsers}" method="post">
+            <label>Hledání a filtry:</label>
+            <input style="margin: 8px" type="number" name="idSearch" id="idSearch" class="form-control"
+                   placeholder="ID uživatele" th:attrappend="value=${searchedId}?${searchedId}">
+            <input style="margin: 8px" type="text" name="emailSearch" id="emailSearch" class="form-control"
+                   placeholder="Email/login uživatele" th:attrappend="value=${searchedEmail}?${searchedEmail}">
+            <input style="margin: 8px" type="text" name="fullNameSearch" id="fullNameSearch" class="form-control"
+                   placeholder="Jméno a příjmení uživatele"
+                   th:attrappend="value=${searchedFullName}?${searchedFullName}">
+            <button type="submit" class="btn btn-info">Hledat</button>
+        </form>
+    </div>
+    <div th:if="${totalPages != null}" class="container">
+        <p th:if="${(searchedEmail != null) || (searchedFullName != null)}" style="width:95%; margin-block-end:0em">
+            Výsledky vyhledávání pro filtry:
+            <span style="font-size: 0.9em" th:if="${searchedEmail != null}"
+                  th:text="'(email/login obsahuje řetězec '"></span><i style="color:blue; font-size: 0.9em"
+                                                                       th:text="${searchedEmail}"></i><span
+                th:if="${searchedEmail != null}" style="font-size: 0.9em">)</span>
+            <span style="font-size: 0.9em" th:if="${searchedFullName != null}"
+                  th:text="'(jméno a příjmení obsahuje řetězec '"></span><i style="color:blue; font-size: 0.9em"
+                                                                            th:text="${searchedFullName}"></i><span
+                th:if="${searchedEmail != null}" style="font-size: 0.9em">)</span>
+        </p>
+        <p style="width:95%" th:text="'Nalezeno celkem ' + ${totalUsers} + ' výsledků'"></p>
+    </div>
+    <div class="container">
+        <table id="registeredUsers" class="table table-striped">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Jméno a Příjmení</th>
+                <th>Email/Login</th>
+                <th>Pohlaví</th>
+                <th>Detail</th>
+                <th>Reset hesla</th>
+                <th>Smazat</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="registeredUser : ${registeredUsers}">
+                <td th:text="${registeredUser.id}"></td>
+                <td th:text="${registeredUser.firstName + ' ' + registeredUser.lastName}"></td>
+                <td th:text="${registeredUser.email}"></td>
+                <td th:text="${registeredUser.gender}"></td>
+                <td class="text-center">
+                    <button id="buttonDetail" type="button" data-toggle="modal"
+                            th:attr="data-target='#modalDetails'+*{registeredUser.id}" class="btn btn-info"
+                            style="font-size: 1em;padding: 0.05em 0.6em 0.02em 0.6em;"><i style="color:white"
+                                                                                          class="fas fa-info-circle"></i>
+                    </button>
+                </td>
+                <td class="text-center">
+                    <button id="buttonReset" type="button" data-toggle="modal"
+                            th:attr="data-target='#modalReset'+*{registeredUser.id}" class="btn btn-warning"
+                            style="font-size: 1em;padding: 0.05em 0.6em 0.02em 0.6em;"><i style="color:white"
+                                                                                          class="fas fa-key"></i>
+                    </button>
+                </td>
+                <td class="text-center">
+                    <button id="buttonDelete" type="button" data-toggle="modal"
+                            th:attr="data-target='#modalDelete'+*{registeredUser.id}" class="btn btn-danger"
+                            style="font-size: 1em;padding: 0.05em 0.6em 0.02em 0.6em;"><i style="color:white"
+                                                                                          class="far fa-trash-alt"></i>
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <!-- Modal delete -->
+        <div th:each="registeredUser : ${registeredUsers}">
+            <div class="modal fade" th:id="*{'modalDelete'+{registeredUser.id}}" tabindex="-1" role="dialog"
+                 aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalDeleteTitle">Potvrdit odstranění</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <span>ID odstraňovaného uživatele</span>
+                                <input type="text" th:value="*{registeredUser.id}" disabled="disabled">
+                            </form>
+                            <p>Opravdu si přejete nenávratně odstranit tento uživatelský účet?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <form action="#" th:action="@{'/admin/deleteUser/' + ${registeredUser.id}}" method="post">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Zpět</button>
+                                <button type="submit" class="btn btn-danger">Odstranit</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Modal details -->
+            <div class="modal fade" th:id="*{'modalDetails'+{registeredUser.id}}" tabindex="-1" role="dialog"
+                 aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" style="max-width:50em" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalDetailTitle">Detailní informace o uživateli</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p><b>Jméno:</b> <span th:text="${registeredUser.firstName}"></span></p>
+                            <p><b>Příjmení:</b> <span th:text="${registeredUser.lastName}"></span></p>
+                            <p><b>Email(login):</b> <span th:text="${registeredUser.email}"></span></p>
+                            <p><b>Pohlaví:</b> <span th:text="${registeredUser.gender}"></span></p>
+                            <p><b>Rok narození:</b> <span th:text="${registeredUser.birthYear}"></span></p>
+                            <p><b>Kraj bydliště:</b> <span th:text="${registeredUser.region.name}"></span></p>
+                            <p><b>Stupeň nejvyššího dosaženého vzdělání:</b> <span
+                                    th:text="${registeredUser.eduLevel.prettyName}"></span></p>
+                            <p><b>Obecný obor nejvyššího dosaženého vzdělání:</b> <span
+                                    th:text="${registeredUser.eduGeneralField.prettyName}"></span></p>
+
+                            <span style="color:green"><b>Predikovaná skóre relevancí pro jednotlivé obory: </b></span>
+                            <table th:each="relevanceScore : ${relevanceScores}"
+                                   th:if="${relevanceScore.userId == registeredUser.id}"
+                                   class="table table-sm text-center" style="font-size:0.7em">
+                                <thead class="thead-dark">
+                                <tr>
+                                    <th th:each="i : ${#numbers.sequence(0, 7)}"
+                                        th:text="${relevanceScore.getFieldName(i)}"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td style="color:green" th:each="i : ${#numbers.sequence(0, 7)}"><b
+                                            th:text="${relevanceScore.getPercentRelevanceScore(i)}"></b></td>
+                                </tr>
+                                </tbody>
+
+                                <thead class="thead-dark">
+                                <tr>
+                                    <th th:each="i : ${#numbers.sequence(8, 14)}"
+                                        th:text="${relevanceScore.getFieldName(i)}"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td style="color:green" th:each="i : ${#numbers.sequence(8, 14)}"><b
+                                            th:text="${relevanceScore.getPercentRelevanceScore(i)}"></b></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Zavřít</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div th:if="${(totalPages != null) && (totalUsers > 0)}">
+        <nav aria-label="pagenav" style="padding-top:1.5em">
+            <ul class="pagination justify-content-center">
+                <li class="page-item" th:if="${currentPage > 1}"><a style="color:white; background-color:seagreen"
+                                                                    class="page-link"
+                                                                    th:href="'/admin/allUsers/page/' + ${currentPage-1}">
+                    <i
+                            style="color:white" class="fas fa-arrow-left"></i> </a></li>
+                <li class="page-item">
+                    <button type="button" class="btn btn-light" disabled
+                            th:text="'Stránka ' + ${currentPage} + ' z ' + ${totalPages}"></button>
+                </li>
+                <li class="page-item" th:if="${currentPage < totalPages}"><a
+                        style="color:white; background-color:seagreen"
+                        class="page-link"
+                        th:href="'/admin/allUsers/page/' + ${currentPage+1}">
+                    <i style="color:white" class="fas fa-arrow-right"></i> </a></li>
+            </ul>
+        </nav>
+        <p style="font-size:0.8em" class="text-center"
+           th:text="'Zobrazuji uživatele ' + ${firstUserNum} + ' - ' + ${lastUserNum} + ' z celkem ' + ${totalUsers}"></p>
+    </div>
+</div>
+</body>
+</html>

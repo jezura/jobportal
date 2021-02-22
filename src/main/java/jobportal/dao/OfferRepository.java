@@ -1,6 +1,8 @@
 package jobportal.dao;
 
 import jobportal.models.offer_data_models.Offer;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
@@ -9,15 +11,28 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.List;
 
 public interface OfferRepository extends PagingAndSortingRepository<Offer, Long>
 {
     Offer findOfferById(Long id);
 
-    /*@Transactional
-    @Modifying
-    @Query("Delete from Offer o WHERE expire_date <= :todayDate")
-    int deleteAllOffersAfterExpiration(@Param("todayDate") Date todayDate);*/
+    Page<Offer> findByTitleContainingIgnoreCase(String title, Pageable pageable);
+
+    @Query(
+            value = "SELECT * FROM offers o WHERE o.profession_id IN (SELECT pf.profession_id FROM profession_field pf WHERE pf.field_id=?2) AND o.title LIKE %?1%",
+            nativeQuery = true)
+    Page<Offer> findByTitleLikeAndFieldIdPageable(String title, String fieldId, Pageable pageable);
+
+    @Query(
+            value = "SELECT * FROM offers o WHERE o.profession_id IN (SELECT pf.profession_id FROM profession_field pf WHERE pf.field_id=?1)",
+            nativeQuery = true)
+    Page<Offer> findByFieldIdPageable(String fieldId, Pageable pageable);
+
+    @Query(
+            value = "SELECT o.title FROM offers o where o.title LIKE %:term% LIMIT 20",
+            nativeQuery = true)
+    List<String> findTitlesLikeSearchTerm(@Param("term") String term);
 
     @Transactional
     @Modifying

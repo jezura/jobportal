@@ -23,7 +23,7 @@ public class OfferBenefitService {
         return offerBenefits;
     }
 
-    public OfferBenefit findOfferBenefitById(String id) {
+    public OfferBenefit findOfferBenefitById(int id) {
         return offerBenefitRepository.findOfferBenefitById(id);
     }
 

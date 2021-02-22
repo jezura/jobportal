@@ -1,8 +1,8 @@
 package jobportal.services;
 
 
-import jobportal.models.internal_models.user.Administrator;
-import jobportal.models.internal_models.user.RegisteredUser;
+import jobportal.models.internal_models.data_entites.user.Administrator;
+import jobportal.models.internal_models.data_entites.user.RegisteredUser;
 import jobportal.models.internal_models.security.MyUser;
 import org.springframework.beans.factory.annotation.Autowired;
 

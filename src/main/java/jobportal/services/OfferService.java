@@ -63,6 +63,26 @@ public class OfferService {
         return offerRepository.count();
     }
 
+    public Page<Offer> findByTitleLikeAndFieldIdPageable(String title, String fieldId, int pageNumber, int size) {
+        Pageable pageable = PageRequest.of(pageNumber - 1, size);
+        return offerRepository.findByTitleLikeAndFieldIdPageable(title, fieldId, pageable);
+    }
+
+    public Page<Offer> findByTitleContainingIgnoreCase(String title, int pageNumber, int size) {
+        Pageable pageable = PageRequest.of(pageNumber - 1, size);
+        return offerRepository.findByTitleContainingIgnoreCase(title, pageable);
+    }
+
+    public Page<Offer> findByFieldIdPageable(String fieldId, int pageNumber, int size) {
+        Pageable pageable = PageRequest.of(pageNumber - 1, size);
+        return offerRepository.findByFieldIdPageable(fieldId, pageable);
+    }
+
+    public List<String> findTitlesLikeSearchTerm(String term){
+        List<String> titles = offerRepository.findTitlesLikeSearchTerm(term);
+        return titles;
+    }
+
     public int deleteAllExpiredOffers() {
         LocalDate today = LocalDate.now().plusDays(2);
         return offerRepository.deleteByExpireDateBefore(today);

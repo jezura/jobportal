@@ -13,37 +13,47 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jobportal.models.internal_models.user;
+package jobportal.models.internal_models.data_entites.user;
 
 import jobportal.models.base.BaseEntity;
 
-import javax.persistence.Column;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 @MappedSuperclass
-public class Person extends BaseEntity {
+public class Person {
+
+    @Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
+    private int id;
 
     @Column(name = "first_name")
-    @Pattern(regexp="^[a-zA-Z]{3,20}",message="Neplatné křestní jméno")
+    @Pattern(regexp="^[a-zA-ZáéíóúůýčšžřÁÉÍÓÚŮÝČŠŽŘ]{3,20}",message="Neplatné křestní jméno, povolená délka 3-20 znaků")
     private String firstName;
 
     @Column(name = "last_name")
-    @Pattern(regexp="^[a-zA-Z]{3,20}",message="Neplatné příjmení")
+    @Pattern(regexp="^[a-zA-ZáéíóúůýčšžřÁÉÍÓÚŮÝČŠŽŘ]{3,20}",message="Neplatné příjmení. Povolená délka 3-20 znaků")
     private String lastName;
 
     @Column(name = "email")
-    @Pattern(regexp="^[a-zA-Z0-9]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,7}",message="Neplatný email/login")
+    @Pattern(regexp="^[a-zA-Z0-9]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,7}",message="Neplatný email/login. Zadejte prosím email ve validním formátu")
     private String email;
 
-    @Size(min = 5, message = "Password must be at least 5 characters long")
+    @Size(min = 5, message = "Heslo musí obsahovat alespoň 5 znaků")
     @Column(name = "password")
     private String password;
 
     @Column(name = "role")
     private String role;
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getFirstName() {
         return firstName;

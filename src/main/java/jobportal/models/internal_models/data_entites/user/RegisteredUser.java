@@ -13,15 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jobportal.models.internal_models.user;
+package jobportal.models.internal_models.data_entites.user;
 
 import jobportal.models.internal_models.codebooks.EduGeneralField;
 import jobportal.models.internal_models.codebooks.EduLevel;
-import jobportal.models.internal_models.cv_support.FieldsRelevancy;
+import jobportal.models.internal_models.data_entites.FieldsRelevancy;
 import jobportal.models.offer_data_models.codebooks.Region;
 import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
 /**
@@ -37,10 +40,13 @@ public class RegisteredUser extends Person {
     private LocalDate registerDate;
 
     @NotNull(message = "Pohlaví musí být zadáno")
+    @Size(min = 3, message = "Pohlaví musí být zadáno")
     @Column(name = "gender")
     private String gender;
 
     @NotNull(message = "Rok narození musí být zadán")
+    @Min(value=1940, message="Rok narození musí být roven nebo větší než rok 1940")
+    @Max(value=2006, message="Rok narození musí být menší nebo roven než rok 2006")
     @Column(name = "birth_year")
     private int birthYear;
 
@@ -60,7 +66,6 @@ public class RegisteredUser extends Person {
     private Region region;
 
     @OneToOne(cascade=CascadeType.ALL)
-    @NotNull(message = "Musí být přiřazen odpovídající objekt uchovávající relevance pracovních oborů")
     @JoinColumn(name = "fields_relevancy_id")
     private FieldsRelevancy fieldsRelevancy;
 

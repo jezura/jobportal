@@ -1,6 +1,6 @@
 package jobportal.dao;
 
-import jobportal.models.internal_models.user.Administrator;
+import jobportal.models.internal_models.data_entites.user.Administrator;
 import org.springframework.data.repository.CrudRepository;
 
 

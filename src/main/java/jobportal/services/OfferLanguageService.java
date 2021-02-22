@@ -23,7 +23,7 @@ public class OfferLanguageService {
         return offerLanguages;
     }
 
-    public OfferLanguage findOfferLanguageById(String id) {
+    public OfferLanguage findOfferLanguageById(int id) {
         return offerLanguageRepository.findOfferLanguageById(id);
     }
 

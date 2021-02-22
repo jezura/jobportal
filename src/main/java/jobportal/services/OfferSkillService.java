@@ -23,7 +23,7 @@ public class OfferSkillService {
         return offerSkills;
     }
 
-    public OfferSkill findOfferSkillById(String id) {
+    public OfferSkill findOfferSkillById(int id) {
         return offerSkillRepository.findOfferSkillById(id);
     }
 

@@ -1,4 +1,4 @@
-package jobportal.models.internal_models.user;
+package jobportal.models.internal_models.data_entites.user;
 
 import javax.persistence.*;
 

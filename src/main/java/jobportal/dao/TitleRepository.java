@@ -1,7 +1,7 @@
 package jobportal.dao;
 
 
-import jobportal.models.internal_models.cv_support.Title;
+import jobportal.models.internal_models.codebooks.Title;
 import org.springframework.data.repository.CrudRepository;
 
 public interface TitleRepository extends CrudRepository <Title, Integer>

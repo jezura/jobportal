@@ -1,6 +1,6 @@
 package jobportal.models.internal_models.security;
 
-import jobportal.models.internal_models.user.Person;
+import jobportal.models.internal_models.data_entites.user.Person;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

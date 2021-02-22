@@ -6,5 +6,5 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface OfferBenefitRepository extends CrudRepository <OfferBenefit, Integer>
 {
-    OfferBenefit findOfferBenefitById(String id);
+    OfferBenefit findOfferBenefitById(int id);
 }

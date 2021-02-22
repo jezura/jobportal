@@ -1,5 +1,7 @@
 package jobportal.models.internal_models.cv_support;
 
+import jobportal.models.internal_models.codebooks.CzechName;
+import jobportal.models.internal_models.codebooks.Title;
 import jobportal.utils.CVExtractor;
 
 import java.time.LocalDate;

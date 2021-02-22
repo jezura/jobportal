@@ -12,18 +12,41 @@
 
 <body>
 <div layout:fragment="content">
-    <div style="background-color: #19325a; padding-top:0.5em; padding-bottom: 0.4em; color:white; border-radius:0.2em">
-        <a href="/demo" style="color:white">Demo režim</a>
-        <h1 class="text-center" style="margin-bottom:1.5em">Pracovní portál</h1>
+    <div style="background-color: #19325a; padding-top:0.5em; padding-bottom: 0.4em; color:white">
+        <h4 class="text-center" style="margin-bottom:1.5em;padding-top: 0.6em;">Hledáte práci?
+            <span style="color: yellowgreen;">Tady jste správně..</span></h4>
         <div class="container text-center">
-            <p></p>
+            <form name="filters">
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="region">Vyberte kraj</label>
+                        <input type="text" class="form-control" id="region" placeholder="Kraj">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="district">Vyberte okres</label>
+                        <input type="text" class="form-control" id="district" placeholder="Okres">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="field">V jakém oboru?</label>
+                        <input type="text" class="form-control" id="field" placeholder="Pracovní obor">
+                    </div>
+                </div>
+                <button type="submit" id="searchByFilters" class="btn btn-primary">Hledat nabídky</button>
+            </form>
+            <p style="color:white" class="text-center">nebo</p>
             <button type="button" id="buttonPersonalizeByCv" data-toggle="modal" data-target="#modalPersonalizeByCv"
                     class="btn btn-success">Získat nabídku na míru na základě CV
             </button>
         </div>
-        <p th:if="${cvProfile != null}" style="font-size:0.9em; color:white; padding-top:3em; margin-block-end: 0.4em" class="text-center">
-            <i style="color:lightgreen" class="fas fa-user-check"></i> Nabídka práce je nyní inteligentně personalizovaná</p>
-        <p id="flip" th:if="${cvProfile != null}" style="font-size:0.75em; color:white; text-decoration: underline; margin-block: 0.3em" class="text-center"><i style="color:white" class="fas fa-caret-down"></i> zobrazit detaily personalizace <i style="color:white" class="fas fa-caret-down"></i></p>
+        <p th:if="${cvProfile != null}" style="font-size:0.9em; color:white; padding-top:3em; margin-block-end: 0.4em"
+           class="text-center">
+            <i style="color:lightgreen" class="fas fa-user-check"></i> Nabídka práce je nyní inteligentně
+            personalizovaná</p>
+        <p id="flip" th:if="${cvProfile != null}"
+           style="font-size:0.75em; color:white; text-decoration: underline; margin-block: 0.3em" class="text-center"><i
+                style="color:white" class="fas fa-caret-down"></i> zobrazit detaily personalizace <i style="color:white"
+                                                                                                     class="fas fa-caret-down"></i>
+        </p>
     </div>
 
     <div id="personalizationDetails" style="display: none">

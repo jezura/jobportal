@@ -6,5 +6,5 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface OfferLanguageRepository extends CrudRepository <OfferLanguage, Integer>
 {
-    OfferLanguage findOfferLanguageById(String id);
+    OfferLanguage findOfferLanguageById(int id);
 }

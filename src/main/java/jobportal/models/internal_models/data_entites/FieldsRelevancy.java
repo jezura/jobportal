@@ -1,7 +1,16 @@
-package jobportal.models.internal_models.cv_support;
+package jobportal.models.internal_models.data_entites;
+
+import jobportal.models.internal_models.data_entites.user.RegisteredUser;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.Calendar;
 
 @Entity
 @Table(name = "fields_relevancies")
@@ -71,6 +80,7 @@ public class FieldsRelevancy {
     @Column(name = "relevancy_field15")
     private float relevancyField15;
 
+
     public FieldsRelevancy() {
     }
 
@@ -91,6 +101,66 @@ public class FieldsRelevancy {
         this.relevancyField13 = relevancyField13;
         this.relevancyField14 = relevancyField14;
         this.relevancyField15 = relevancyField15;
+    }
+
+    public void setRelevancies(RegisteredUser registeredUser) throws IOException {
+        int gender = 0;
+        if(registeredUser.getGender().equals("zena")) {
+            gender = 1;
+        }
+
+        int estimatedAge = (Calendar.getInstance().get(Calendar.YEAR)) - (registeredUser.getBirthYear());
+        System.out.println("Calculated age is: " + estimatedAge);
+
+        // Constructing of the query URL to ask neural network to predict relevance scores
+        URL url = new URL("https://fieldpredictor.herokuapp.com/get-jobfields-relevance-scores?" +
+                "gender=" + gender + "&age=" + estimatedAge + "&edu_lvl="
+                + registeredUser.getEduLevel().getAnnCode() +
+                "&edu_field=" + registeredUser.getEduGeneralField().getAnnCode());
+
+        // Get the input stream through URL Connection
+        URLConnection connection = url.openConnection();
+        InputStream is = connection.getInputStream();
+        BufferedReader br = new BufferedReader(new InputStreamReader(is));
+
+        String line = br.readLine();
+        String[] strPredictions = line.split("<br>");
+
+        setRelevancyField1(Float.valueOf(strPredictions[0]));
+        setRelevancyField2(Float.valueOf(strPredictions[1]));
+        setRelevancyField3(Float.valueOf(strPredictions[2]));
+        setRelevancyField4(Float.valueOf(strPredictions[3]));
+        setRelevancyField5(Float.valueOf(strPredictions[4]));
+        setRelevancyField6(Float.valueOf(strPredictions[5]));
+        setRelevancyField7(Float.valueOf(strPredictions[6]));
+        setRelevancyField8(Float.valueOf(strPredictions[7]));
+        setRelevancyField9(Float.valueOf(strPredictions[8]));
+        setRelevancyField10(Float.valueOf(strPredictions[9]));
+        setRelevancyField11(Float.valueOf(strPredictions[10]));
+        setRelevancyField12(Float.valueOf(strPredictions[11]));
+        setRelevancyField13(Float.valueOf(strPredictions[12]));
+        setRelevancyField14(Float.valueOf(strPredictions[13]));
+        setRelevancyField15(Float.valueOf(strPredictions[14]));
+    }
+
+    public float[] getRelevanceScoresArray() {
+        float [] relevanceScores = new float[15];
+        relevanceScores[0] = getRelevancyField1();
+        relevanceScores[1] = getRelevancyField2();
+        relevanceScores[2] = getRelevancyField3();
+        relevanceScores[3] = getRelevancyField4();
+        relevanceScores[4] = getRelevancyField5();
+        relevanceScores[5] = getRelevancyField6();
+        relevanceScores[6] = getRelevancyField7();
+        relevanceScores[7] = getRelevancyField8();
+        relevanceScores[8] = getRelevancyField9();
+        relevanceScores[9] = getRelevancyField10();
+        relevanceScores[10] = getRelevancyField11();
+        relevanceScores[11] = getRelevancyField12();
+        relevanceScores[12] = getRelevancyField13();
+        relevanceScores[13] = getRelevancyField14();
+        relevanceScores[14] = getRelevancyField15();
+        return relevanceScores;
     }
 
     public int getId() {

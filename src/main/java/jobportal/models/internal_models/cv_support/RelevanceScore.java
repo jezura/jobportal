@@ -14,6 +14,8 @@ import java.util.Comparator;
 public class RelevanceScore {
     private float[] relevanceScores;
     private static String idPrefix = "OborCinnostiProVm/";
+    // optional
+    private int userId;
     private static String[] fieldNames = {
             "Administrativa",
             "Doprava",
@@ -39,6 +41,11 @@ public class RelevanceScore {
         this.relevanceScores = relevanceScores;
     }
 
+    public RelevanceScore(float[] relevanceScores, int userId) {
+        this.relevanceScores = relevanceScores;
+        this.userId = userId;
+    }
+
     public float[] getRelevanceScores() {
         return relevanceScores;
     }
@@ -60,6 +67,14 @@ public class RelevanceScore {
 
     public String getFieldName(int i) {
         return fieldNames[i];
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public int getUserId () {
+        return this.userId;
     }
 
     public boolean getPredictions(CVProfile cvProfile) throws IOException {

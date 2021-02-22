@@ -5,7 +5,12 @@
       xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <title>Administrace - Pracovní portál</title>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
     <script type="text/javascript" src="/js/adminAllOffers.js"></script>
+    <script type="text/javascript" src="/js/searchAutocomplete.js"></script>
 </head>
 <body>
 <div layout:fragment="content">
@@ -16,9 +21,30 @@
     </div>
     <h4 style="padding-bottom: 0.3em; padding-top:1em" class="text-center">Editace nahraných pracovních nabídek</h4>
     <p class="text-center" id="offersCount"></p>
+
     <div class="container">
-        <p style="width:95%" th:text="'Nalezeno celkem ' + ${totalOffers} + ' nabídek'"></p>
+        <form class="form-inline" style="padding: 25px" action="#" th:action="@{/admin/searchOffers}" method="post">
+            <label>Hledání a filtry:</label>
+            <input style="margin: 8px" type="number" name="idSearch" id="idSearch" class="form-control"
+                   placeholder="ID nabídky" th:attrappend="value=${searchedId}?${searchedId}">
+            <input style="margin: 8px" type="text" name="titleSearch" id="titleSearch" class="form-control"
+                   placeholder="Název nabídky" th:attrappend="value=${searchedTitle}?${searchedTitle}">
+            <select style="margin: 8px" class="form-control" id="fieldIdSearch" name="fieldIdSearch">
+                <option value="all">Všechny obory</option>
+                <option th:each="field : ${fields}" th:value="${field.id}" th:text="${field.name}" th:selected="${field.id==searchedFieldId}"></option>
+            </select>
+            <button type="submit" class="btn btn-info">Hledat</button>
+        </form>
     </div>
+
+    <div th:if="${totalPages != null}" class="container">
+        <p th:if="${(searchedTitle != null) || (searchedFieldId != null)}" style="width:95%; margin-block-end:0em">Výsledky vyhledávání pro filtry:
+            <span style="font-size: 0.9em" th:if="${searchedTitle != null}" th:text="'(název nabídky obsahuje řetězec '"></span><i style="color:blue; font-size: 0.9em" th:text="${searchedTitle}"></i><span th:if="${searchedTitle != null}" style="font-size: 0.9em">)</span>
+            <span style="font-size: 0.9em" th:if="${searchedFieldId != null}" th:text="'(pouze nabídky v oboru '"></span><i style="color:blue; font-size: 0.9em" th:text="${searchedFieldName}"></i><span th:if="${searchedFieldId != null}" style="font-size: 0.9em">)</span>
+        </p>
+        <p style="width:95%" th:text="'Nalezeno celkem ' + ${totalOffers} + ' výsledků'"></p>
+    </div>
+
     <div class="container" th:each="offer : ${offers}">
         <p style="font-size: 0.6em; color:red; margin:0">Id: <span th:text="${offer.id}"></span>
             <button id="buttonEdit" type="button" data-toggle="modal" th:attr="data-target='#modalEdit'+*{offer.id}" class="btn btn-primary" style="margin-left: 1em;font-size: 1em;padding: 0.05em 0.6em 0.02em 0.6em"><i style="color:white" class="far fa-edit"></i> Editovat </button>
@@ -112,14 +138,29 @@
             </div>
         </div>
     </div>
-    <nav aria-label="pagenav" style="padding-top:1.5em">
-        <ul class="pagination justify-content-center">
-            <li class="page-item" th:if="${currentPage > 1}"><a style="color:white; background-color:seagreen" class="page-link" th:href="'/admin/allOffers/page/' + ${currentPage-1}"> <i style="color:white" class="fas fa-arrow-left"></i> </a></li>
-            <li class="page-item"><button type="button" class="btn btn-light" disabled th:text="'Stránka ' + ${currentPage} + ' z ' + ${totalPages}"></button></li>
-            <li class="page-item" th:if="${currentPage < totalPages}"><a style="color:white; background-color:seagreen" class="page-link" th:href="'/admin/allOffers/page/' + ${currentPage+1}"> <i style="color:white" class="fas fa-arrow-right"></i> </a></li>
-        </ul>
-    </nav>
-    <p style="font-size:0.8em" class="text-center" th:text="'Zobrazuji nabídky ' + ${firstOfferNum} + ' - ' + ${lastOfferNum} + ' z celkem ' + ${totalOffers}"></p>
+
+    <div th:if="${(totalPages != null) && (totalOffers > 0)}">
+        <nav aria-label="pagenav" style="padding-top:1.5em">
+            <ul class="pagination justify-content-center">
+                <li class="page-item" th:if="${currentPage > 1}"><a style="color:white; background-color:seagreen"
+                                                                    class="page-link"
+                                                                    th:href="'/admin/allOffers/page/' + ${currentPage-1}">
+                    <i style="color:white" class="fas fa-arrow-left"></i> </a></li>
+                <li class="page-item">
+                    <button type="button" class="btn btn-light" disabled
+                            th:text="'Stránka ' + ${currentPage} + ' z ' + ${totalPages}"></button>
+                </li>
+                <li class="page-item" th:if="${currentPage < totalPages}"><a
+                        style="color:white; background-color:seagreen"
+                        class="page-link"
+                        th:href="'/admin/allOffers/page/' + ${currentPage+1}">
+                    <i style="color:white" class="fas fa-arrow-right"></i> </a></li>
+            </ul>
+        </nav>
+        <p style="font-size:0.8em" class="text-center"
+           th:text="'Zobrazuji nabídky ' + ${firstOfferNum} + ' - ' + ${lastOfferNum} + ' z celkem ' + ${totalOffers}"></p>
+    </div>
+
 </div>
 </body>
-</html>
+</html>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
