@@ -4,7 +4,6 @@ import jobportal.dao.RegisteredUserRepository;
 import jobportal.dao.AdministratorRepository;
 import jobportal.models.internal_models.data_entites.user.Administrator;
 import jobportal.models.internal_models.data_entites.user.RegisteredUser;
-import jobportal.models.offer_data_models.Offer;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.data.domain.Page;

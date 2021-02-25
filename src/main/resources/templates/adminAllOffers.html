@@ -47,6 +47,7 @@
 
     <div class="container" th:each="offer : ${offers}">
         <p style="font-size: 0.6em; color:red; margin:0">Id: <span th:text="${offer.id}"></span>
+            <a th:href="'/offerDetail/' + ${offer.id}"><button id="buttonDetail" type="button" class="btn btn-success" style="margin-left: 1em;font-size: 1em;padding: 0.05em 0.6em 0.02em 0.6em;"><i style="color:white" class="far fa-eye"></i> Detail</button></a>
             <button id="buttonEdit" type="button" data-toggle="modal" th:attr="data-target='#modalEdit'+*{offer.id}" class="btn btn-primary" style="margin-left: 1em;font-size: 1em;padding: 0.05em 0.6em 0.02em 0.6em"><i style="color:white" class="far fa-edit"></i> Editovat </button>
             <button id="buttonDelete" type="button" data-toggle="modal" th:attr="data-target='#modalDelete'+*{offer.id}" class="btn btn-danger" style="margin-left: 1em;font-size: 1em;padding: 0.05em 0.6em 0.02em 0.6em;"><i style="color:white" class="far fa-trash-alt"></i> Smazat</button>
         </p>
@@ -140,7 +141,7 @@
     </div>
 
     <div th:if="${(totalPages != null) && (totalOffers > 0)}">
-        <nav aria-label="pagenav" style="padding-top:1.5em">
+        <nav th:if="${searching == null}" aria-label="pagenav" style="padding-top:1.5em">
             <ul class="pagination justify-content-center">
                 <li class="page-item" th:if="${currentPage > 1}"><a style="color:white; background-color:seagreen"
                                                                     class="page-link"
@@ -155,6 +156,34 @@
                         class="page-link"
                         th:href="'/admin/allOffers/page/' + ${currentPage+1}">
                     <i style="color:white" class="fas fa-arrow-right"></i> </a></li>
+            </ul>
+        </nav>
+        <nav th:if="${searching == true}" aria-label="pagenav" style="padding-top:1.5em">
+            <ul class="pagination justify-content-center">
+                <form action="#" th:action="@{/admin/searchOffers}" method="post">
+                    <input style="display:none" type="number" name="idSearch" th:attrappend="value=${searchedId}?${searchedId}">
+                    <input style="display:none" type="text" name="titleSearch" th:attrappend="value=${searchedTitle}?${searchedTitle}">
+                    <input style="display:none" type="text" name="fieldIdSearch" th:attrappend="value=${searchedFieldId}?${searchedFieldId}">
+                    <input style="display:none" type="text" name="page" th:value="${currentPage-1}">
+                    <button type="submit" style="padding:0px;" class="page-item btn" th:if="${currentPage > 1}"><a
+                            style="color:white; background-color:seagreen;"
+                            class="page-link">
+                        <i style="color:white" class="fas fa-arrow-left"></i> </a></button>
+                </form>
+                <li class="page-item">
+                    <button type="button" class="btn btn-light" disabled
+                            th:text="'Stránka ' + ${currentPage} + ' z ' + ${totalPages}"></button>
+                </li>
+                <form action="#" th:action="@{/admin/searchOffers}" method="post">
+                    <input style="display:none" type="number" name="idSearch" th:attrappend="value=${searchedId}?${searchedId}">
+                    <input style="display:none" type="text" name="titleSearch" th:attrappend="value=${searchedTitle}?${searchedTitle}">
+                    <input style="display:none" type="text" name="fieldIdSearch" th:attrappend="value=${searchedFieldId}?${searchedFieldId}">
+                    <input style="display:none" type="text" name="page" th:value="${currentPage+1}">
+                    <button type="submit" style="padding:0px;" class="page-item btn" th:if="${currentPage < totalPages}"><a
+                            style="color:white; background-color:seagreen;"
+                            class="page-link">
+                        <i style="color:white" class="fas fa-arrow-right"></i> </a></button>
+                </form>
             </ul>
         </nav>
         <p style="font-size:0.8em" class="text-center"

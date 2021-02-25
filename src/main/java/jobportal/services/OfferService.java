@@ -24,9 +24,9 @@ public class OfferService {
         return offers;
     }
 
-    public Page<Offer> listAllOffers(int pageNumber, int size) {
+    public Page<Offer> findAllOffersPageable(int pageNumber, int size) {
         Pageable pageable = PageRequest.of(pageNumber - 1, size);
-        return offerRepository.findAll(pageable);
+        return offerRepository.findAllByOrderByInsertionDateDesc(pageable);
     }
 
     public Collection<Offer> getOffersAccToPredictions(int pageNumber, RelevanceScore relevanceScore) {
@@ -70,7 +70,7 @@ public class OfferService {
 
     public Page<Offer> findByTitleContainingIgnoreCase(String title, int pageNumber, int size) {
         Pageable pageable = PageRequest.of(pageNumber - 1, size);
-        return offerRepository.findByTitleContainingIgnoreCase(title, pageable);
+        return offerRepository.findByTitleContainingIgnoreCaseOrderByInsertionDateDesc(title, pageable);
     }
 
     public Page<Offer> findByFieldIdPageable(String fieldId, int pageNumber, int size) {

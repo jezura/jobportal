@@ -14,7 +14,7 @@ public class FieldsRelevancyService {
     @Autowired
     private FieldsRelevancyRepository fieldsRelevancyRepository;
 
-    public Collection<FieldsRelevancy> findAllFieldsRelevacies(){
+    public Collection<FieldsRelevancy> findAllFieldsRelevancies(){
         List<FieldsRelevancy> fieldsRelevancies = new ArrayList<FieldsRelevancy>();
         for (FieldsRelevancy fr:fieldsRelevancyRepository.findAll())
         {

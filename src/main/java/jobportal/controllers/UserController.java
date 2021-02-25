@@ -6,14 +6,12 @@ import jobportal.models.internal_models.codebooks.EduLevel;
 import jobportal.models.internal_models.cv_support.RelevanceScore;
 import jobportal.models.internal_models.data_entites.FieldsRelevancy;
 import jobportal.models.internal_models.data_entites.user.RegisteredUser;
-import jobportal.models.offer_data_models.Offer;
 import jobportal.models.offer_data_models.codebooks.Region;
 import jobportal.services.FieldsRelevancyService;
 import jobportal.services.PersonService;
 import jobportal.services.RegionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,9 +20,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 @Controller
 public class UserController {
@@ -50,7 +46,7 @@ public class UserController {
 
     @GetMapping(value = "/admin/allUsers/page/{pageNumber}")
     public String showAdminAllUsersPageable(Model model, @PathVariable("pageNumber") int currentPage) {
-        Page<RegisteredUser> registeredUserPage = personService.findAllRegisteredUsersPageable(1, pageSize);
+        Page<RegisteredUser> registeredUserPage = personService.findAllRegisteredUsersPageable(currentPage, pageSize);
         long totalUsers = registeredUserPage.getTotalElements();
         int totalPages = registeredUserPage.getTotalPages();
         int lastUserNum = currentPage * pageSize;
@@ -81,40 +77,23 @@ public class UserController {
         return "adminAllUsers";
     }
 
-   /* @GetMapping(value = "/admin/allUsers/userById")
-    public String showUserById(Model model, int userId) {
-        RegisteredUser registeredUser = personService.findRegisteredUserById(userId);
-        List<RegisteredUser> registeredUsers = new ArrayList<>();
-        long usersCount = personService.getRegisteredUsersCount();
-        Collection<Region> regions = regionService.findAllRegions();
-
-        List<RelevanceScore> relevanceScores = new ArrayList<>();
-        relevanceScores.add(new RelevanceScore(fieldsRelevancyService.findFieldsRelevancyById(registeredUser.getFieldsRelevancy().getId()).getRelevanceScoresArray(),registeredUser.getId()));
-
-        model.addAttribute("registeredUsers", registeredUsers);
-        model.addAttribute("totalUsers", totalUsers);
-        model.addAttribute("totalPages", totalPages);
-        model.addAttribute("currentPage", currentPage);
-        model.addAttribute("firstUserNum", firstUserNum);
-        model.addAttribute("lastUserNum", lastUserNum);
-        model.addAttribute("usersCount", usersCount);
-        model.addAttribute("regions", regions);
-        model.addAttribute("relevanceScores", relevanceScores);
-        model.addAttribute("message_notification", message_notification);
-        message_notification = "";
-        return "adminAllUsers";
-    }*/
-
     @PostMapping(value = "/admin/searchUsers")
     public String showFilteredUsers(Model model, @RequestParam(name = "emailSearch", required = false) String emailSearch,
                                     @RequestParam(name = "idSearch", required = false) String idSearch,
-                                    @RequestParam(name = "fullNameSearch", required = false) String fullNameSearch){
+                                    @RequestParam(name = "fullNameSearch", required = false) String fullNameSearch,
+                                    @RequestParam(name = "page", required = false) String page){
+        int currentPage;
+        if(page != null) {
+            currentPage = Integer.valueOf(page);
+        }else{
+            currentPage=1;
+        }
        if((emailSearch.isBlank()) && (idSearch.isBlank()) && (fullNameSearch.isBlank())) {
             return showAdminAllUsersPageable(model, 1);
        }else if(idSearch.isBlank()){
-           return showAdminFilteredUsersPageable(model, 1, 0, emailSearch, fullNameSearch);
+           return showAdminFilteredUsersPageable(model, currentPage, 0, emailSearch, fullNameSearch);
        }
-        return showAdminFilteredUsersPageable(model, 1, Integer.valueOf(idSearch), emailSearch, fullNameSearch);
+        return showAdminFilteredUsersPageable(model, currentPage, Integer.valueOf(idSearch), emailSearch, fullNameSearch);
     }
 
     @RequestMapping(value = "/emailsAutocomplete")
@@ -183,6 +162,7 @@ public class UserController {
         model.addAttribute("registeredUsers", registeredUsers);
         model.addAttribute("currentPage", currentPage);
         model.addAttribute("usersCount", usersCount);
+        model.addAttribute("searching", true);
         model.addAttribute("message_notification", message_notification);
         message_notification = "";
         return "adminAllUsers";
@@ -239,6 +219,13 @@ public class UserController {
         personService.deleteRegisteredUser(id);
         message_notification = "Vybraný uživatelský účet byl úspěšně odstraněn";
         return "redirect:/admin/allUsers";
+    }
+
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public String login(Model model, String error) {
+        if (error != null)
+            model.addAttribute("error", "Zadaný přihlašovací email nebo heslo nejsou správné");
+        return "login";
     }
 
     private void populateWithData(Model model){

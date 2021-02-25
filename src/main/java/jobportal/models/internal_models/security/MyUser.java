@@ -10,7 +10,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-public class MyUser extends Person implements UserDetails {
+public class MyUser implements UserDetails {
 
     private String userName;
     private String password;
@@ -49,10 +49,6 @@ public class MyUser extends Person implements UserDetails {
 
     public String getRole() {
         return role;
-    }
-
-    public int getUserId() {
-        return id;
     }
 
     @Override

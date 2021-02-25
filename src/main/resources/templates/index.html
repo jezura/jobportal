@@ -2,7 +2,8 @@
 
 <html layout:decorate="~{main_layout}"
       xmlns:th="https://www.thymeleaf.org"
-      xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout">
+      xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <title>Pracovní portál</title>
     <link rel="stylesheet" type="text/css" href="/css/loading.css"/>
@@ -34,22 +35,25 @@
                 <button type="submit" id="searchByFilters" class="btn btn-primary">Hledat nabídky</button>
             </form>
             <p style="color:white" class="text-center">nebo</p>
-            <button type="button" id="buttonPersonalizeByCv" data-toggle="modal" data-target="#modalPersonalizeByCv"
+            <button sec:authorize="!(hasRole('REGISTERED_USER'))" type="button" id="buttonPersonalizeByCv" data-toggle="modal" data-target="#modalPersonalizeByCv"
                     class="btn btn-success">Získat nabídku na míru na základě CV
             </button>
+            <a sec:authorize="hasRole('REGISTERED_USER')" th:href="'/personalizedOffers/user/' + ${user.id}"><button type="button" id="buttonPersonalizeByRegistrationData"
+                    class="btn btn-success">Zobrazit inteligentně doporučené nabídky
+            </button></a>
         </div>
-        <p th:if="${cvProfile != null}" style="font-size:0.9em; color:white; padding-top:3em; margin-block-end: 0.4em"
+        <p th:if="${relevanceScore != null}" style="font-size:0.9em; color:white; padding-top:3em; margin-block-end: 0.4em"
            class="text-center">
             <i style="color:lightgreen" class="fas fa-user-check"></i> Nabídka práce je nyní inteligentně
             personalizovaná</p>
-        <p id="flip" th:if="${cvProfile != null}"
+        <p id="flip" th:if="${relevanceScore != null}"
            style="font-size:0.75em; color:white; text-decoration: underline; margin-block: 0.3em" class="text-center"><i
                 style="color:white" class="fas fa-caret-down"></i> zobrazit detaily personalizace <i style="color:white"
                                                                                                      class="fas fa-caret-down"></i>
         </p>
     </div>
 
-    <div id="personalizationDetails" style="display: none">
+    <div th:if="${relevanceScore != null}" id="personalizationDetails" style="display: none">
         <div class="container" th:if="${cvProfile != null}">
             <span style="color:green"><b>Extrahované informace o uchazeči: </b></span>
             <span th:text="${cvProfile.firstName} + ' ' + ${cvProfile.lastName}
@@ -61,6 +65,15 @@
             ', obor nejvyššího stupně vzdělání: ' + ${cvProfile.maxEducation.eduGeneralField.prettyName}"></span>
             </p>
         </div>
+
+        <div class="container" th:if="${cvProfile == null}">
+            <span style="color:green"><b>Informace využité pro personalizaci: </b></span>
+            <span th:text="'Rok narození: ' + ${user.birthYear} + ', pohlaví: ' + ${user.gender}
+            + ', nejvyšší dosažený stupeň vzdělání: ' + ${user.eduLevel.prettyName} +
+            ', obor nejvyššího stupně vzdělání: ' + ${user.eduGeneralField.prettyName}"></span>
+            </p>
+        </div>
+
         <div class="container" style="margin-bottom:3em" th:if="${relevanceScore != null}">
             <span style="color:green"><b>Predikovaná skóre relevancí pro jednotlivé obory: </b></span>
             <table class="table table-sm text-center" style="font-size:0.7em">

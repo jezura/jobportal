@@ -17,15 +17,17 @@ public interface OfferRepository extends PagingAndSortingRepository<Offer, Long>
 {
     Offer findOfferById(Long id);
 
-    Page<Offer> findByTitleContainingIgnoreCase(String title, Pageable pageable);
+    Page<Offer> findAllByOrderByInsertionDateDesc(Pageable pageable);
+
+    Page<Offer> findByTitleContainingIgnoreCaseOrderByInsertionDateDesc(String title, Pageable pageable);
 
     @Query(
-            value = "SELECT * FROM offers o WHERE o.profession_id IN (SELECT pf.profession_id FROM profession_field pf WHERE pf.field_id=?2) AND o.title LIKE %?1%",
+            value = "SELECT * FROM offers o WHERE o.profession_id IN (SELECT pf.profession_id FROM profession_field pf WHERE pf.field_id=?2) AND o.title LIKE %?1% ORDER BY insertion_date DESC",
             nativeQuery = true)
     Page<Offer> findByTitleLikeAndFieldIdPageable(String title, String fieldId, Pageable pageable);
 
     @Query(
-            value = "SELECT * FROM offers o WHERE o.profession_id IN (SELECT pf.profession_id FROM profession_field pf WHERE pf.field_id=?1)",
+            value = "SELECT * FROM offers o WHERE o.profession_id IN (SELECT pf.profession_id FROM profession_field pf WHERE pf.field_id=?1) ORDER BY insertion_date DESC",
             nativeQuery = true)
     Page<Offer> findByFieldIdPageable(String fieldId, Pageable pageable);
 
@@ -50,7 +52,7 @@ public interface OfferRepository extends PagingAndSortingRepository<Offer, Long>
     @Modifying
     int deleteByInsertionDateBeforeAndEditDateBefore(LocalDate insertionDate, LocalDate editDate);
 
-    @Query(value = "(SELECT * FROM offers o WHERE o.profession_id IN (SELECT pf.profession_id FROM profession_field pf WHERE pf.field_id=:idField1) LIMIT :limitField1 OFFSET :offsetField1) UNION (SELECT * FROM offers o WHERE o.profession_id IN (SELECT pf.profession_id FROM profession_field pf WHERE pf.field_id=:idField2) LIMIT :limitField2 OFFSET :offsetField2) UNION (SELECT * FROM offers o WHERE o.profession_id IN (SELECT pf.profession_id FROM profession_field pf WHERE pf.field_id=:idField3) LIMIT :limitField3 OFFSET :offsetField3) UNION (SELECT * FROM offers o WHERE o.profession_id IN (SELECT pf.profession_id FROM profession_field pf WHERE pf.field_id=:idField4) LIMIT :limitField4 OFFSET :offsetField4) UNION (SELECT * FROM offers o WHERE o.profession_id IN (SELECT pf.profession_id FROM profession_field pf WHERE pf.field_id=:idField5) LIMIT :limitField5 OFFSET :offsetField5)", nativeQuery = true)
+    @Query(value = "(SELECT * FROM offers o WHERE o.profession_id IN (SELECT pf.profession_id FROM profession_field pf WHERE pf.field_id=:idField1) ORDER BY insertion_date DESC LIMIT :limitField1 OFFSET :offsetField1) UNION (SELECT * FROM offers o WHERE o.profession_id IN (SELECT pf.profession_id FROM profession_field pf WHERE pf.field_id=:idField2) ORDER BY insertion_date DESC LIMIT :limitField2 OFFSET :offsetField2) UNION (SELECT * FROM offers o WHERE o.profession_id IN (SELECT pf.profession_id FROM profession_field pf WHERE pf.field_id=:idField3) ORDER BY insertion_date DESC LIMIT :limitField3 OFFSET :offsetField3) UNION (SELECT * FROM offers o WHERE o.profession_id IN (SELECT pf.profession_id FROM profession_field pf WHERE pf.field_id=:idField4) ORDER BY insertion_date DESC LIMIT :limitField4 OFFSET :offsetField4) UNION (SELECT * FROM offers o WHERE o.profession_id IN (SELECT pf.profession_id FROM profession_field pf WHERE pf.field_id=:idField5) ORDER BY insertion_date DESC LIMIT :limitField5 OFFSET :offsetField5)", nativeQuery = true)
     Collection<Offer> getOffersAccToPredictedRelevances(
             @Param("limitField1") int limitField1,
             @Param("limitField2") int limitField2,

@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @EnableWebSecurity
 @EnableJpaRepositories(basePackageClasses = RegisteredUserRepository.class)
@@ -32,9 +33,13 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
                 .antMatchers("/registeredUser/**").hasAnyRole("REGISTERED_USER","ADMINISTRATOR")
                 .antMatchers("/admin/**").hasRole("ADMINISTRATOR")
                 .and()
-                .formLogin().permitAll()
+                .formLogin()
+                .loginPage("/login")
                 .and()
-                .logout();
+                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .logoutSuccessUrl("/")
+                .deleteCookies("JSESSIONID")
+                .invalidateHttpSession(true);
 
         http.sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.ALWAYS);

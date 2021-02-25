@@ -106,7 +106,7 @@ public class ParsingRestController {
 
     // method parse all codebook data and store to the app database, if success returns true
     @GetMapping(value = "/admin/parseAllCodeBookData")
-    public boolean parseAllCodeBookData(Model model) throws IOException, ParseException {
+    public boolean parseAllCodeBookData() throws IOException, ParseException {
         File file = new ClassPathResource("kraje.json").getFile();
         Object obj = new JSONParser().parse(new FileReader(file));
         JSONObject jsonObject = (JSONObject) obj;
@@ -385,7 +385,7 @@ public class ParsingRestController {
     }
 
     @GetMapping(value = "/admin/parseRegions")
-    public String parseRegions(Model model) throws IOException, ParseException {
+    public String parseRegions() throws IOException, ParseException {
         File file = new ClassPathResource("kraje.json").getFile();
         Object obj = new JSONParser().parse(new FileReader(file));
         JSONObject jsonObject = (JSONObject) obj;
@@ -407,7 +407,7 @@ public class ParsingRestController {
     }
 
     @GetMapping(value = "/admin/parseDistricts")
-    public String parseDistricts(Model model) throws IOException, ParseException {
+    public String parseDistricts() throws IOException, ParseException {
         File file = new ClassPathResource("okresy.json").getFile();
         Object obj = new JSONParser().parse(new FileReader(file));
         JSONObject jsonObject = (JSONObject) obj;
@@ -430,7 +430,7 @@ public class ParsingRestController {
     }
 
     @GetMapping(value = "/admin/parseVillages")
-    public String parseVillages(Model model) throws IOException, ParseException {
+    public String parseVillages() throws IOException, ParseException {
         File file = new ClassPathResource("obce.json").getFile();
         Object obj = new JSONParser().parse(new FileReader(file));
         JSONObject jsonObject = (JSONObject) obj;
@@ -452,7 +452,7 @@ public class ParsingRestController {
     }
 
     @GetMapping(value = "/admin/parseSkills")
-    public String parseSkills(Model model) throws IOException, ParseException {
+    public String parseSkills() throws IOException, ParseException {
         File file = new ClassPathResource("dovednosti.json").getFile();
         Object obj = new JSONParser().parse(new FileReader(file));
         JSONObject jsonObject = (JSONObject) obj;
@@ -473,7 +473,7 @@ public class ParsingRestController {
     }
 
     @GetMapping(value = "/admin/parseLanguages")
-    public String parseLanguages(Model model) throws IOException, ParseException {
+    public String parseLanguages() throws IOException, ParseException {
         File file = new ClassPathResource("jazyky.json").getFile();
         Object obj = new JSONParser().parse(new FileReader(file));
         JSONObject jsonObject = (JSONObject) obj;
@@ -494,7 +494,7 @@ public class ParsingRestController {
     }
 
     @GetMapping(value = "/admin/parseFields")
-    public String parseFields(Model model) throws IOException, ParseException {
+    public String parseFields() throws IOException, ParseException {
         File file = new ClassPathResource("obory-cinnosti-vm.json").getFile();
         Object obj = new JSONParser().parse(new FileReader(file));
         JSONObject jsonObject = (JSONObject) obj;
@@ -515,7 +515,7 @@ public class ParsingRestController {
     }
 
     @GetMapping(value = "/admin/parseProfessions")
-    public String parseProfessions(Model model) throws IOException, ParseException {
+    public String parseProfessions() throws IOException, ParseException {
         File file = new ClassPathResource("profese-czisco.json").getFile();
         Object obj = new JSONParser().parse(new FileReader(file));
         JSONObject jsonObject = (JSONObject) obj;
@@ -547,7 +547,7 @@ public class ParsingRestController {
     }
 
     @GetMapping(value = "/admin/parseWorkships")
-    public String parseWorkships(Model model) throws IOException, ParseException {
+    public String parseWorkships() throws IOException, ParseException {
         File file = new ClassPathResource("pracovnepravni-vztahy.json").getFile();
         Object obj = new JSONParser().parse(new FileReader(file));
         JSONObject jsonObject = (JSONObject) obj;
@@ -568,7 +568,7 @@ public class ParsingRestController {
     }
 
     @GetMapping(value = "/admin/parseWorkshifts")
-    public String parseWorkshifts(Model model) throws IOException, ParseException {
+    public String parseWorkshifts() throws IOException, ParseException {
         File file = new ClassPathResource("smennosti.json").getFile();
         Object obj = new JSONParser().parse(new FileReader(file));
         JSONObject jsonObject = (JSONObject) obj;
@@ -589,7 +589,7 @@ public class ParsingRestController {
     }
 
     @GetMapping(value = "/admin/parseEducations")
-    public String parseEducations(Model model) throws IOException, ParseException {
+    public String parseEducations() throws IOException, ParseException {
         File file = new ClassPathResource("vzdelani.json").getFile();
         Object obj = new JSONParser().parse(new FileReader(file));
         JSONObject jsonObject = (JSONObject) obj;

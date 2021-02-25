@@ -15,8 +15,6 @@
  */
 package jobportal.models.internal_models.data_entites.user;
 
-import jobportal.models.base.BaseEntity;
-
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -37,7 +35,7 @@ public class Person {
     private String lastName;
 
     @Column(name = "email")
-    @Pattern(regexp="^[a-zA-Z0-9]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,7}",message="Neplatný email/login. Zadejte prosím email ve validním formátu")
+    @Pattern(regexp="^[a-zA-Z0-9.\\-_]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,7}",message="Neplatný email/login. Zadejte prosím email ve validním formátu")
     private String email;
 
     @Size(min = 5, message = "Heslo musí obsahovat alespoň 5 znaků")

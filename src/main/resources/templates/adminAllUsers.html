@@ -45,7 +45,7 @@
             <span style="font-size: 0.9em" th:if="${searchedFullName != null}"
                   th:text="'(jméno a příjmení obsahuje řetězec '"></span><i style="color:blue; font-size: 0.9em"
                                                                             th:text="${searchedFullName}"></i><span
-                th:if="${searchedEmail != null}" style="font-size: 0.9em">)</span>
+                th:if="${searchedFullName != null}" style="font-size: 0.9em">)</span>
         </p>
         <p style="width:95%" th:text="'Nalezeno celkem ' + ${totalUsers} + ' výsledků'"></p>
     </div>
@@ -58,7 +58,6 @@
                 <th>Email/Login</th>
                 <th>Pohlaví</th>
                 <th>Detail</th>
-                <th>Reset hesla</th>
                 <th>Smazat</th>
             </tr>
             </thead>
@@ -73,13 +72,6 @@
                             th:attr="data-target='#modalDetails'+*{registeredUser.id}" class="btn btn-info"
                             style="font-size: 1em;padding: 0.05em 0.6em 0.02em 0.6em;"><i style="color:white"
                                                                                           class="fas fa-info-circle"></i>
-                    </button>
-                </td>
-                <td class="text-center">
-                    <button id="buttonReset" type="button" data-toggle="modal"
-                            th:attr="data-target='#modalReset'+*{registeredUser.id}" class="btn btn-warning"
-                            style="font-size: 1em;padding: 0.05em 0.6em 0.02em 0.6em;"><i style="color:white"
-                                                                                          class="fas fa-key"></i>
                     </button>
                 </td>
                 <td class="text-center">
@@ -185,15 +177,13 @@
             </div>
         </div>
 
-    </div>
     <div th:if="${(totalPages != null) && (totalUsers > 0)}">
-        <nav aria-label="pagenav" style="padding-top:1.5em">
+        <nav th:if="${searching == null}" aria-label="pagenav" style="padding-top:1.5em">
             <ul class="pagination justify-content-center">
                 <li class="page-item" th:if="${currentPage > 1}"><a style="color:white; background-color:seagreen"
                                                                     class="page-link"
                                                                     th:href="'/admin/allUsers/page/' + ${currentPage-1}">
-                    <i
-                            style="color:white" class="fas fa-arrow-left"></i> </a></li>
+                    <i style="color:white" class="fas fa-arrow-left"></i> </a></li>
                 <li class="page-item">
                     <button type="button" class="btn btn-light" disabled
                             th:text="'Stránka ' + ${currentPage} + ' z ' + ${totalPages}"></button>
@@ -205,9 +195,38 @@
                     <i style="color:white" class="fas fa-arrow-right"></i> </a></li>
             </ul>
         </nav>
+        <nav th:if="${searching == true}" aria-label="pagenav" style="padding-top:1.5em">
+            <ul class="pagination justify-content-center">
+                <form action="#" th:action="@{/admin/searchUsers}" method="post">
+                    <input style="display:none" type="number" name="idSearch" th:attrappend="value=${searchedId}?${searchedId}">
+                    <input style="display:none" type="text" name="emailSearch" th:attrappend="value=${searchedEmail}?${searchedEmail}">
+                    <input style="display:none" type="text" name="fullNameSearch" th:attrappend="value=${searchedFullName}?${searchedFullName}">
+                    <input style="display:none" type="text" name="page" th:value="${currentPage-1}">
+                    <button type="submit" style="padding:0px;" class="page-item btn" th:if="${currentPage > 1}"><a
+                            style="color:white; background-color:seagreen;"
+                            class="page-link">
+                        <i style="color:white" class="fas fa-arrow-left"></i> </a></button>
+                </form>
+                <li class="page-item">
+                    <button type="button" class="btn btn-light" disabled
+                            th:text="'Stránka ' + ${currentPage} + ' z ' + ${totalPages}"></button>
+                </li>
+                <form action="#" th:action="@{/admin/searchUsers}" method="post">
+                    <input style="display:none" type="number" name="idSearch" th:attrappend="value=${searchedId}?${searchedId}">
+                    <input style="display:none" type="text" name="emailSearch" th:attrappend="value=${searchedEmail}?${searchedEmail}">
+                    <input style="display:none" type="text" name="fullNameSearch" th:attrappend="value=${searchedFullName}?${searchedFullName}">
+                    <input style="display:none" type="text" name="page" th:value="${currentPage+1}">
+                    <button type="submit" style="padding:0px;" class="page-item btn" th:if="${currentPage < totalPages}"><a
+                            style="color:white; background-color:seagreen;"
+                            class="page-link">
+                        <i style="color:white" class="fas fa-arrow-right"></i> </a></button>
+                </form>
+            </ul>
+        </nav>
         <p style="font-size:0.8em" class="text-center"
-           th:text="'Zobrazuji uživatele ' + ${firstUserNum} + ' - ' + ${lastUserNum} + ' z celkem ' + ${totalUsers}"></p>
+           th:text="'Zobrazuji nabídky ' + ${firstUserNum} + ' - ' + ${lastUserNum} + ' z celkem ' + ${totalUsers}"></p>
     </div>
+
 </div>
 </body>
 </html>
