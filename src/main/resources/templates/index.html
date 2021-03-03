@@ -7,8 +7,15 @@
 <head>
     <title>Pracovní portál</title>
     <link rel="stylesheet" type="text/css" href="/css/loading.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/index-search-purescript.css" />
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script type="text/javascript" src="/js/searchAutocomplete.js"></script>
+    <script language="JavaScript" src="http://www.geoplugin.net/javascript.gp" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/regionLocationProvider.js"></script>
     <script type="text/javascript" src="/js/index.js"></script>
-    <script type="text/javascript" src="/js/predictionLoaderAnimation.js"></script>
 </head>
 
 <body>
@@ -17,19 +24,44 @@
         <h4 class="text-center" style="margin-bottom:1.5em;padding-top: 0.6em;">Hledáte práci?
             <span style="color: yellowgreen;">Tady jste správně..</span></h4>
         <div class="container text-center">
-            <form name="filters">
+            <form name="filters" action="#" th:action="@{/searchOffers}" method="post">
                 <div class="form-row">
-                    <div class="form-group col-md-4">
-                        <label for="region">Vyberte kraj</label>
-                        <input type="text" class="form-control" id="region" placeholder="Kraj">
+                    <div style="margin-bottom:1em" class="form-group col-md-4">
+                        <label for="region">Vyberte kraj nebo okres</label>
+                        <div class="directorist-select" id="selectIcon" data-isSearch="true">
+                        <select class="form-control" id="region" name="locationSearch">
+                            <option value="0">Všechny kraje</option>
+                            <option icon="fas fa-map-marked-alt" th:each="region : ${regions}" th:value="${region.id}" th:text="${region.name}"></option>
+                            <script type="text/javascript" src="/js/regionLocationProvider.js"></script>
+                            <option icon="fas fa-map-marker-alt" th:each="district : ${districts}" th:value="${district.id}" th:text="${district.name} + ' (okres)'"></option>
+                        </select>
+                        </div>
                     </div>
-                    <div class="form-group col-md-4">
-                        <label for="district">Vyberte okres</label>
-                        <input type="text" class="form-control" id="district" placeholder="Okres">
+
+                    <!--<div style="margin-bottom:7.5em" class="form-group col-md-4">
+                        <label>Vyberte pracovní obory</label>
+                    <div class="directorist-select directorist-select-multi" id="multiSelect" data-isSearch="true" data-multiSelect='[]' data-max="3">
+                            <select name="fieldsSearch">
+                                <option icon="fas fa-check" value="">Nerozhoduje</option>
+                                <option icon="fas fa-tag" th:each="field : ${fields}" th:value="${field.name.toLowerCase()}" th:text="${field.name}"></option>
+                            </select>
+                        </div>
+                    </div>-->
+
+                    <div style="margin-bottom:1em" class="form-group col-md-4">
+                        <label for="fieldSearch">Vyberte pracovní obor</label>
+                        <div class="directorist-select" id="selectSecond" data-isSearch="true">
+                            <select class="form-control" id="fieldSearch" name="fieldSearch">
+                                <option value="0">Všechny obory</option>
+                                <option icon="fas fa-briefcase" th:each="field : ${fields}" th:value="${field.id}" th:text="${field.name}" th:selected="${field.id=='OborCinnostiProVm/4'}"></option>
+                            </select>
+                        </div>
                     </div>
-                    <div class="form-group col-md-4">
-                        <label for="field">V jakém oboru?</label>
-                        <input type="text" class="form-control" id="field" placeholder="Pracovní obor">
+                    <script type="text/javascript" src="/js/index-search-purescript.js"></script>
+
+                    <div style="margin-bottom:1em" class="form-group col-md-4">
+                        <label for="titleAndEmployerSearch">Hledání v názvu nabídky nebo zaměstnavatele</label>
+                        <input type="text" class="form-control" name="titleAndEmployerSearch" id="titleAndEmployerSearch" placeholder="Zadejte vyhledávaný řetězec">
                     </div>
                 </div>
                 <button type="submit" id="searchByFilters" class="btn btn-primary">Hledat nabídky</button>
@@ -140,7 +172,6 @@
                                 životopisem:</label><br>
                             <input style="padding: 1em; min-width: 100%" class="btn btn-info" type="file" name="file">
                         </div>
-
                         <div style="display: block; min-height:13em" class="modal-footer text-center">
                             <button id="buttonPersonalizationStart" style="margin: 0 auto" class="btn btn-success"
                                     type="submit" onclick="loading()">Získat nabídku na míru

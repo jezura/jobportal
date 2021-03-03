@@ -1,7 +1,10 @@
 package jobportal.models.internal_models.cv_support;
 
+import jobportal.dao.EduGeneralFieldRepository;
+import jobportal.dao.EduLevelRepository;
 import jobportal.models.internal_models.codebooks.CzechName;
 import jobportal.models.internal_models.codebooks.Title;
+import jobportal.models.internal_models.data_entites.user.RegisteredUser;
 import jobportal.utils.CVExtractor;
 
 import java.time.LocalDate;
@@ -144,5 +147,37 @@ public class CVProfile {
             years = ChronoUnit.YEARS.between(extractedBirthDate, LocalDate.now());
             setAge((int) years);
         }
+    }
+
+    public RegisteredUser preFillRegisteredUserAttributesWithIdentifiedInformation(
+            RegisteredUser registeredUser,
+            EduLevelRepository eduLevelRepository,
+            EduGeneralFieldRepository eduGeneralFieldRepository) {
+        if(!getFirstName().isBlank()) {
+            registeredUser.setFirstName(getFirstName());
+        }
+        if(!getLastName().isBlank()) {
+            registeredUser.setLastName(getLastName());
+        }
+        if(!getEmail().isBlank()) {
+            registeredUser.setEmail(getEmail());
+        }
+        if(!getGender().isBlank()) {
+            registeredUser.setGender(getGender());
+        }
+
+        if(getBirthDate() != null) {
+            registeredUser.setBirthYear(getBirthDate().getYear());
+        }else if(getBirthYear() > 0) {
+            registeredUser.setBirthYear(getBirthYear());
+        }
+
+        if(!getMaxEducation().getMaxEduLvl().getEduLevel().getName().isBlank()) {
+            registeredUser.setEduLevel(eduLevelRepository.findEduLevelByName(getMaxEducation().getMaxEduLvl().getEduLevel().getName()));
+        }
+        if(!getMaxEducation().getEduGeneralField().getName().isBlank()) {
+            registeredUser.setEduGeneralField(eduGeneralFieldRepository.findEduGeneralFieldByName(getMaxEducation().getEduGeneralField().getName()));
+        }
+        return registeredUser;
     }
 }

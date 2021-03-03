@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+
+<html layout:decorate="~{main_layout}"
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title>Zrychlená registrace - Pracovní portál</title>
+    <script src="http://www.geoplugin.net/javascript.gp" type="text/javascript"></script>
+</head>
+
+<body style="padding-bottom: 6em; background-color: #eee">
+<div layout:fragment="content">
+    <div style="padding-top:3em" class="container">
+        <form style="max-width: 50em; margin:0 auto" action="#" th:action="@{/saveUser}" th:object="${registeredUser}" method="post">
+            <h2 class="form-signin-heading text-center">Registrujte se prosím</h2>
+            <h5 style=" padding-top: 1em;">V zeleně označené části jsou automaticky předvyplněné informace z Vašeho životopisu.</h5>
+            <p>Prosím, překontrolujte pečlivě jejich správnost a doplňte údaje, které nebyly rozpoznány.</p>
+            <div class="container" style="background-color: lightgreen; padding-bottom: 0.1em; padding-top: 0.2em; border-radius: 0.5em; margin-bottom: 0.5em;">
+            <div class="form-group">
+                <label for="firstName">Jméno:</label>
+                <input type="text" class="form-control" th:field="*{firstName}" name="firstName" id="firstName" placeholder="Křestní jméno">
+                <p th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" class="alert alert-danger" role="alert"></p>
+            </div>
+            <div class="form-group">
+                <label for="lastName">Příjmení:</label>
+                <input type="text" class="form-control" th:field="*{lastName}" name="lastName" id="lastName" placeholder="Příjmení">
+                <p th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" class="alert alert-danger" role="alert"></p>
+            </div>
+            <div class="form-group">
+                <label for="email">Email (slouží jako login):</label>
+                <input type="text" class="form-control" th:field="*{email}" name="email" id="email" placeholder="example@example.cz">
+                <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="alert alert-danger" role="alert"></p>
+            </div>
+            <div class="form-group blu-margin">
+                <label for="gender">Pohlaví:</label>
+                <select class="form-control" th:field="*{gender}" name="gender" id="gender">
+                    <option value="0">Vyberte pohlaví</option>
+                    <option value="zena">Žena</option>
+                    <option value="muz">Muž</option>
+                </select>
+                <p th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}" class="alert alert-danger" role="alert"></p>
+            </div>
+            <div class="form-group">
+                <label for="birthYear">Rok narození:</label>
+                <input type="number" class="form-control" th:field="*{birthYear}"  name="birthYear" id="birthYear">
+                <p th:if="${#fields.hasErrors('birthYear')}" th:errors="*{birthYear}" class="alert alert-danger" role="alert"></p>
+            </div>
+            <div class="form-group blu-margin">
+                <label>Stupeň nejvyššího dosaženého (nebo právě studovaného) vzdělání:</label>
+                <select class="form-control" th:field="*{eduLevel}"  id="eduLevel">
+                    <option value="0">Vyberte stupeň vzdělání</option>
+                    <option th:each="eduLevel : ${eduLevels}" th:value="${eduLevel.id}" th:text="${eduLevel.prettyName}"></option>
+                </select>
+                <p th:if="${#fields.hasErrors('eduLevel')}" th:errors="*{eduLevel}" class="alert alert-danger" role="alert"></p>
+            </div>
+            <div class="form-group blu-margin">
+                <label>Obecný obor nejvyššího dosaženého (nebo právě studovaného) vzdělání:</label>
+                <select class="form-control" th:field="*{eduGeneralField}"  id="eduGeneralField">
+                    <option value="0">Vyberte obecný obor vzdělání</option>
+                    <option th:each="eduGeneralField : ${eduGeneralFields}" th:value="${eduGeneralField.id}" th:text="${eduGeneralField.prettyName}"></option>
+                </select>
+                <p th:if="${#fields.hasErrors('eduGeneralField')}" th:errors="*{eduGeneralField}" class="alert alert-danger" role="alert"></p>
+            </div>
+            <div class="form-group blu-margin">
+                <label>Kraj aktuálního bydliště:</label>
+                <select class="form-control" th:field="*{region}"  id="region">
+                    <option value="0">Vyberte kraj</option>
+                    <option th:each="region : ${regions}" th:value="${region.id}" th:text="${region.name}"></option>
+                </select>
+                <p th:if="${#fields.hasErrors('region')}" th:errors="*{region}" class="alert alert-danger" role="alert"></p>
+            </div>
+            </div>
+            <h5 style="padding-top: 1em;">Doplňte prosím heslo potřebné k registraci.</h5>
+            <script type="text/javascript" src="/js/regionLocationProvider.js"></script>
+            <div class="form-group">
+                <label for="password">Heslo:</label>
+                <input type="password" class="form-control" th:field="*{password}" name="password" id="password">
+                <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="alert alert-danger" role="alert"></p>
+            </div>
+            <div class="form-group">
+                <label for="passwordCheck">Heslo znovu (pro kontrolu):</label>
+                <input type="password" class="form-control" name="passwordCheck" id="passwordCheck">
+            </div>
+            <button type="submit" style="margin-top:2em" class="btn btn-lg btn-success btn-block">Registrovat se</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

@@ -3,13 +3,13 @@ import jobportal.dao.EduGeneralFieldRepository;
 import jobportal.dao.EduLevelRepository;
 import jobportal.models.internal_models.codebooks.EduGeneralField;
 import jobportal.models.internal_models.codebooks.EduLevel;
+import jobportal.models.internal_models.cv_support.CVProfile;
 import jobportal.models.internal_models.cv_support.RelevanceScore;
 import jobportal.models.internal_models.data_entites.FieldsRelevancy;
 import jobportal.models.internal_models.data_entites.user.RegisteredUser;
 import jobportal.models.offer_data_models.codebooks.Region;
-import jobportal.services.FieldsRelevancyService;
-import jobportal.services.PersonService;
-import jobportal.services.RegionService;
+import jobportal.services.*;
+import jobportal.utils.CVExtractor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -18,6 +18,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.*;
@@ -37,6 +39,10 @@ public class UserController {
     EduLevelRepository eduLevelRepository;
     @Autowired
     EduGeneralFieldRepository eduGeneralFieldRepository;
+    @Autowired
+    CzechNameService czechNameService;
+    @Autowired
+    TitleService titleService;
 
 
     @RequestMapping(value = "/admin/allUsers")
@@ -174,6 +180,26 @@ public class UserController {
         model.addAttribute("registeredUser", registeredUser);
         populateWithData(model);
         return "registration";
+    }
+
+    @PostMapping(value = "/quickRegistration")
+    public String showQuickRegistrationForm(
+            Model model,
+            @RequestParam("file") MultipartFile[] files) throws IOException {
+        RegisteredUser registeredUser = new RegisteredUser();
+
+        CVProfile cvProfile = new CVProfile();
+        CVExtractor cvExtractor = new CVExtractor(eduLevelRepository, eduGeneralFieldRepository);
+        cvExtractor.processCvAndSetTextContentToExtractedTextVariable(files);
+
+        //       >>> EXTRACTING PROCESS <<<
+        cvProfile.buildCompleteCvProfile(cvExtractor, czechNameService.findAllCzechNames(), titleService.findAllTitles());
+        registeredUser = cvProfile.preFillRegisteredUserAttributesWithIdentifiedInformation(registeredUser, eduLevelRepository, eduGeneralFieldRepository);
+
+        model.addAttribute("registeredUser", registeredUser);
+        populateWithData(model);
+
+        return "quickRegistration";
     }
 
     @RequestMapping(value = "/saveUser", method = RequestMethod.POST)

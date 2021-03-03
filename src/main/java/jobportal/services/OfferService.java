@@ -83,6 +83,11 @@ public class OfferService {
         return titles;
     }
 
+    public List<String> findTitlesAndEmployersLikeSearchTerm(String term){
+        List<String> titlesAndEmployers = offerRepository.findTitlesAndEmployersLikeSearchTerm(term);
+        return titlesAndEmployers;
+    }
+
     public int deleteAllExpiredOffers() {
         LocalDate today = LocalDate.now().plusDays(2);
         return offerRepository.deleteByExpireDateBefore(today);

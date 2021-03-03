@@ -18,3 +18,10 @@ $( function() {
     minLength: 2
   });
 });
+
+$( function() {
+  $( "#titleAndEmployerSearch" ).autocomplete({
+    source: "/titlesAndEmployersAutocomplete",
+    minLength: 2
+  });
+});

@@ -24,12 +24,6 @@ public class MaxEduLvl {
         this.eduLevelRepository = eduLevelRepository;
     }
 
-    public MaxEduLvl(EduLevel eduLevel, int startPosIndex, int endPosIndex) {
-        this.eduLevel = eduLevel;
-        this.startPosIndex = startPosIndex;
-        this.endPosIndex = endPosIndex;
-    }
-
     public EduLevel getEduLevel() {
         return eduLevel;
     }

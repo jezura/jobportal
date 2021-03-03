@@ -6,12 +6,11 @@ import jobportal.models.internal_models.cv_support.CVProfile;
 import jobportal.models.internal_models.cv_support.EduLog;
 import jobportal.models.internal_models.cv_support.RelevanceScore;
 import jobportal.models.internal_models.data_entites.user.RegisteredUser;
-import jobportal.models.internal_models.security.MyUser;
 import jobportal.models.offer_data_models.Offer;
-import jobportal.services.CzechNameService;
-import jobportal.services.OfferService;
-import jobportal.services.PersonService;
-import jobportal.services.TitleService;
+import jobportal.models.offer_data_models.codebooks.District;
+import jobportal.models.offer_data_models.codebooks.Field;
+import jobportal.models.offer_data_models.codebooks.Region;
+import jobportal.services.*;
 import jobportal.utils.CVExtractor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,9 +20,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Controller
 public class OfferController {
@@ -38,6 +38,14 @@ public class OfferController {
     private PersonService personService;
     @Autowired
     private CzechNameService czechNameService;
+    @Autowired
+    private RegionService regionService;
+    @Autowired
+    private DistrictService districtService;
+    @Autowired
+    private FieldService fieldService;
+    @Autowired
+    private ProfessionService professionService;
     @Autowired
     private EduLevelRepository eduLevelRepository;
     @Autowired
@@ -58,14 +66,80 @@ public class OfferController {
         RegisteredUser registeredUser;
         String email;
         if (principal instanceof UserDetails) {
-            email = ((UserDetails)principal).getUsername();
+            email = ((UserDetails) principal).getUsername();
         } else {
             email = principal.toString();
         }
         registeredUser = personService.findRegisteredUserByEmail(email);
+        Collection<Region> regions = regionService.findAllRegions();
+        Collection<District> districts = districtService.findAllDistricts();
+        Collection<Field> fields = fieldService.findAllFields();
+
+
         model.addAttribute("user", registeredUser);
         model.addAttribute("offers", offers);
+        model.addAttribute("regions", regions);
+        model.addAttribute("districts", districts);
+        model.addAttribute("fields", fields);
         return "index";
+    }
+
+    @PostMapping({"/searchOffers"})
+    public String showFilteredOffers(Model model, @RequestParam(name = "locationSearch", required = false) String locationSearch, @RequestParam(name = "fieldSearch", required = false) String fieldSearch) {
+
+        System.out.println("Location search: " + locationSearch);
+        System.out.println("Field search: " + fieldSearch);
+
+
+
+        if (locationSearch.isBlank()) {
+            return this.showAllOffersPageable(model, 1);
+        } else {
+            return showFilteredOffersPageable(model, 1, locationSearch);
+        }
+    }
+
+    @GetMapping({"/searchedOffers/page/{pageNumber}"})
+    public String showFilteredOffersPageable(Model model, @PathVariable("pageNumber") int currentPage, String locationSearch) {
+        List<Offer> offers = new ArrayList();
+
+        /*if(!locationSearch.isBlank()) {
+            if(locationSearch.contains("Kraj")){
+
+            }else {
+
+            }
+        }
+
+
+        long totalOffers = offerPage.getTotalElements();
+        int totalPages = offerPage.getTotalPages();
+        int lastOfferNum = currentPage * 20;
+        int firstOfferNum = lastOfferNum - 20 + 1;
+        if ((long) lastOfferNum > totalOffers) {
+            lastOfferNum = (int) totalOffers;
+        }
+
+        offers = offerPage.getContent();
+        model.addAttribute("firstOfferNum", firstOfferNum);
+        model.addAttribute("lastOfferNum", lastOfferNum);
+        model.addAttribute("totalOffers", totalOffers);
+        model.addAttribute("totalPages", totalPages);
+
+        System.out.println("Offers list size: " + offers.size());
+        Collection<Field> fields = this.fieldService.findAllFields();
+        model.addAttribute("fields", fields);
+        model.addAttribute("offers", offers);
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("searching", true);*/
+        return "adminAllOffers";
+    }
+
+    @RequestMapping(value = "/titlesAndEmployersAutocomplete")
+    @ResponseBody
+    public List<String> autoTitleAndEmployer(@RequestParam(value = "term", required = false, defaultValue = "") String term) {
+        List<String> titlesAndEmployers = offerService.findTitlesAndEmployersLikeSearchTerm(term);
+        return titlesAndEmployers;
     }
 
     @RequestMapping(value = "/personalizedOffers", method = RequestMethod.POST)
@@ -106,7 +180,7 @@ public class OfferController {
         RegisteredUser registeredUser;
         String email;
         if (principal instanceof UserDetails) {
-            email = ((UserDetails)principal).getUsername();
+            email = ((UserDetails) principal).getUsername();
         } else {
             email = principal.toString();
         }

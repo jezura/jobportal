@@ -36,6 +36,11 @@ public interface OfferRepository extends PagingAndSortingRepository<Offer, Long>
             nativeQuery = true)
     List<String> findTitlesLikeSearchTerm(@Param("term") String term);
 
+    @Query(
+            value = "SELECT o.title FROM offers o where o.title LIKE %:term% UNION SELECT e.name FROM employers e where e.name LIKE %:term% LIMIT 20",
+            nativeQuery = true)
+    List<String> findTitlesAndEmployersLikeSearchTerm(@Param("term") String term);
+
     @Transactional
     @Modifying
     int deleteByExpireDateBefore(LocalDate todayDate);

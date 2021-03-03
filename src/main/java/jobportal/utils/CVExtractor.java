@@ -38,6 +38,12 @@ public class CVExtractor {
         this.eduGeneralFieldRepository = eduGeneralFieldRepository;
     }
 
+    public CVExtractor(EduLevelRepository eduLevelRepository, EduGeneralFieldRepository eduGeneralFieldRepository) {
+        this.eduLog = new EduLog();
+        this.eduLevelRepository = eduLevelRepository;
+        this.eduGeneralFieldRepository = eduGeneralFieldRepository;
+    }
+
     public EduLog getEduLog() {
         return eduLog;
     }

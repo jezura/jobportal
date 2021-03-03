@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml"
+                xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <header xmlns:th="https://www.thymeleaf.org"
@@ -19,11 +20,13 @@
                 </li>
                 <div sec:authorize="isAnonymous()"
                      style="position:absolute; right: 0; margin-right: 2em; margin-top: 0.5em;">
-                    <li style="float:left" class="nav-item-active">
-                        <a class="nav-link" href="/login">Přihlášení</a>
+                    <li style="float:left; padding-right: 1.2em" class="nav-item-active">
+                        <a class="btn btn-info" href="/login">Přihlášení</a>
                     </li>
                     <li style="float:left" class="nav-item-active">
-                        <a class="nav-link" href="/registration">Registrace</a>
+                        <button type="button" id="buttonRegistration" data-toggle="modal" data-target="#modalRegistration"
+                                class="btn btn-success">Registrace
+                        </button>
                     </li>
                 </div>
                 <div sec:authorize="hasRole('REGISTERED_USER')"
@@ -50,5 +53,44 @@
 </head>
 <body>
 
+<script type="text/javascript" src="/js/predictionLoaderAnimation.js"></script>
+<!-- Modal registration methods -->
+<div class="modal fade" id="modalRegistration" tabindex="-1" role="dialog"
+     aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div style="max-width: 40em" class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalDeleteTitle">Vyberte způsob registrace</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container" style=" text-align: center;">
+                    <a class="btn btn-success text-center" href="/registration" role="button">Registrovat se standardním způsobem
+                    </a>
+                    <p style="padding-top: 1em;" class="text-center">nebo</p>
+                </div>
+                <hr style="height: 2px; border-width: 4px;">
+                <h5 class="text-center">Využít funkci zrychlené registrace pomocí životopisu</h5>
+                <form action="#" th:action="@{/quickRegistration}" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label style="font-size: 0.85em" class="text-center">Vyberte nebo přetáhněte PDF/DOCX soubor
+                            se životopisem:</label><br>
+                        <input style="padding: 1em; min-width: 100%" class="btn btn-info" type="file" name="file">
+                    </div>
+
+                    <div style="display: block; min-height:13em" class="modal-footer text-center">
+                        <button id="buttonRegistrationPersonalizationStart" style="margin: 0 auto" class="btn btn-success"
+                                type="submit" onclick="registrationLoading()">Dokončit zrychlenou registraci
+                        </button>
+                        <div id="registrationLoader" class="text-center"></div>
+                        <p style="margin-top:0em; font-size: 0.8em" class="text-center" id="registrationInfo"></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

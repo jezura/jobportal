@@ -22,12 +22,6 @@ public class MaxEducation {
         this.eduGeneralFieldRepository = eduGeneralFieldRepository;
     }
 
-    public MaxEducation(MaxEduLvl maxEduLvl, EduGeneralField eduGeneralField, int eduSectionStartIndex) {
-        this.maxEduLvl = maxEduLvl;
-        this.eduGeneralField = eduGeneralField;
-        this.eduSectionStartIndex = eduSectionStartIndex;
-    }
-
     public MaxEduLvl getMaxEduLvl() {
         return maxEduLvl;
     }
