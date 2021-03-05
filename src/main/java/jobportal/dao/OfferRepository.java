@@ -74,4 +74,23 @@ public interface OfferRepository extends PagingAndSortingRepository<Offer, Long>
             @Param("idField3") String idField3,
             @Param("idField4") String idField4,
             @Param("idField5") String idField5);
+
+    @Query(value = "(SELECT * FROM offers o WHERE o.profession_id IN (SELECT pf.profession_id FROM profession_field pf WHERE pf.field_id=:idField1) AND workplace_id IN (SELECT id FROM workplaces WHERE village_id IN (SELECT id FROM villages WHERE district_id IN (SELECT id FROM districts WHERE region_id=:regionId))) ORDER BY insertion_date DESC LIMIT :limitField1 OFFSET :offsetField1) UNION (SELECT * FROM offers o WHERE o.profession_id IN (SELECT pf.profession_id FROM profession_field pf WHERE pf.field_id=:idField2) AND workplace_id IN (SELECT id FROM workplaces WHERE village_id IN (SELECT id FROM villages WHERE district_id IN (SELECT id FROM districts WHERE region_id=:regionId))) ORDER BY insertion_date DESC LIMIT :limitField2 OFFSET :offsetField2) UNION (SELECT * FROM offers o WHERE o.profession_id IN (SELECT pf.profession_id FROM profession_field pf WHERE pf.field_id=:idField3) AND workplace_id IN (SELECT id FROM workplaces WHERE village_id IN (SELECT id FROM villages WHERE district_id IN (SELECT id FROM districts WHERE region_id=:regionId))) ORDER BY insertion_date DESC LIMIT :limitField3 OFFSET :offsetField3) UNION (SELECT * FROM offers o WHERE o.profession_id IN (SELECT pf.profession_id FROM profession_field pf WHERE pf.field_id=:idField4) AND workplace_id IN (SELECT id FROM workplaces WHERE village_id IN (SELECT id FROM villages WHERE district_id IN (SELECT id FROM districts WHERE region_id=:regionId))) ORDER BY insertion_date DESC LIMIT :limitField4 OFFSET :offsetField4) UNION (SELECT * FROM offers o WHERE o.profession_id IN (SELECT pf.profession_id FROM profession_field pf WHERE pf.field_id=:idField5) AND workplace_id IN (SELECT id FROM workplaces WHERE village_id IN (SELECT id FROM villages WHERE district_id IN (SELECT id FROM districts WHERE region_id=:regionId))) ORDER BY insertion_date DESC LIMIT :limitField5 OFFSET :offsetField5)", nativeQuery = true)
+    Collection<Offer> getOffersAccToPredictedRelevancesForRegion(
+            @Param("regionId") String regionId,
+            @Param("limitField1") int limitField1,
+            @Param("limitField2") int limitField2,
+            @Param("limitField3") int limitField3,
+            @Param("limitField4") int limitField4,
+            @Param("limitField5") int limitField5,
+            @Param("offsetField1") int offsetField1,
+            @Param("offsetField2") int offsetField2,
+            @Param("offsetField3") int offsetField3,
+            @Param("offsetField4") int offsetField4,
+            @Param("offsetField5") int offsetField5,
+            @Param("idField1") String idField1,
+            @Param("idField2") String idField2,
+            @Param("idField3") String idField3,
+            @Param("idField4") String idField4,
+            @Param("idField5") String idField5);
 }

@@ -59,6 +59,37 @@ public class OfferService {
                 relevanceScore.getFiveHighestRelevanceFieldsIds()[4]);
     }
 
+    public Collection<Offer> getOffersAccToPredictionsForRegion(int pageNumber, String regionId, RelevanceScore relevanceScore) {
+        int limitField1 = 12;
+        int offsetField1 = (pageNumber-1) * limitField1;
+        int limitField2 = 9;
+        int offsetField2 = (pageNumber-1) * limitField2;
+        int limitField3 = 6;
+        int offsetField3 = (pageNumber-1) * limitField3;
+        int limitField4 = 3;
+        int offsetField4 = (pageNumber-1) * limitField4;
+        int limitField5 = 2;
+        int offsetField5 = (pageNumber-1) * limitField5;
+
+        return offerRepository.getOffersAccToPredictedRelevancesForRegion(
+                regionId,
+                limitField1,
+                limitField2,
+                limitField3,
+                limitField4,
+                limitField5,
+                offsetField1,
+                offsetField2,
+                offsetField3,
+                offsetField4,
+                offsetField5,
+                relevanceScore.getFiveHighestRelevanceFieldsIds()[0],
+                relevanceScore.getFiveHighestRelevanceFieldsIds()[1],
+                relevanceScore.getFiveHighestRelevanceFieldsIds()[2],
+                relevanceScore.getFiveHighestRelevanceFieldsIds()[3],
+                relevanceScore.getFiveHighestRelevanceFieldsIds()[4]);
+    }
+
     public long getCount() {
         return offerRepository.count();
     }

@@ -7,6 +7,7 @@
 <head>
     <title>Pracovní portál</title>
     <link rel="stylesheet" type="text/css" href="/css/loading.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/switch.css"/>
     <link rel="stylesheet" type="text/css" href="/css/index-search-purescript.css" />
 
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -14,7 +15,6 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script type="text/javascript" src="/js/searchAutocomplete.js"></script>
     <script language="JavaScript" src="http://www.geoplugin.net/javascript.gp" type="text/javascript"></script>
-    <script type="text/javascript" src="/js/regionLocationProvider.js"></script>
     <script type="text/javascript" src="/js/index.js"></script>
 </head>
 
@@ -32,9 +32,9 @@
                         <select class="form-control" id="region" name="locationSearch">
                             <option value="0">Všechny kraje</option>
                             <option icon="fas fa-map-marked-alt" th:each="region : ${regions}" th:value="${region.id}" th:text="${region.name}"></option>
-                            <script type="text/javascript" src="/js/regionLocationProvider.js"></script>
                             <option icon="fas fa-map-marker-alt" th:each="district : ${districts}" th:value="${district.id}" th:text="${district.name} + ' (okres)'"></option>
                         </select>
+                            <script type="text/javascript" src="/js/regionLocationProvider.js"></script>
                         </div>
                     </div>
 
@@ -171,6 +171,17 @@
                                 se
                                 životopisem:</label><br>
                             <input style="padding: 1em; min-width: 100%" class="btn btn-info" type="file" name="file">
+                            <div style="padding-top: 1em" class="form-group">
+                            <label class="switch">
+                                <input type="checkbox" id="switchUseLocalization" name="switchUseLocalization" value="isChecked" checked>
+                                <span class="slider round"></span>
+                            </label>
+                            <span style="font-size: 0.85em">Zahrnout také Vaší aktuálně zjištěnou lokaci: </span>
+                                <span style="font-size: 0.85em" id="found-region-name" ></span>
+                                <select style="display: none" class="form-control" id="location" name="location">
+                                </select>
+                                <script type="text/javascript" src="/js/regionLocationProviderModal.js"></script>
+                            </div>
                         </div>
                         <div style="display: block; min-height:13em" class="modal-footer text-center">
                             <button id="buttonPersonalizationStart" style="margin: 0 auto" class="btn btn-success"

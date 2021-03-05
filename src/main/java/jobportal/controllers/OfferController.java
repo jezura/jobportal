@@ -145,7 +145,10 @@ public class OfferController {
     @RequestMapping(value = "/personalizedOffers", method = RequestMethod.POST)
     public String extractCVInfoAndPredictRelevances(
             Model model,
+            @RequestParam(value = "switchUseLocalization", required = false) String switchUseLocalization,
+            @RequestParam(value = "location", required = false, defaultValue = "") String regionId,
             @RequestParam("file") MultipartFile[] files) throws IOException {
+
         cvProfile = new CVProfile();
         relevanceScore = new RelevanceScore();
         EduLog eduLog = new EduLog();
@@ -156,7 +159,12 @@ public class OfferController {
         cvProfile.buildCompleteCvProfile(cvExtractor, czechNameService.findAllCzechNames(), titleService.findAllTitles());
         relevanceScore.getPredictions(cvProfile);
 
-        return showIndexWithPersonalizedOffersPageable(model, 1);
+        if(switchUseLocalization != null) {
+            if((switchUseLocalization.equals("isChecked")) && (!regionId.isBlank())) {
+                return showIndexWithPersonalizedOffersPageable(model, 1, regionId);
+            }
+        }
+        return showIndexWithPersonalizedOffersPageable(model, 1, "all-regions");
     }
 
     @RequestMapping(value = "/personalizedOffers/user/{userId}")
@@ -166,15 +174,24 @@ public class OfferController {
         cvProfile = null;
         RegisteredUser user = personService.findRegisteredUserById(userId);
         relevanceScore = new RelevanceScore(user.getFieldsRelevancy().getRelevanceScoresArray());
-        return showIndexWithPersonalizedOffersPageable(model, 1);
+        return showIndexWithPersonalizedOffersPageable(model, 1, user.getRegion().getId());
     }
 
-    @RequestMapping(value = "/personalizedOffers/page/{pageNumber}")
+    @RequestMapping(value = "/personalizedOffers/region/{regionId}/page/{pageNumber}")
     public String showIndexWithPersonalizedOffersPageable(
-            Model model, @PathVariable("pageNumber") int currentPage) {
+            Model model, @PathVariable("pageNumber") int currentPage, @PathVariable("regionId") String regionId) {
+        System.out.println("RegionId: " + regionId);
+        Collection<Offer> offers;
 
-        Collection<Offer> offers = offerService.getOffersAccToPredictions(
-                currentPage, relevanceScore);
+        if(regionId.equals("all-regions")){
+            offers = offerService.getOffersAccToPredictions(
+                    currentPage, relevanceScore);
+        }else{
+            offers = offerService.getOffersAccToPredictionsForRegion(
+                    currentPage, regionId, relevanceScore);
+        }
+
+
 
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         RegisteredUser registeredUser;

@@ -7,10 +7,10 @@
     <title>Registrace - Pracovní portál</title>
 </head>
 
-<body style="padding-bottom: 6em; background-color: #eee">
+<body style="height: 100%; display: flex; flex-direction: column; background-color: #eee">
 <div layout:fragment="content">
     <div style="padding-top:3em" class="container">
-        <form style="max-width: 50em; margin:0 auto" action="#" th:action="@{/saveUser}" th:object="${registeredUser}" method="post">
+        <form style="max-width: 50em; margin:0 auto; padding-bottom: 5em" action="#" th:action="@{/saveUser}" th:object="${registeredUser}" method="post">
             <h2 class="form-signin-heading text-center">Registrujte se prosím</h2>
             <div class="form-group">
                 <label for="firstName">Jméno:</label>

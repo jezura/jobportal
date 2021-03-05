@@ -1,16 +1,18 @@
-addOption();
 
-function addOption() {
-  optionText = 'Lokalizováno: ' + geoplugin_region();
-  optionValue = pairWithId();
+var regionName = geoplugin_region();
+addOptionToMainSearch();
+
+function addOptionToMainSearch() {
+  optionText = 'Lokalizováno: ' + regionName;
+  optionValue = pairWithId(regionName);
   $('#region').append(`<option style='color: green' icon='fas fa-street-view' value="${optionValue}" selected>
   ${optionText}
   </option>`);}
 
-function pairWithId() {
+function pairWithId(regName) {
     var regionId;
 
-    switch (geoplugin_region()) {
+    switch (regName) {
         case "Hlavni mesto Praha":
         regionId = "Kraj/19";
         break;

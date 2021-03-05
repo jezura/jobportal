@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:layout="http://www.w3.org/1999/xhtml">
+<html style="height: 100%" lang="en" xmlns:layout="http://www.w3.org/1999/xhtml">
 <html xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
@@ -11,8 +11,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 </head>
-<body>
+<body style="height: 100%; display: flex; flex-direction: column;">
 <div th:include="main_header"></div>
-<div layout:fragment="content"></div>
+<div layout:fragment="content" style="flex: 1 0 auto;"></div>
+<div th:include="main_footer"></div>
 </body>
 </html>

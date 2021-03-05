@@ -8,10 +8,10 @@
     <script src="http://www.geoplugin.net/javascript.gp" type="text/javascript"></script>
 </head>
 
-<body style="padding-bottom: 6em; background-color: #eee">
+<body style="height: 100%; display: flex; flex-direction: column; background-color: #eee">
 <div layout:fragment="content">
     <div style="padding-top:3em" class="container">
-        <form style="max-width: 50em; margin:0 auto" action="#" th:action="@{/saveUser}" th:object="${registeredUser}" method="post">
+        <form style="max-width: 50em; margin:0 auto; padding-bottom: 5em" action="#" th:action="@{/saveUser}" th:object="${registeredUser}" method="post">
             <h2 class="form-signin-heading text-center">Registrujte se prosím</h2>
             <h5 style=" padding-top: 1em;">V zeleně označené části jsou automaticky předvyplněné informace z Vašeho životopisu.</h5>
             <p>Prosím, překontrolujte pečlivě jejich správnost a doplňte údaje, které nebyly rozpoznány.</p>
