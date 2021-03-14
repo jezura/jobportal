@@ -17,8 +17,6 @@ public interface OfferRepository extends PagingAndSortingRepository<Offer, Long>
 {
     Offer findOfferById(Long id);
 
-    Page<Offer> findAllByOrderByInsertionDateDesc(Pageable pageable);
-
     Page<Offer> findByTitleContainingIgnoreCaseOrderByInsertionDateDesc(String title, Pageable pageable);
 
     @Query(
@@ -32,6 +30,16 @@ public interface OfferRepository extends PagingAndSortingRepository<Offer, Long>
     Page<Offer> findByFieldIdPageable(String fieldId, Pageable pageable);
 
     @Query(
+            value = "SELECT * FROM offers WHERE title LIKE %:titleOrEmployerTerm% OR employer_ico IN (SELECT ico FROM employers WHERE name LIKE %:titleOrEmployerTerm%) ORDER BY insertion_date DESC",
+            nativeQuery = true)
+    Page<Offer> findByTitleLikeOrEmployerLikePageable(String titleOrEmployerTerm, Pageable pageable);
+
+    @Query(
+            value = "SELECT * FROM offers WHERE profession_id IN (SELECT pf.profession_id FROM profession_field pf WHERE pf.field_id=:fieldId) AND (title LIKE %:titleOrEmployerTerm% OR employer_ico IN (SELECT ico FROM employers WHERE name LIKE %:titleOrEmployerTerm%)) ORDER BY insertion_date DESC",
+            nativeQuery = true)
+    Page<Offer> findByFieldIdAndTitleLikeOrEmployerLikePageable(String fieldId, String titleOrEmployerTerm, Pageable pageable);
+
+    @Query(
             value = "SELECT o.title FROM offers o where o.title LIKE %:term% LIMIT 20",
             nativeQuery = true)
     List<String> findTitlesLikeSearchTerm(@Param("term") String term);
@@ -40,6 +48,46 @@ public interface OfferRepository extends PagingAndSortingRepository<Offer, Long>
             value = "SELECT o.title FROM offers o where o.title LIKE %:term% UNION SELECT e.name FROM employers e where e.name LIKE %:term% LIMIT 20",
             nativeQuery = true)
     List<String> findTitlesAndEmployersLikeSearchTerm(@Param("term") String term);
+
+    @Query(
+            value = "SELECT * FROM offers WHERE workplace_id IN (SELECT id FROM workplaces WHERE village_id IN (SELECT id FROM villages WHERE district_id IN (SELECT id FROM districts WHERE region_id=:regionId))) ORDER BY insertion_date DESC",
+            nativeQuery = true)
+    Page<Offer> findByRegionIdPageable(String regionId, Pageable pageable);
+
+    @Query(
+            value = "SELECT * FROM offers WHERE workplace_id IN (SELECT id FROM workplaces WHERE village_id IN (SELECT id FROM villages WHERE district_id=:districtId)) ORDER BY insertion_date DESC",
+            nativeQuery = true)
+    Page<Offer> findByDistrictIdPageable(String districtId, Pageable pageable);
+
+    @Query(
+            value = "SELECT * FROM offers WHERE workplace_id IN (SELECT id FROM workplaces WHERE village_id IN (SELECT id FROM villages WHERE district_id IN (SELECT id FROM districts WHERE region_id=:regionId))) AND (title LIKE %:titleOrEmployerTerm% OR employer_ico IN (SELECT ico FROM employers WHERE name LIKE %:titleOrEmployerTerm%)) ORDER BY insertion_date DESC",
+            nativeQuery = true)
+    Page<Offer> findByRegionIdAndTitleLikeOrEmployerLikePageable(String regionId, String titleOrEmployerTerm, Pageable pageable);
+
+    @Query(
+            value = "SELECT * FROM offers WHERE workplace_id IN (SELECT id FROM workplaces WHERE village_id IN (SELECT id FROM villages WHERE district_id=:districtId)) AND (title LIKE %:titleOrEmployerTerm% OR employer_ico IN (SELECT ico FROM employers WHERE name LIKE %:titleOrEmployerTerm%)) ORDER BY insertion_date DESC",
+            nativeQuery = true)
+    Page<Offer> findByDistrictIdAndTitleLikeOrEmployerLikePageable(String districtId, String titleOrEmployerTerm, Pageable pageable);
+
+    @Query(
+            value = "SELECT * FROM offers WHERE workplace_id IN (SELECT id FROM workplaces WHERE village_id IN (SELECT id FROM villages WHERE district_id IN (SELECT id FROM districts WHERE region_id=:regionId))) AND profession_id IN (SELECT pf.profession_id FROM profession_field pf WHERE pf.field_id=:fieldId) ORDER BY insertion_date DESC",
+            nativeQuery = true)
+    Page<Offer> findByRegionIdAndFieldIdPageable(String regionId, String fieldId, Pageable pageable);
+
+    @Query(
+            value = "SELECT * FROM offers WHERE workplace_id IN (SELECT id FROM workplaces WHERE village_id IN (SELECT id FROM villages WHERE district_id=:districtId)) AND profession_id IN (SELECT pf.profession_id FROM profession_field pf WHERE pf.field_id=:fieldId) ORDER BY insertion_date DESC",
+            nativeQuery = true)
+    Page<Offer> findByDistrictIdAndFieldIdPageable(String districtId, String fieldId, Pageable pageable);
+
+    @Query(
+            value = "SELECT * FROM offers WHERE workplace_id IN (SELECT id FROM workplaces WHERE village_id IN (SELECT id FROM villages WHERE district_id IN (SELECT id FROM districts WHERE region_id=:regionId))) AND profession_id IN (SELECT pf.profession_id FROM profession_field pf WHERE pf.field_id=:fieldId) AND (title LIKE %:titleOrEmployerTerm% OR employer_ico IN (SELECT ico FROM employers WHERE name LIKE %:titleOrEmployerTerm%)) ORDER BY insertion_date DESC",
+            nativeQuery = true)
+    Page<Offer> findByRegionIdAndFieldIdAndTitleLikeOrEmployerLikePageable(String regionId, String fieldId, String titleOrEmployerTerm, Pageable pageable);
+
+    @Query(
+            value = "SELECT * FROM offers WHERE workplace_id IN (SELECT id FROM workplaces WHERE village_id IN (SELECT id FROM villages WHERE district_id=:districtId)) AND profession_id IN (SELECT pf.profession_id FROM profession_field pf WHERE pf.field_id=:fieldId) AND (title LIKE %:titleOrEmployerTerm% OR employer_ico IN (SELECT ico FROM employers WHERE name LIKE %:titleOrEmployerTerm%)) ORDER BY insertion_date DESC",
+            nativeQuery = true)
+    Page<Offer> findByDistrictIdAndFieldIdAndTitleLikeOrEmployerLikePageable(String districtId, String fieldId, String titleOrEmployerTerm, Pageable pageable);
 
     @Transactional
     @Modifying

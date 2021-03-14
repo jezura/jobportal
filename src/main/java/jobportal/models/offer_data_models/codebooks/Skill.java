@@ -38,10 +38,8 @@ public class Skill extends CodedEntity {
     @OneToMany(mappedBy = "skill")
     private Set<OfferSkill> offerSkills = new HashSet<OfferSkill>();
 
-    public Skill() {}
+    public Skill() {
 
-    public Skill(Set<OfferSkill> offerSkills) {
-        this.offerSkills = offerSkills;
     }
 
     public Set<OfferSkill> getOfferSkills() {

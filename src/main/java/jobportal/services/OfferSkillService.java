@@ -1,6 +1,7 @@
 package jobportal.services;
 
 import jobportal.dao.OfferSkillRepository;
+import jobportal.models.offer_data_models.Offer;
 import jobportal.models.offer_data_models.codebooks.OfferSkill;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,15 @@ public class OfferSkillService {
     public Collection<OfferSkill> findAllOfferSkills(){
         List<OfferSkill> offerSkills = new ArrayList<OfferSkill>();
         for (OfferSkill offerSkill:offerSkillRepository.findAll())
+        {
+            offerSkills.add(offerSkill);
+        }
+        return offerSkills;
+    }
+
+    public Collection<OfferSkill> findAllByOffer(Offer offer){
+        List<OfferSkill> offerSkills = new ArrayList<OfferSkill>();
+        for (OfferSkill offerSkill:offerSkillRepository.findByOffer(offer))
         {
             offerSkills.add(offerSkill);
         }

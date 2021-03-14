@@ -123,14 +123,14 @@ public class AdministrationController {
         if (titleSearch.isBlank() && idSearch.isBlank() && fieldIdSearch.equals("all")) {
             return this.showAdminAllOffersPageable(model, 1);
         } else {
-            return idSearch.isBlank() ? this.showAdminFilteredOffersPageable(model, currentPage, 0L, titleSearch, fieldIdSearch) : this.showAdminFilteredOffersPageable(model, currentPage, Long.valueOf(idSearch), titleSearch, fieldIdSearch);
+            return idSearch.isBlank() ? this.showAdminFilteredOffersPageable(model, currentPage, 0, titleSearch, fieldIdSearch) : this.showAdminFilteredOffersPageable(model, currentPage, Long.valueOf(idSearch), titleSearch, fieldIdSearch);
         }
     }
 
     @GetMapping({"/admin/searchedOffers/page/{pageNumber}"})
     public String showAdminFilteredOffersPageable(Model model, @PathVariable("pageNumber") int currentPage, long offerId, String titleSearch, String fieldIdSearch) {
         List<Offer> offers = new ArrayList();
-        if (offerId > 0L) {
+        if (offerId > 0) {
             Offer offer = this.offerService.findOfferById(offerId);
             model.addAttribute("searchedId", offerId);
             if (offer != null) {

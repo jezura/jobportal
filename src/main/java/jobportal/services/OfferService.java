@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.*;
@@ -25,8 +26,11 @@ public class OfferService {
     }
 
     public Page<Offer> findAllOffersPageable(int pageNumber, int size) {
-        Pageable pageable = PageRequest.of(pageNumber - 1, size);
-        return offerRepository.findAllByOrderByInsertionDateDesc(pageable);
+        Sort sort = Sort.by(Sort.Direction.DESC, "editDate")
+                .and(Sort.by(Sort.Direction.DESC, "insertionDate"))
+                .and(Sort.by(Sort.Direction.DESC, "id"));
+        Pageable pageable = PageRequest.of(pageNumber-1, size, sort);
+        return offerRepository.findAll(pageable);
     }
 
     public Collection<Offer> getOffersAccToPredictions(int pageNumber, RelevanceScore relevanceScore) {
@@ -107,6 +111,56 @@ public class OfferService {
     public Page<Offer> findByFieldIdPageable(String fieldId, int pageNumber, int size) {
         Pageable pageable = PageRequest.of(pageNumber - 1, size);
         return offerRepository.findByFieldIdPageable(fieldId, pageable);
+    }
+
+    public Page<Offer> findByRegionIdPageable(String regionId, int pageNumber, int size) {
+        Pageable pageable = PageRequest.of(pageNumber - 1, size);
+        return offerRepository.findByRegionIdPageable(regionId, pageable);
+    }
+
+    public Page<Offer> findByFieldIdAndTitleLikeOrEmployerLikePageable(String fieldId, String titleOrEmployerTerm, int pageNumber, int size) {
+        Pageable pageable = PageRequest.of(pageNumber - 1, size);
+        return offerRepository.findByFieldIdAndTitleLikeOrEmployerLikePageable(fieldId, titleOrEmployerTerm, pageable);
+    }
+
+    public Page<Offer> findByTitleLikeOrEmployerLikePageable(String titleOrEmployerTerm, int pageNumber, int size) {
+        Pageable pageable = PageRequest.of(pageNumber - 1, size);
+        return offerRepository.findByTitleLikeOrEmployerLikePageable(titleOrEmployerTerm, pageable);
+    }
+
+    public Page<Offer> findByDistrictIdPageable(String districtId, int pageNumber, int size) {
+        Pageable pageable = PageRequest.of(pageNumber - 1, size);
+        return offerRepository.findByDistrictIdPageable(districtId, pageable);
+    }
+
+    public Page<Offer> findByRegionIdAndFieldIdPageable(String regionId, String fieldId, int pageNumber, int size) {
+        Pageable pageable = PageRequest.of(pageNumber - 1, size);
+        return offerRepository.findByRegionIdAndFieldIdPageable(regionId, fieldId, pageable);
+    }
+
+    public Page<Offer> findByDistrictIdAndFieldIdPageable(String districtId, String fieldId, int pageNumber, int size) {
+        Pageable pageable = PageRequest.of(pageNumber - 1, size);
+        return offerRepository.findByDistrictIdAndFieldIdPageable(districtId, fieldId, pageable);
+    }
+
+    public Page<Offer> findByRegionIdAndTitleLikeOrEmployerLikePageable(String regionId, String titleOrEmployerTerm, int pageNumber, int size) {
+        Pageable pageable = PageRequest.of(pageNumber - 1, size);
+        return offerRepository.findByRegionIdAndTitleLikeOrEmployerLikePageable(regionId, titleOrEmployerTerm, pageable);
+    }
+
+    public Page<Offer> findByDistrictIdAndTitleLikeOrEmployerLikePageable(String districtId, String titleOrEmployerTerm, int pageNumber, int size) {
+        Pageable pageable = PageRequest.of(pageNumber - 1, size);
+        return offerRepository.findByDistrictIdAndTitleLikeOrEmployerLikePageable(districtId, titleOrEmployerTerm, pageable);
+    }
+
+    public Page<Offer> findByRegionIdAndFieldIdAndTitleLikeOrEmployerLikePageable(String regionId, String fieldId, String titleOrEmployerTerm, int pageNumber, int size) {
+        Pageable pageable = PageRequest.of(pageNumber - 1, size);
+        return offerRepository.findByRegionIdAndFieldIdAndTitleLikeOrEmployerLikePageable(regionId, fieldId, titleOrEmployerTerm, pageable);
+    }
+
+    public Page<Offer> findByDistrictIdAndFieldIdAndTitleLikeOrEmployerLikePageable(String districtId, String fieldId, String titleOrEmployerTerm, int pageNumber, int size) {
+        Pageable pageable = PageRequest.of(pageNumber - 1, size);
+        return offerRepository.findByDistrictIdAndFieldIdAndTitleLikeOrEmployerLikePageable(districtId, fieldId, titleOrEmployerTerm, pageable);
     }
 
     public List<String> findTitlesLikeSearchTerm(String term){

@@ -1,1 +1,519 @@
-{"polozky":[{"id":"Dovednost/2","kod":"2","nazev":"Ekonomika"},{"id":"Dovednost/21","kod":"21","nazev":"Ekonomika - psaní na stroji"},{"id":"Dovednost/22","kod":"22","nazev":"Ekonomika - psaní na stroji - státní zkouška"},{"id":"Dovednost/23","kod":"23","nazev":"Ekonomika - jednoduché účetnictví"},{"id":"Dovednost/24","kod":"24","nazev":"Ekonomika - podvojné účetnictví"},{"id":"Dovednost/25","kod":"25","nazev":"Ekonomika - mzdové účetnictví"},{"id":"Dovednost/26","kod":"26","nazev":"Ekonomika - fakturace"},{"id":"Dovednost/27","kod":"27","nazev":"Ekonomika - skladové účetnictví"},{"id":"Dovednost/28","kod":"28","nazev":"Ekonomika - celní deklarant"},{"id":"Dovednost/29","kod":"29","nazev":"Ekonomika - správce konkursní podstaty"},{"id":"Dovednost/2A","kod":"2A","nazev":"Ekonomika - likvidátor"},{"id":"Dovednost/2B","kod":"2B","nazev":"Ekonomika - obchodní zástupce"},{"id":"Dovednost/2C","kod":"2C","nazev":"Ekonomika - personalista"},{"id":"Dovednost/2D","kod":"2D","nazev":"Ekonomika - jiné"},{"id":"Dovednost/2E","kod":"2E","nazev":"Ekonomika - základy podnikání"},{"id":"Dovednost/2F","kod":"2F","nazev":"Ekonomika - účetnictví a daňové evidence"},{"id":"Dovednost/3","kod":"3","nazev":"Služby"},{"id":"Dovednost/31","kod":"31","nazev":"Služby - cvičitel fitcentra"},{"id":"Dovednost/32","kod":"32","nazev":"Služby - plavčík"},{"id":"Dovednost/33","kod":"33","nazev":"Služby - obsluha solária"},{"id":"Dovednost/34","kod":"34","nazev":"Služby - obsluha sauny"},{"id":"Dovednost/35","kod":"35","nazev":"Služby - vedoucí dětských kolektivů"},{"id":"Dovednost/36","kod":"36","nazev":"Služby - modelování nehtů"},{"id":"Dovednost/4","kod":"4","nazev":"Zkoušky svařování"},{"id":"Dovednost/41","kod":"41","nazev":"Zkoušky svařování - plamenem"},{"id":"Dovednost/42","kod":"42","nazev":"Zkoušky svařování - plamenem - zkoušky podle EN (úřední zkouška)"},{"id":"Dovednost/43","kod":"43","nazev":"Zkoušky svařování - elektrickým obloukem"},{"id":"Dovednost/44","kod":"44","nazev":"Zkoušky svařování - elektrickým obloukem - zkoušky podle EN (úřední zkouška)"},{"id":"Dovednost/45","kod":"45","nazev":"Zkoušky svařování - elektrickým obloukem v ochranné atmosféře CO2"},{"id":"Dovednost/46","kod":"46","nazev":"Zkoušky svařování - elektrickým obloukem v ochranné atmosféře CO2- zkoušky podle EN (úřední zkouška)"},{"id":"Dovednost/47","kod":"47","nazev":"Zkoušky svařování - elektrickým obloukem v ochranné atmosféře argonu"},{"id":"Dovednost/48","kod":"48","nazev":"Zkoušky svařování - elektrickým obloukem v ochranné atmosféře argonu - zkoušky podle EN (úřední zkouška)"},{"id":"Dovednost/49","kod":"49","nazev":"Zkoušky svařování - plastů"},{"id":"Dovednost/4A","kod":"4A","nazev":"Zkoušky svařování - plastů - zkoušky podle EN (úřední zkouška)"},{"id":"Dovednost/4B","kod":"4B","nazev":"Zkoušky svařování - nerez"},{"id":"Dovednost/4C","kod":"4C","nazev":"Zkoušky svařování - nerez - zk. podle EN"},{"id":"Dovednost/4D","kod":"4D","nazev":"Zkoušky svařování - hliník"},{"id":"Dovednost/4E","kod":"4E","nazev":"Zkoušky svařování - hliník - zk. podle EN"},{"id":"Dovednost/5","kod":"5","nazev":"Práce s kovem"},{"id":"Dovednost/51","kod":"51","nazev":"Práce s kovem - pájení"},{"id":"Dovednost/52","kod":"52","nazev":"Práce s kovem - řezání plamenem"},{"id":"Dovednost/53","kod":"53","nazev":"Práce s kovem - řezání plazmou"},{"id":"Dovednost/54","kod":"54","nazev":"Práce s kovem - řezání laserem"},{"id":"Dovednost/6","kod":"6","nazev":"Činnosti na technických zařízeních"},{"id":"Dovednost/61","kod":"61","nazev":"Činnosti na technických zařízeních - obsluha tlakových zařízení (topičský průkaz)"},{"id":"Dovednost/62","kod":"62","nazev":"Činnosti na technických zařízeních - obsluha nízkotlakých kotelen"},{"id":"Dovednost/63","kod":"63","nazev":"Činnosti na technických zařízeních - obsluha plynových zařízení"},{"id":"Dovednost/64","kod":"64","nazev":"Činnosti na technických zařízeních - vazačský průkaz"},{"id":"Dovednost/65","kod":"65","nazev":"Činnosti na technických zařízeních - obsluha zdvihacích zařízení"},{"id":"Dovednost/66","kod":"66","nazev":"Činnosti na technických zařízeních - montáž a vstřelování kotevních spojů (průkaz vstřelovače)"},{"id":"Dovednost/67","kod":"67","nazev":"Činnosti na technických zařízeních - obsluha tlakových nádob"},{"id":"Dovednost/68","kod":"68","nazev":"Činnosti na technických zařízeních - obsluha pracovních plošin"},{"id":"Dovednost/69","kod":"69","nazev":"Činnosti na technických zařízeních - práce ve výškách a nad volnou hloubkou"},{"id":"Dovednost/6A","kod":"6A","nazev":"Činnosti na technických zařízeních - obsluha zemědělských strojů"},{"id":"Dovednost/6B","kod":"6B","nazev":"Činnosti na technických zařízeních - obsluha ruční motorové pily"},{"id":"Dovednost/6C","kod":"6C","nazev":"Činnosti na technických zařízeních - obsluha křovinořezu"},{"id":"Dovednost/6D","kod":"6D","nazev":"Činnosti na technických zařízeních - ostatní"},{"id":"Dovednost/6E","kod":"6E","nazev":"Činnosti na technických zařízeních - obsluha manipulačního vozíku"},{"id":"Dovednost/7","kod":"7","nazev":"Činnosti dle vyhlášky 50/78 Sb."},{"id":"Dovednost/71","kod":"71","nazev":"Činnosti dle vyhlášky 50/78 Sb. - pracovník znalý dle §5 vyhl. 50/78 Sb."},{"id":"Dovednost/72","kod":"72","nazev":"Činnosti dle vyhlášky 50/78 Sb. - samostatné činnosti na elektrických zařízeních dle §6 vyhl. 50/78 Sb."},{"id":"Dovednost/73","kod":"73","nazev":"Činnosti dle vyhlášky 50/78 Sb. - řídící činnosti na elektrických zařízeních dle §7 vyhl. 50/78 Sb."},{"id":"Dovednost/74","kod":"74","nazev":"Činnosti dle vyhlášky 50/78 Sb. - řízení činností prováděné dodavatelským způsobem a řízení provozu"},{"id":"Dovednost/75","kod":"75","nazev":"Činnosti dle vyhlášky 50/78 Sb. - provádění revizí na elektrických zařízeních dle §9 vyhl. 50/78 Sb."},{"id":"Dovednost/76","kod":"76","nazev":"Činnosti dle vyhlášky 50/78 Sb. - samostatné projektování a řízení projektování dle §10 vyhl. 50/78"},{"id":"Dovednost/77","kod":"77","nazev":"Činnosti dle vyhlášky 50/78 Sb. - samostatné činnosti na hromosvodech"},{"id":"Dovednost/8","kod":"8","nazev":"Obsluha stavebních strojů"},{"id":"Dovednost/81","kod":"81","nazev":"Obsluha stavebních strojů - dozéry (např.buldozer)"},{"id":"Dovednost/82","kod":"82","nazev":"Obsluha stavebních strojů - lopatová rypadla"},{"id":"Dovednost/83","kod":"83","nazev":"Obsluha stavebních strojů - nakladače - pásové"},{"id":"Dovednost/84","kod":"84","nazev":"Obsluha stavebních strojů - nakladače - kolové"},{"id":"Dovednost/85","kod":"85","nazev":"Obsluha stavebních strojů - průkaz jeřábníka"},{"id":"Dovednost/86","kod":"86","nazev":"Obsluha stavebních strojů - nakladače - válec"},{"id":"Dovednost/A","kod":"A","nazev":"Jiné"},{"id":"Dovednost/B1","kod":"B1","nazev":"Jiná způsobilost - zdravotní průkaz"},{"id":"Dovednost/B2","kod":"B2","nazev":"Jiná způsobilost - zbrojní průkaz"},{"id":"Dovednost/B","kod":"B","nazev":"Jiná způsobilost"}]}
+{
+  "polozky": [
+    {
+      "id": "Dovednost/2",
+      "kod": "2",
+      "nazev": "Ekonomika"
+    },
+    {
+      "id": "Dovednost/21",
+      "kod": "21",
+      "nazev": "Ekonomika - psaní na stroji"
+    },
+    {
+      "id": "Dovednost/22",
+      "kod": "22",
+      "nazev": "Ekonomika - psaní na stroji - státní zkouška"
+    },
+    {
+      "id": "Dovednost/23",
+      "kod": "23",
+      "nazev": "Ekonomika - jednoduché účetnictví"
+    },
+    {
+      "id": "Dovednost/24",
+      "kod": "24",
+      "nazev": "Ekonomika - podvojné účetnictví"
+    },
+    {
+      "id": "Dovednost/25",
+      "kod": "25",
+      "nazev": "Ekonomika - mzdové účetnictví"
+    },
+    {
+      "id": "Dovednost/26",
+      "kod": "26",
+      "nazev": "Ekonomika - fakturace"
+    },
+    {
+      "id": "Dovednost/27",
+      "kod": "27",
+      "nazev": "Ekonomika - skladové účetnictví"
+    },
+    {
+      "id": "Dovednost/28",
+      "kod": "28",
+      "nazev": "Ekonomika - celní deklarant"
+    },
+    {
+      "id": "Dovednost/29",
+      "kod": "29",
+      "nazev": "Ekonomika - správce konkursní podstaty"
+    },
+    {
+      "id": "Dovednost/2A",
+      "kod": "2A",
+      "nazev": "Ekonomika - likvidátor"
+    },
+    {
+      "id": "Dovednost/2B",
+      "kod": "2B",
+      "nazev": "Ekonomika - obchodní zástupce"
+    },
+    {
+      "id": "Dovednost/2C",
+      "kod": "2C",
+      "nazev": "Ekonomika - personalista"
+    },
+    {
+      "id": "Dovednost/2D",
+      "kod": "2D",
+      "nazev": "Ekonomika - jiné"
+    },
+    {
+      "id": "Dovednost/2E",
+      "kod": "2E",
+      "nazev": "Ekonomika - základy podnikání"
+    },
+    {
+      "id": "Dovednost/2F",
+      "kod": "2F",
+      "nazev": "Ekonomika - účetnictví a daňové evidence"
+    },
+    {
+      "id": "Dovednost/3",
+      "kod": "3",
+      "nazev": "Služby"
+    },
+    {
+      "id": "Dovednost/31",
+      "kod": "31",
+      "nazev": "Služby - cvičitel fitcentra"
+    },
+    {
+      "id": "Dovednost/32",
+      "kod": "32",
+      "nazev": "Služby - plavčík"
+    },
+    {
+      "id": "Dovednost/33",
+      "kod": "33",
+      "nazev": "Služby - obsluha solária"
+    },
+    {
+      "id": "Dovednost/34",
+      "kod": "34",
+      "nazev": "Služby - obsluha sauny"
+    },
+    {
+      "id": "Dovednost/35",
+      "kod": "35",
+      "nazev": "Služby - vedoucí dětských kolektivů"
+    },
+    {
+      "id": "Dovednost/36",
+      "kod": "36",
+      "nazev": "Služby - modelování nehtů"
+    },
+    {
+      "id": "Dovednost/4",
+      "kod": "4",
+      "nazev": "Zkoušky svařování"
+    },
+    {
+      "id": "Dovednost/41",
+      "kod": "41",
+      "nazev": "Zkoušky svařování - plamenem"
+    },
+    {
+      "id": "Dovednost/42",
+      "kod": "42",
+      "nazev": "Zkoušky svařování - plamenem - zkoušky podle EN (úřední zkouška)"
+    },
+    {
+      "id": "Dovednost/43",
+      "kod": "43",
+      "nazev": "Zkoušky svařování - elektrickým obloukem"
+    },
+    {
+      "id": "Dovednost/44",
+      "kod": "44",
+      "nazev": "Zkoušky svařování - elektrickým obloukem - zkoušky podle EN (úřední zkouška)"
+    },
+    {
+      "id": "Dovednost/45",
+      "kod": "45",
+      "nazev": "Zkoušky svařování - elektrickým obloukem v ochranné atmosféře CO2"
+    },
+    {
+      "id": "Dovednost/46",
+      "kod": "46",
+      "nazev": "Zkoušky svařování - elektrickým obloukem v ochranné atmosféře CO2- zkoušky podle EN (úřední zkouška)"
+    },
+    {
+      "id": "Dovednost/47",
+      "kod": "47",
+      "nazev": "Zkoušky svařování - elektrickým obloukem v ochranné atmosféře argonu"
+    },
+    {
+      "id": "Dovednost/48",
+      "kod": "48",
+      "nazev": "Zkoušky svařování - elektrickým obloukem v ochranné atmosféře argonu - zkoušky podle EN (úřední zkouška)"
+    },
+    {
+      "id": "Dovednost/49",
+      "kod": "49",
+      "nazev": "Zkoušky svařování - plastů"
+    },
+    {
+      "id": "Dovednost/4A",
+      "kod": "4A",
+      "nazev": "Zkoušky svařování - plastů - zkoušky podle EN (úřední zkouška)"
+    },
+    {
+      "id": "Dovednost/4B",
+      "kod": "4B",
+      "nazev": "Zkoušky svařování - nerez"
+    },
+    {
+      "id": "Dovednost/4C",
+      "kod": "4C",
+      "nazev": "Zkoušky svařování - nerez - zk. podle EN"
+    },
+    {
+      "id": "Dovednost/4D",
+      "kod": "4D",
+      "nazev": "Zkoušky svařování - hliník"
+    },
+    {
+      "id": "Dovednost/4E",
+      "kod": "4E",
+      "nazev": "Zkoušky svařování - hliník - zk. podle EN"
+    },
+    {
+      "id": "Dovednost/5",
+      "kod": "5",
+      "nazev": "Práce s kovem"
+    },
+    {
+      "id": "Dovednost/51",
+      "kod": "51",
+      "nazev": "Práce s kovem - pájení"
+    },
+    {
+      "id": "Dovednost/52",
+      "kod": "52",
+      "nazev": "Práce s kovem - řezání plamenem"
+    },
+    {
+      "id": "Dovednost/53",
+      "kod": "53",
+      "nazev": "Práce s kovem - řezání plazmou"
+    },
+    {
+      "id": "Dovednost/54",
+      "kod": "54",
+      "nazev": "Práce s kovem - řezání laserem"
+    },
+    {
+      "id": "Dovednost/6",
+      "kod": "6",
+      "nazev": "Činnosti na technických zařízeních"
+    },
+    {
+      "id": "Dovednost/61",
+      "kod": "61",
+      "nazev": "Činnosti na technických zařízeních - obsluha tlakových zařízení (topičský průkaz)"
+    },
+    {
+      "id": "Dovednost/62",
+      "kod": "62",
+      "nazev": "Činnosti na technických zařízeních - obsluha nízkotlakých kotelen"
+    },
+    {
+      "id": "Dovednost/63",
+      "kod": "63",
+      "nazev": "Činnosti na technických zařízeních - obsluha plynových zařízení"
+    },
+    {
+      "id": "Dovednost/64",
+      "kod": "64",
+      "nazev": "Činnosti na technických zařízeních - vazačský průkaz"
+    },
+    {
+      "id": "Dovednost/65",
+      "kod": "65",
+      "nazev": "Činnosti na technických zařízeních - obsluha zdvihacích zařízení"
+    },
+    {
+      "id": "Dovednost/66",
+      "kod": "66",
+      "nazev": "Činnosti na technických zařízeních - montáž a vstřelování kotevních spojů (průkaz vstřelovače)"
+    },
+    {
+      "id": "Dovednost/67",
+      "kod": "67",
+      "nazev": "Činnosti na technických zařízeních - obsluha tlakových nádob"
+    },
+    {
+      "id": "Dovednost/68",
+      "kod": "68",
+      "nazev": "Činnosti na technických zařízeních - obsluha pracovních plošin"
+    },
+    {
+      "id": "Dovednost/69",
+      "kod": "69",
+      "nazev": "Činnosti na technických zařízeních - práce ve výškách a nad volnou hloubkou"
+    },
+    {
+      "id": "Dovednost/6A",
+      "kod": "6A",
+      "nazev": "Činnosti na technických zařízeních - obsluha zemědělských strojů"
+    },
+    {
+      "id": "Dovednost/6B",
+      "kod": "6B",
+      "nazev": "Činnosti na technických zařízeních - obsluha ruční motorové pily"
+    },
+    {
+      "id": "Dovednost/6C",
+      "kod": "6C",
+      "nazev": "Činnosti na technických zařízeních - obsluha křovinořezu"
+    },
+    {
+      "id": "Dovednost/6D",
+      "kod": "6D",
+      "nazev": "Činnosti na technických zařízeních - ostatní"
+    },
+    {
+      "id": "Dovednost/6E",
+      "kod": "6E",
+      "nazev": "Činnosti na technických zařízeních - obsluha manipulačního vozíku"
+    },
+    {
+      "id": "Dovednost/7",
+      "kod": "7",
+      "nazev": "Činnosti dle vyhlášky 50/78 Sb."
+    },
+    {
+      "id": "Dovednost/71",
+      "kod": "71",
+      "nazev": "Činnosti dle vyhlášky 50/78 Sb. - pracovník znalý dle §5 vyhl. 50/78 Sb."
+    },
+    {
+      "id": "Dovednost/72",
+      "kod": "72",
+      "nazev": "Činnosti dle vyhlášky 50/78 Sb. - samostatné činnosti na elektrických zařízeních dle §6 vyhl. 50/78 Sb."
+    },
+    {
+      "id": "Dovednost/73",
+      "kod": "73",
+      "nazev": "Činnosti dle vyhlášky 50/78 Sb. - řídící činnosti na elektrických zařízeních dle §7 vyhl. 50/78 Sb."
+    },
+    {
+      "id": "Dovednost/74",
+      "kod": "74",
+      "nazev": "Činnosti dle vyhlášky 50/78 Sb. - řízení činností prováděné dodavatelským způsobem a řízení provozu"
+    },
+    {
+      "id": "Dovednost/75",
+      "kod": "75",
+      "nazev": "Činnosti dle vyhlášky 50/78 Sb. - provádění revizí na elektrických zařízeních dle §9 vyhl. 50/78 Sb."
+    },
+    {
+      "id": "Dovednost/76",
+      "kod": "76",
+      "nazev": "Činnosti dle vyhlášky 50/78 Sb. - samostatné projektování a řízení projektování dle §10 vyhl. 50/78"
+    },
+    {
+      "id": "Dovednost/77",
+      "kod": "77",
+      "nazev": "Činnosti dle vyhlášky 50/78 Sb. - samostatné činnosti na hromosvodech"
+    },
+    {
+      "id": "Dovednost/8",
+      "kod": "8",
+      "nazev": "Obsluha stavebních strojů"
+    },
+    {
+      "id": "Dovednost/81",
+      "kod": "81",
+      "nazev": "Obsluha stavebních strojů - dozéry (např.buldozer)"
+    },
+    {
+      "id": "Dovednost/82",
+      "kod": "82",
+      "nazev": "Obsluha stavebních strojů - lopatová rypadla"
+    },
+    {
+      "id": "Dovednost/83",
+      "kod": "83",
+      "nazev": "Obsluha stavebních strojů - nakladače - pásové"
+    },
+    {
+      "id": "Dovednost/84",
+      "kod": "84",
+      "nazev": "Obsluha stavebních strojů - nakladače - kolové"
+    },
+    {
+      "id": "Dovednost/85",
+      "kod": "85",
+      "nazev": "Obsluha stavebních strojů - průkaz jeřábníka"
+    },
+    {
+      "id": "Dovednost/86",
+      "kod": "86",
+      "nazev": "Obsluha stavebních strojů - nakladače - válec"
+    },
+    {
+      "id": "Dovednost/A",
+      "kod": "A",
+      "nazev": "Jiné"
+    },
+    {
+      "id": "Dovednost/B1",
+      "kod": "B1",
+      "nazev": "Jiná způsobilost - zdravotní průkaz"
+    },
+    {
+      "id": "Dovednost/B2",
+      "kod": "B2",
+      "nazev": "Jiná způsobilost - zbrojní průkaz"
+    },
+    {
+      "id": "Dovednost/B",
+      "kod": "B",
+      "nazev": "Jiná způsobilost"
+    },
+    {
+      "id": "Dovednost/96",
+      "kod": "96",
+      "nazev": "Řidičský průkaz - řidič mezinárodní kamionové dopravy"
+    },
+    {
+      "id": "Dovednost/9A",
+      "kod": "9A",
+      "nazev": "Řidičský průkaz - řízení motorových vozíků (VZV)"
+    },
+    {
+      "id": "Dovednost/97",
+      "kod": "97",
+      "nazev": "Řidičský průkaz - přeprava nebezpečných věcí po silnici"
+    },
+    {
+      "id": "Dovednost/9B",
+      "kod": "9B",
+      "nazev": "Řidičský průkaz - profesní průkaz řidiče"
+    },
+    {
+      "id": "Dovednost/91",
+      "kod": "91",
+      "nazev": "Řidičský průkaz - řízení osobních automobilů - skupina B"
+    },
+    {
+      "id": "Dovednost/92",
+      "kod": "92",
+      "nazev": "Řidičský průkaz - řízení nákladních automobilů - skupina C"
+    },
+    {
+      "id": "Dovednost/93",
+      "kod": "93",
+      "nazev": "Řidičský průkaz - řízení autobusů - skupina D"
+    },
+    {
+      "id": "Dovednost/95",
+      "kod": "95",
+      "nazev": "Řidičský průkaz - řízení motorových vozidel s přívěsem - skupina E"
+    },
+    {
+      "id": "Dovednost/94",
+      "kod": "94",
+      "nazev": "Řidičský průkaz - řízení traktorů - skupina T"
+    },
+    {
+      "id": "Dovednost/98",
+      "kod": "98",
+      "nazev": "Řidičský průkaz - řízení tramvaje"
+    },
+    {
+      "id": "Dovednost/99",
+      "kod": "99",
+      "nazev": "Řidičský průkaz - řízení trolejbusu"
+    },
+    {
+      "id": "Dovednost/16",
+      "kod": "16",
+      "nazev": "Práce s PC - databázové systémy"
+    },
+    {
+      "id": "Dovednost/17",
+      "kod": "17",
+      "nazev": "Práce s PC - grafické programy"
+    },
+    {
+      "id": "Dovednost/18",
+      "kod": "18",
+      "nazev": "Práce s PC - internet a elektronická pošta"
+    },
+    {
+      "id": "Dovednost/1D",
+      "kod": "1D",
+      "nazev": "Práce s PC - obsluha CNC strojů"
+    },
+    {
+      "id": "Dovednost/15",
+      "kod": "15",
+      "nazev": "Práce s PC - plánovací software"
+    },
+    {
+      "id": "Dovednost/14",
+      "kod": "14",
+      "nazev": "Práce s PC - prezentační software"
+    },
+    {
+      "id": "Dovednost/13",
+      "kod": "13",
+      "nazev": "Práce s PC - tabulkový procesor (Excel)"
+    },
+    {
+      "id": "Dovednost/12",
+      "kod": "12",
+      "nazev": "Práce s PC - textový editor (Word)"
+    },
+    {
+      "id": "Dovednost/19",
+      "kod": "19",
+      "nazev": "Práce s PC - zkoušky ECDL (počítačový řidičák)"
+    },
+    {
+      "id": "Dovednost/1B",
+      "kod": "1B",
+      "nazev": "Práce s PC - jiné"
+    },
+    {
+      "id": "Dovednost/11",
+      "kod": "11",
+      "nazev": "Práce s PC - základní dovednosti PC"
+    },
+    {
+      "id": "Dovednost/1A",
+      "kod": "1A",
+      "nazev": "Práce s PC - Windows"
+    },
+    {
+      "id": "Dovednost/1C",
+      "kod": "1C",
+      "nazev": "Práce s PC - autocad"
+    },
+    {
+      "id": "Dovednost/1",
+      "kod": "1",
+      "nazev": "Práce s PC"
+    },
+    {
+      "id": "Dovednost/9",
+      "kod": "9",
+      "nazev": "Řidičský průkaz"
+    }
+  ]
+}

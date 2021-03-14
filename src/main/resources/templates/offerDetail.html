@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+
+<html layout:decorate="~{main_layout}"
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Pracovní portál</title>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" type="text/css" href="/css/offer_detail.css"/>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+</head>
+
+<body>
+<div layout:fragment="content">
+    <div style="padding-top: 2.5em" class="container">
+        <h3 style="color: slateblue" th:text="${offer.title}"></h3>
+
+        <p class="offerDetailMeta">
+            <span th:if="${(!editDate.equals('Dnes')) && (!editDate.equals('Včera'))}">Aktualizováno
+                <span class="date dateOld" th:text="${editDate}"></span>
+            </span>
+            <span th:if="${editDate.equals('Dnes')}">Aktualizováno
+                <span class="date dateToday" th:text="${editDate}"></span>
+            </span>
+            <span th:if="${editDate.equals('Včera')}">Aktualizováno
+                <span class="date dateYesterday" th:text="${editDate}"></span>
+            </span>
+
+            <span th:if="${(!insertionDate.equals('Dnes')) && (!insertionDate.equals('Včera'))}">  Vloženo
+                <span class="date dateOld" th:text="${insertionDate}"></span>
+            </span>
+            <span th:if="${insertionDate.equals('Dnes')}">  Vloženo
+                <span class="date dateToday" th:text="${insertionDate}"></span>
+            </span>
+            <span th:if="${insertionDate.equals('Včera')}"> Vloženo
+                <span class="date dateYesterday" th:text="${insertionDate}"></span>
+            </span>
+        </p>
+
+        <p class="offerDetailMeta">
+            <i style="color: cornflowerblue" class='fas fa-map-marked-alt'></i>
+            <span th:if="${(offer.placeType.code.equals('adrprov')) || (offer.placeType.code.equals('obec'))}">
+                <span th:if="${offer.workPlace.village != null}"
+                      th:text="' ' + ${offer.workPlace.village.name} + ', ' + ${offer.workPlace.village.district.region.name}"></span>
+                <span th:if="${offer.workPlace.village == null}">místo neuvedeno</span>
+            </span>
+            <span th:if="${(offer.placeType.code.equals('okres')) && (offer.workPlace.districts.size() > 1)}"
+                  th:each="district : ${offer.workPlace.districts}" th:text="' · ' + ${district.name}"></span>
+            <span th:if="${(offer.placeType.code.equals('okres')) && (offer.workPlace.districts.size() <= 1)}"
+                  th:each="district : ${offer.workPlace.districts}" th:text="${district.name}"></span>
+            <span th:if="${(offer.placeType.code.equals('adrvolna')) || (offer.placeType.code.equals('celaCR'))}"> Celá ČR</span>
+
+            <i style="color: cornflowerblue; padding-left: 0.3em" class='far fa-building'></i>
+            <span th:text="' ' + ${offer.employer.name}"></span>
+
+            <i style="color: cornflowerblue; padding-left: 0.3em" class='fas fa-business-time'></i>
+            <span class="workship" th:each="ship : ${workships}" th:text="' ' + ${ship}"></span>
+        </p>
+
+        <p class="offerDetailMeta">
+            <i style="color: green" class='fas fa-coins'></i> Mzda
+            <span th:if="${offer.salaryType.equals('TypMzdy/mesic')}">
+                <span th:if="${(offer.monthlyRateFrom > 0) && (offer.monthlyRateTo > 0)}">
+                    <span class="salary"
+                          th:text="' Od ' + ${offer.monthlyRateFrom.intValue()} + ' do ' + ${offer.monthlyRateTo.intValue()} + ' KČ měsíčně'"></span>
+                </span>
+                <span th:if="${(offer.monthlyRateFrom > 0) && (offer.monthlyRateTo == null)}">
+                    <span class="salary" th:text="' Od ' + ${offer.monthlyRateFrom.intValue()} + ' KČ měsíčně'"></span>
+                </span>
+                <span th:if="${(offer.monthlyRateFrom == null) && (offer.monthlyRateTo > 0)}">
+                    <span class="salary" th:text="' Až ' + ${offer.monthlyRateTo.intValue()} + ' KČ měsíčně'"></span>
+                </span>
+            </span>
+
+            <span th:if="${offer.salaryType.equals('TypMzdy/hod')}">
+            <span th:if="${(offer.monthlyRateFrom > 0) && (offer.monthlyRateTo > 0)}">
+                    <span class="salary"
+                          th:text="' Od ' + ${offer.monthlyRateFrom.intValue()} + ' do ' + ${offer.monthlyRateTo.intValue()} + ' KČ za hodinu'"></span>
+                </span>
+            <span th:if="${(offer.monthlyRateFrom > 0) && (offer.monthlyRateTo == null)}">
+                    <span class="salary"
+                          th:text="' Od ' + ${offer.monthlyRateFrom.intValue()} + ' KČ za hodinu'"></span>
+                </span>
+            <span th:if="${(offer.monthlyRateFrom == null) && (offer.monthlyRateTo > 0)}">
+                    <span class="salary" th:text="' Až ' + ${offer.monthlyRateTo.intValue()} + ' KČ za hodinu'"></span>
+                </span>
+            </span>
+            <span th:if="${(offer.monthlyRateFrom == null) && (offer.monthlyRateTo == null)}"> neuvedeno</span>
+
+            <i style="color: cornflowerblue; padding-left: 0.3em" class='fas fa-briefcase'></i> Obory
+            <span class="fields" th:each="field : ${offer.profession.getFields()}"
+                  th:text="${field.name}"></span>
+        </p>
+        <hr id="topLine">
+
+        <div id="desktopInfoView">
+        <h5 style="padding-top:1.5em; font-size:1.15em">Další informace o pozici</h5>
+        <div class="container" style="background-color: #eee9; border-radius:" 0.3em>
+            <div style="font-size: 0.9em; padding-top:1em; padding-bottom:1em;">
+                <span th:if="${offer.numberOfJobs != null}">
+                    <i class="fas fa-users moreInfoIcon"></i>
+                    <span class="moreInfoLabel">Počet volných pracovních míst:</span>
+                        <span th:text="${offer.numberOfJobs}"></span><br>
+                    <hr class="moreInfoHrDivider">
+                </span>
+                <span th:if="${offer.employer != null}">
+                    <i class='far fa-building moreInfoIcon'></i>
+                    <span class="moreInfoLabel">Informace o zaměstnavateli:</span>
+                        <span th:text="${offer.employer.name} + ', ičo: ' + ${offer.employer.ico}"></span><br>
+                    <hr class="moreInfoHrDivider">
+                </span>
+                <span th:if="${offer.placeType != null}">
+                    <i class="fas fa-map-marked-alt moreInfoIcon"></i>
+                    <span class="moreInfoLabel">Místo pracoviště:</span>
+                        <span th:if="${(offer.placeType.code.equals('adrprov')) || (offer.placeType.code.equals('obec'))}">
+                            <span th:if="${offer.workPlace.village != null}"
+                                  th:text="' ' + ${offer.workPlace.village.name} + ', ' + ${offer.workPlace.village.district.region.name}"></span>
+                            <span th:if="${offer.workPlace.village == null}">místo neuvedeno</span>
+                        </span>
+                        <span th:if="${(offer.placeType.code.equals('okres')) && (offer.workPlace.districts.size() > 1)}"
+                              th:each="district : ${offer.workPlace.districts}"
+                              th:text="' · ' + ${district.name}"></span>
+                        <span th:if="${(offer.placeType.code.equals('okres')) && (offer.workPlace.districts.size() <= 1)}"
+                              th:each="district : ${offer.workPlace.districts}" th:text="${district.name}"></span>
+                        <span th:if="${(offer.placeType.code.equals('adrvolna')) || (offer.placeType.code.equals('celaCR'))}"> Celá ČR</span>
+                        <br>
+                        <hr class="moreInfoHrDivider">
+                </span>
+                <span th:if="${offer.workships != null}">
+                    <i class='fas fa-business-time moreInfoIcon'></i>
+                    <span class="moreInfoLabel">Možné pracovní vztahy:</span>
+                        <span th:if="${offer.workships.size() > 1}" th:each="ship : ${offer.workships}"
+                              th:text="'· ' + ${ship.name} + ' '"></span>
+                        <span th:if="${offer.workships.size() <= 1}" th:each="ship : ${offer.workships}"
+                              th:text="${ship.name}"></span>
+                    <br>
+                    <hr class="moreInfoHrDivider">
+                </span>
+                <span th:if="${offer.workshift != null}">
+                    <i class="far fa-moon moreInfoIcon"></i>
+                    <span class="moreInfoLabel">Směnnost na této pozici:</span>
+                        <span th:text="${offer.workshift.name}"></span><br>
+                    <hr class="moreInfoHrDivider">
+                </span>
+                <span th:if="${offer.workStartDate != null}">
+                    <i class="far fa-calendar-alt moreInfoIcon"></i>
+                    <span class="moreInfoLabel">Doba zaměstnání od:</span>
+                        <span th:text="${offer.workStartDate.getDayOfMonth() + '. ' + offer.workStartDate.getMonthValue() + '. ' + offer.workStartDate.getYear()}"></span><br>
+                    <hr class="moreInfoHrDivider">
+                </span>
+                <span th:if="${offer.workEndDate != null}">
+                    <i class="far fa-calendar-alt moreInfoIcon"></i>
+                    <span class="moreInfoLabel">Doba zaměstnání do:</span>
+                        <span th:text="${offer.workEndDate.getDayOfMonth() + '. ' + offer.workEndDate.getMonthValue() + '. ' + offer.workEndDate.getYear()}"></span><br>
+                    <hr class="moreInfoHrDivider">
+                </span>
+                <span th:if="${offer.profession.getFields() != null}">
+                    <i class="fas fa-briefcase moreInfoIcon"></i>
+                    <span class="moreInfoLabel">Odpovídající obory:</span>
+                    <span th:if="${offer.profession.getFields().size() > 1}" th:each="field : ${offer.profession.getFields()}">
+                        <span th:text="'· ' + ${field.name} + ' '"></span>
+                    </span>
+                    <span th:if="${offer.profession.getFields().size() <= 1}" th:each="field : ${offer.profession.getFields()}">
+                        <span th:text="${field.name}"></span>
+                    </span>
+                    <br>
+                    <hr class="moreInfoHrDivider">
+                </span>
+                <span th:if="${offer.education != null}">
+                    <i class="fas fa-user-graduate moreInfoIcon"></i>
+                    <span class="moreInfoLabel">Požadované vzdělání:</span>
+                        <span th:text="${offer.education.name}"></span><br>
+                    <hr class="moreInfoHrDivider">
+                </span>
+                <span th:if="${offer.offerSkills.size() > 0}">
+                    <i class='fas fa-business-time moreInfoIcon'></i>
+                    <span class="moreInfoLabel">Požadované dovednosti:</span>
+                        <span th:if="${offer.offerSkills.size() > 1}" th:each="offerSkill : ${offer.offerSkills}">
+                            <span th:text="'· ' + ${offerSkill.skill.name} + ' '"></span>
+                            <span th:if="${offerSkill.description != null}"
+                                  th:text="' (' + ${offerSkill.description} + ')'"></span>
+                            <br>
+                            <span class="moreInfoEmptyLabel"></span>
+                        </span>
+                        <span th:if="${offer.offerSkills.size() <= 1}" th:each="offerSkill : ${offer.offerSkills}">
+                            <span th:text="${offerSkill.skill.name}"></span>
+                            <span th:if="${offerSkill.description != null}"
+                                  th:text="' (' + ${offerSkill.description} + ')'"></span>
+                        </span>
+                    <br>
+                    <hr class="moreInfoHrDivider">
+                </span>
+                <span th:if="${offer.offerLanguages.size() > 0}">
+                    <i class='fas fa-language moreInfoIcon'></i>
+                    <span class="moreInfoLabel">Požadovaná jazyková znalost:</span>
+                        <span th:if="${offer.offerLanguages.size() > 1}"
+                              th:each="offerLanguage : ${offer.offerLanguages}">
+                            <span th:text="'· ' + ${offerLanguage.language.name} + ' '"></span>
+                            <span th:if="${offerLanguage.description != null}"
+                                  th:text="' (' + ${offerLanguage.description} + ')'"></span>
+                            <br>
+                            <span class="moreInfoEmptyLabel"></span>
+                        </span>
+                        <span th:if="${offer.offerLanguages.size() <= 1}"
+                              th:each="offerLanguage : ${offer.offerLanguages}">
+                            <span th:text="${offerLanguage.language.name}"></span>
+                            <span th:if="${offerLanguage.description != null}"
+                                  th:text="' (' + ${offerLanguage.description} + ')'"></span>
+                        </span>
+                    <br>
+                    <hr class="moreInfoHrDivider">
+                </span>
+                <span th:if="${offer.offerBenefits.size() > 0}">
+                    <i class='far fa-plus-square moreInfoIcon'></i>
+                    <span class="moreInfoLabel">Výhody volného místa:</span>
+                        <span th:if="${offer.offerBenefits.size() > 1}" th:each="offerBenefit : ${offer.offerBenefits}">
+                            <span th:text="'· ' + ${offerBenefit.benefit.name} + ' '"></span>
+                            <span th:if="${offerBenefit.description != null}"
+                                  th:text="' (' + ${offerBenefit.description} + ')'"></span>
+                            <br>
+                            <span class="moreInfoEmptyLabel"></span>
+                        </span>
+                        <span th:if="${offer.offerBenefits.size() <= 1}"
+                              th:each="offerBenefit : ${offer.offerBenefits}">
+                            <span th:text="${offerBenefit.benefit.name}"></span>
+                            <span th:if="${offerBenefit.description != null}"
+                                  th:text="' (' + ${offerBenefit.description} + ')'"></span>
+                        </span>
+                    <br>
+                    <hr class="moreInfoHrDivider">
+                </span>
+                <span th:if="${offer.salaryType != null}">
+                    <i class="fas fa-coins moreInfoIcon"></i>
+                    <span class="moreInfoLabel">Nabízená mzda:</span>
+                    <span th:if="${offer.salaryType.equals('TypMzdy/mesic')}">
+                    <span th:if="${(offer.monthlyRateFrom > 0) && (offer.monthlyRateTo > 0)}">
+                        <span th:text="' Od ' + ${offer.monthlyRateFrom.intValue()} + ' do ' + ${offer.monthlyRateTo.intValue()} + ' KČ měsíčně'"></span>
+                    </span>
+                    <span th:if="${(offer.monthlyRateFrom > 0) && (offer.monthlyRateTo == null)}">
+                        <span th:text="' Od ' + ${offer.monthlyRateFrom.intValue()} + ' KČ měsíčně'"></span>
+                    </span>
+                    <span th:if="${(offer.monthlyRateFrom == null) && (offer.monthlyRateTo > 0)}">
+                        <span th:text="' Až ' + ${offer.monthlyRateTo.intValue()} + ' KČ měsíčně'"></span>
+                    </span>
+                    </span>
+
+                    <span th:if="${offer.salaryType.equals('TypMzdy/hod')}">
+                        <span th:if="${(offer.monthlyRateFrom > 0) && (offer.monthlyRateTo > 0)}">
+                        <span class="salary"
+                              th:text="' Od ' + ${offer.monthlyRateFrom.intValue()} + ' do ' + ${offer.monthlyRateTo.intValue()} + ' KČ za hodinu'"></span>
+                     </span>
+                    <span th:if="${(offer.monthlyRateFrom > 0) && (offer.monthlyRateTo == null)}">
+                        <span class="salary"
+                              th:text="' Od ' + ${offer.monthlyRateFrom.intValue()} + ' KČ za hodinu'"></span>
+                    </span>
+                    <span th:if="${(offer.monthlyRateFrom == null) && (offer.monthlyRateTo > 0)}">
+                        <span class="salary"
+                              th:text="' Až ' + ${offer.monthlyRateTo.intValue()} + ' KČ za hodinu'"></span>
+                    </span>
+                    </span>
+                    <br>
+                    <hr class="moreInfoHrDivider">
+                </span>
+                <span th:if="${offer.suitabilities != null}">
+                    <i class='fas fa-wheelchair moreInfoIcon'></i>
+                    <span class="moreInfoLabel">Vhodné pro:</span>
+                        <span th:if="${offer.suitabilities.size() > 1}" th:each="suitability : ${offer.suitabilities}">
+                            <span th:text="'· ' + ${suitability.name} + ' '"></span>
+                            <br>
+                            <span class="moreInfoEmptyLabel"></span>
+                        </span>
+                        <span th:if="${offer.suitabilities.size() <= 1}"
+                              th:each="suitability : ${offer.suitabilities}">
+                            <span th:text="${suitability.name}"></span>
+                        </span>
+                    <br>
+                    <hr class="moreInfoHrDivider">
+                </span>
+            </div>
+        </div>
+        </div>
+
+
+        <div id="mobileInfoView">
+        <h5 style="padding-top:1.5em; font-size:1.15em">Další informace o pozici</h5>
+        <div class="container" style="background-color: #eee9; border-radius:" 0.3em>
+            <div style="font-size: 0.9em; padding-top:1em; padding-bottom:1em;">
+                <span th:if="${offer.numberOfJobs != null}">
+                    <i class="fas fa-users moreInfoIcon"></i>
+                    <span class="moreInfoLabel">Počet volných pracovních míst:</span>
+                        <br>
+                        <span class="infoRowMobile" th:text="${offer.numberOfJobs}"></span><br>
+                    <hr class="moreInfoHrDivider">
+                </span>
+                <span th:if="${offer.employer != null}">
+                    <i class='far fa-building moreInfoIcon'></i>
+                    <span class="moreInfoLabel">Informace o zaměstnavateli:</span>
+                        <br>
+                        <span class="infoRowMobile" th:text="${offer.employer.name} + ', ičo: ' + ${offer.employer.ico}"></span>
+                        <br>
+                    <hr class="moreInfoHrDivider">
+                </span>
+                <span th:if="${offer.workEndDate != null}">
+                    <i class="fas fa-map-marked-alt moreInfoIcon"></i>
+                    <span class="moreInfoLabel">Místo pracoviště:</span>
+                        <br>
+                        <span th:if="${(offer.placeType.code.equals('adrprov')) || (offer.placeType.code.equals('obec'))}" class="infoRowMobile">
+                            <span th:if="${offer.workPlace.village != null}"
+                                  th:text="' ' + ${offer.workPlace.village.name} + ', ' + ${offer.workPlace.village.district.region.name}"></span>
+                            <span th:if="${offer.workPlace.village == null}">místo neuvedeno</span>
+                        </span>
+                        <span th:if="${(offer.placeType.code.equals('okres')) && (offer.workPlace.districts.size() > 1)}"
+                              th:each="district : ${offer.workPlace.districts}"
+                              th:text="' · ' + ${district.name}" class="infoRowMobile"></span>
+                        <span th:if="${(offer.placeType.code.equals('okres')) && (offer.workPlace.districts.size() <= 1)}"
+                              th:each="district : ${offer.workPlace.districts}" th:text="${district.name}" class="infoRowMobile"></span>
+                        <span th:if="${(offer.placeType.code.equals('adrvolna')) || (offer.placeType.code.equals('celaCR'))}" class="infoRowMobile"> Celá ČR</span>
+                        <br>
+                    <hr class="moreInfoHrDivider">
+                </span>
+                <span th:if="${offer.workships != null}">
+                    <i class='fas fa-business-time moreInfoIcon'></i>
+                    <span class="moreInfoLabel">Možné pracovní vztahy:</span>
+                        <br>
+                        <span th:if="${offer.workships.size() > 1}" th:each="ship : ${offer.workships}"
+                              th:text="'· ' + ${ship.name} + ' '" class="infoRowMobile"></span>
+                        <span th:if="${offer.workships.size() <= 1}" th:each="ship : ${offer.workships}"
+                              th:text="${ship.name}" class="infoRowMobile"></span>
+                    <br>
+                    <hr class="moreInfoHrDivider">
+                </span>
+                <span th:if="${offer.workshift != null}">
+                    <i class="far fa-moon moreInfoIcon"></i>
+                    <span class="moreInfoLabel">Směnnost na této pozici:</span>
+                        <br>
+                        <span th:text="${offer.workshift.name}" class="infoRowMobile"></span>
+                        <br>
+                    <hr class="moreInfoHrDivider">
+                </span>
+                <span th:if="${offer.workStartDate != null}">
+                    <i class="far fa-calendar-alt moreInfoIcon"></i>
+                    <span class="moreInfoLabel">Doba zaměstnání od:</span>
+                        <br>
+                        <span th:text="${offer.workStartDate.getDayOfMonth() + '. ' + offer.workStartDate.getMonthValue() + '. ' + offer.workStartDate.getYear()}" class="infoRowMobile"></span>
+                        <br>
+                    <hr class="moreInfoHrDivider">
+                </span>
+                <span th:if="${offer.workEndDate != null}">
+                    <i class="far fa-calendar-alt moreInfoIcon"></i>
+                    <span class="moreInfoLabel">Doba zaměstnání do:</span>
+                        <br>
+                        <span th:text="${offer.workEndDate.getDayOfMonth() + '. ' + offer.workEndDate.getMonthValue() + '. ' + offer.workEndDate.getYear()}" class="infoRowMobile"></span>
+                        <br>
+                    <hr class="moreInfoHrDivider">
+                </span>
+                <span th:if="${offer.profession.getFields() != null}">
+                    <i class="fas fa-briefcase moreInfoIcon"></i>
+                    <span class="moreInfoLabel">Odpovídající obory:</span>
+                    <br>
+                    <span th:if="${offer.profession.getFields().size() > 1}" th:each="field : ${offer.profession.getFields()}">
+                        <span th:text="'· ' + ${field.name} + ' '" class="infoRowMobile"></span>
+                    </span>
+                    <span th:if="${offer.profession.getFields().size() <= 1}" th:each="field : ${offer.profession.getFields()}">
+                        <span th:text="${field.name}" class="infoRowMobile"></span>
+                    </span>
+                    <br>
+                    <hr class="moreInfoHrDivider">
+                </span>
+                <span th:if="${offer.education != null}">
+                    <i class="fas fa-user-graduate moreInfoIcon"></i>
+                    <span class="moreInfoLabel">Požadované vzdělání:</span>
+                        <br>
+                        <span th:text="${offer.education.name}" class="infoRowMobile"></span>
+                        <br>
+                    <hr class="moreInfoHrDivider">
+                </span>
+                <span th:if="${offer.offerSkills.size() > 0}">
+                    <i class='fas fa-business-time moreInfoIcon'></i>
+                    <span class="moreInfoLabel">Požadované dovednosti:</span>
+                        <br>
+                        <span th:if="${offer.offerSkills.size() > 1}" th:each="offerSkill : ${offer.offerSkills}">
+                            <span th:text="'· ' + ${offerSkill.skill.name} + ' '" class="infoRowMobile"></span>
+                            <br>
+                        </span>
+                        <span th:if="${offer.offerSkills.size() <= 1}" th:each="offerSkill : ${offer.offerSkills}"
+                              th:text="${offerSkill.skill.name}" class="infoRowMobile"></span>
+                            <br>
+                    <hr class="moreInfoHrDivider">
+                </span>
+                <span th:if="${offer.offerLanguages.size() > 0}">
+                    <i class='fas fa-language moreInfoIcon'></i>
+                    <span class="moreInfoLabel">Požadovaná jazyková znalost:</span>
+                        <br>
+                        <span th:if="${offer.offerLanguages.size() > 1}"
+                              th:each="offerLanguage : ${offer.offerLanguages}">
+                            <span th:text="'· ' + ${offerLanguage.language.name} + ' '" class="infoRowMobile"></span>
+                            <br>
+                        </span>
+                        <span th:if="${offer.offerLanguages.size() <= 1}"
+                              th:each="offerLanguage : ${offer.offerLanguages}"
+                              th:text="${offerLanguage.language.name}" class="infoRowMobile"></span>
+                    <br>
+                    <hr class="moreInfoHrDivider">
+                </span>
+                <span th:if="${offer.offerBenefits.size() > 0}">
+                    <i class='far fa-plus-square moreInfoIcon'></i>
+                    <span class="moreInfoLabel">Výhody volného místa:</span>
+                        <br>
+                        <span th:if="${offer.offerBenefits.size() > 1}" th:each="offerBenefit : ${offer.offerBenefits}">
+                            <span th:text="'· ' + ${offerBenefit.benefit.name} + ' '" class="infoRowMobile"></span>
+                            <span th:if="${offerBenefit.description != null}"
+                                  th:text="' (' + ${offerBenefit.description} + ')'"></span>
+                            <br>
+                        </span>
+                        <span th:if="${offer.offerBenefits.size() <= 1}"
+                              th:each="offerBenefit : ${offer.offerBenefits}">
+                            <span th:text="${offerBenefit.benefit.name}" class="infoRowMobile"></span>
+                            <span th:if="${offerBenefit.description != null}"
+                                  th:text="' (' + ${offerBenefit.description} + ')'"></span>
+                        </span>
+                    <br>
+                    <hr class="moreInfoHrDivider">
+                </span>
+                <span th:if="${offer.salaryType != null}">
+                    <i class="fas fa-coins moreInfoIcon"></i>
+                    <span class="moreInfoLabel">Nabízená mzda:</span>
+                    <br>
+                    <span th:if="${offer.salaryType.equals('TypMzdy/mesic')}">
+                    <span th:if="${(offer.monthlyRateFrom > 0) && (offer.monthlyRateTo > 0)}">
+                        <span th:text="' Od ' + ${offer.monthlyRateFrom.intValue()} + ' do ' + ${offer.monthlyRateTo.intValue()} + ' KČ měsíčně'" class="infoRowMobile"></span>
+                    </span>
+                    <span th:if="${(offer.monthlyRateFrom > 0) && (offer.monthlyRateTo == null)}">
+                        <span th:text="' Od ' + ${offer.monthlyRateFrom.intValue()} + ' KČ měsíčně'" class="infoRowMobile"></span>
+                    </span>
+                    <span th:if="${(offer.monthlyRateFrom == null) && (offer.monthlyRateTo > 0)}">
+                        <span th:text="' Až ' + ${offer.monthlyRateTo.intValue()} + ' KČ měsíčně'" class="infoRowMobile"></span>
+                    </span>
+                    </span>
+
+                    <span th:if="${offer.salaryType.equals('TypMzdy/hod')}">
+                        <span th:if="${(offer.monthlyRateFrom > 0) && (offer.monthlyRateTo > 0)}">
+                        <span th:text="' Od ' + ${offer.monthlyRateFrom.intValue()} + ' do ' + ${offer.monthlyRateTo.intValue()} + ' KČ za hodinu'" class="infoRowMobile"></span>
+                     </span>
+                    <span th:if="${(offer.monthlyRateFrom > 0) && (offer.monthlyRateTo == null)}">
+                        <span th:text="' Od ' + ${offer.monthlyRateFrom.intValue()} + ' KČ za hodinu'" class="infoRowMobile"></span>
+                    </span>
+                    <span th:if="${(offer.monthlyRateFrom == null) && (offer.monthlyRateTo > 0)}">
+                        <span th:text="' Až ' + ${offer.monthlyRateTo.intValue()} + ' KČ za hodinu'" class="infoRowMobile"></span>
+                    </span>
+                    </span>
+                    <br>
+                    <hr class="moreInfoHrDivider">
+                </span>
+                <span th:if="${offer.suitabilities != null}">
+                    <i class='fas fa-wheelchair moreInfoIcon'></i>
+                    <span class="moreInfoLabel">Vhodné pro:</span>
+                        <br>
+                        <span th:if="${offer.suitabilities.size() > 1}" th:each="suitability : ${offer.suitabilities}">
+                            <span th:text="'· ' + ${suitability.name} + ' '" class="infoRowMobile"></span>
+                            <br>
+                        </span>
+                        <span th:if="${offer.suitabilities.size() <= 1}"
+                              th:each="suitability : ${offer.suitabilities}">
+                            <span th:text="${suitability.name}" class="infoRowMobile"></span>
+                        </span>
+                    <br>
+                    <hr class="moreInfoHrDivider">
+                </span>
+            </div>
+        </div>
+        </div>
+
+
+        <h5 style="padding-top:1.5em; font-size:1.15em">Doplňující informace zadané zaměstnavatelem</h5>
+        <div class="container" style="background-color: #eee9; border-radius:" 0.3em>
+            <p style="font-size: 0.9em; padding-top:1em; padding-bottom:1em;">
+                <span th:each="textParagraph : ${offerTextParagraphs}">
+                    <span th:text="${textParagraph}"></span>
+                    <br>
+                </span>
+            </p>
+        </div>
+    </div>
+    </div>
+</div>
+</body>
+</html>
