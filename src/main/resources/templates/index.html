@@ -244,35 +244,6 @@
             <span class="fields" th:each="field : ${offer.profession.getFields()}"
                   th:text="${field.name}"></span>
         </p>
-
-
-
-
-
-        <!--
-        <p style="font-size: 0.8em; color:red; margin:0">Id: <span th:text="${offer.id}"></span></p>
-        <table class="table table-sm" style="width:95%; margin-bottom:3em" id="offer">
-            <thead class="thead-dark">
-            <tr>
-                <th colspan="2"><a style="color:white" th:text="${offer.title}" th:href="'/offerDetail/' + ${offer.id}"></a></th>
-                <th style="width:45%">Obory: <span th:each="field : ${offer.profession.getFields()}"
-                                                   th:text="'|' + ${field.name} + '| '"></span></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td th:if="${#strings.length(offer.offerText) >= 250}" colspan="3"
-                    th:text="${#strings.substring(offer.offerText,0,249)} + '...'"></td>
-                <td th:if="${#strings.length(offer.offerText) < 250}" colspan="3"
-                    th:text="${offer.offerText} + '...'"></td>
-            </tr>
-            <tr style="background-color:#E6E6FA">
-                <td style="color:#045204" colspan="2"
-                    th:text="'Mzda od ' + ${offer.monthlyRateFrom} + ' Kč' + ' do ' + ${offer.monthlyRateTo} + ' Kč'"></td>
-                <td style="color:#0C1546" th:text="'Zaměstnavatel: ' + ${offer.employer.name}"></td>
-            </tr>
-            </tbody>
-        </table>-->
     </div>
     <div class="container">
         <hr>
