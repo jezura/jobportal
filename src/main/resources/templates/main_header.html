@@ -32,8 +32,10 @@
                 <div sec:authorize="hasRole('REGISTERED_USER')"
                      style="position:absolute; right: 0; margin-right: 2em; margin-top: 0.5em;">
                     <li style="float:left" class="nav-item-active">
-                        <a class="nav-link" href="/login">Můj účet</a>
-                    </li>
+                        <i style="color:lightgrey" class="far fa-user"></i>
+                        <span style="display:inline-block">
+                            <a style="padding-left: 0.1em" class="nav-link" href="/accountOverview">pejezkova@post.cz</a>
+                        <span>
                     <li style="float:left" class="nav-item-active">
                         <a class="nav-link" href="/logout">Odhlásit se</a>
                     </li>

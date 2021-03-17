@@ -12,6 +12,8 @@ import jobportal.services.*;
 import jobportal.utils.CVExtractor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -252,6 +254,22 @@ public class UserController {
         if (error != null)
             model.addAttribute("error", "Zadaný přihlašovací email nebo heslo nejsou správné");
         return "login";
+    }
+
+    @GetMapping(value = "/accountOverview")
+    public String showAccountOverviewPage(Model model) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        RegisteredUser registeredUser;
+        String email;
+        if (principal instanceof UserDetails) {
+            email = ((UserDetails) principal).getUsername();
+        } else {
+            email = principal.toString();
+        }
+        registeredUser = personService.findRegisteredUserByEmail(email);
+        model.addAttribute("registeredUser", registeredUser);
+        populateWithData(model);
+        return "accountOverview";
     }
 
     private void populateWithData(Model model){
