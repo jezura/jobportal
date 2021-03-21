@@ -138,37 +138,6 @@
                             <p><b>Obecný obor nejvyššího dosaženého vzdělání:</b> <span
                                     th:text="${registeredUser.eduGeneralField.prettyName}"></span></p>
 
-                            <!--<span style="color:green"><b>Predikovaná skóre relevancí pro jednotlivé obory: </b></span>
-                            <table th:each="relevanceScore : ${relevanceScores}"
-                                   th:if="${relevanceScore.userId == registeredUser.id}"
-                                   class="table table-sm text-center" style="font-size:0.7em">
-                                <thead class="thead-dark">
-                                <tr>
-                                    <th th:each="i : ${#numbers.sequence(0, 7)}"
-                                        th:text="${relevanceScore.getFieldName(i)}"></th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td style="color:green" th:each="i : ${#numbers.sequence(0, 7)}"><b
-                                            th:text="${relevanceScore.getPercentRelevanceScore(i)}"></b></td>
-                                </tr>
-                                </tbody>
-
-                                <thead class="thead-dark">
-                                <tr>
-                                    <th th:each="i : ${#numbers.sequence(8, 14)}"
-                                        th:text="${relevanceScore.getFieldName(i)}"></th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td style="color:green" th:each="i : ${#numbers.sequence(8, 14)}"><b
-                                            th:text="${relevanceScore.getPercentRelevanceScore(i)}"></b></td>
-                                </tr>
-                                </tbody>
-                            </table>-->
-
                             <div class="container" style="margin-left: 0em; max-width:27em">
                                 <span style="color:steelblue"><b>Predikovaná skóre relevancí pro jednotlivé obory: </b></span>
                                 <table th:each="relevanceScore : ${relevanceScores}" th:if="${relevanceScore.userId == registeredUser.id}" class="table table-sm text-center" style="font-size:0.7em">
