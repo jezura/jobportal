@@ -34,4 +34,8 @@ public class FieldsRelevancyService {
     public void saveFieldsRelevancy(FieldsRelevancy fr){
         fieldsRelevancyRepository.save(fr);
     }
+
+    public void deleteFieldsRelevancy(int id){
+        fieldsRelevancyRepository.deleteById(id);
+    }
 }

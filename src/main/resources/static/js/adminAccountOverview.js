@@ -1,0 +1,1 @@
+$('#modalChangePassword').modal('show');

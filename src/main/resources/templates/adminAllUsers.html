@@ -138,7 +138,7 @@
                             <p><b>Obecný obor nejvyššího dosaženého vzdělání:</b> <span
                                     th:text="${registeredUser.eduGeneralField.prettyName}"></span></p>
 
-                            <span style="color:green"><b>Predikovaná skóre relevancí pro jednotlivé obory: </b></span>
+                            <!--<span style="color:green"><b>Predikovaná skóre relevancí pro jednotlivé obory: </b></span>
                             <table th:each="relevanceScore : ${relevanceScores}"
                                    th:if="${relevanceScore.userId == registeredUser.id}"
                                    class="table table-sm text-center" style="font-size:0.7em">
@@ -167,7 +167,69 @@
                                             th:text="${relevanceScore.getPercentRelevanceScore(i)}"></b></td>
                                 </tr>
                                 </tbody>
-                            </table>
+                            </table>-->
+
+                            <div class="container" style="margin-left: 0em; max-width:27em">
+                                <span style="color:steelblue"><b>Predikovaná skóre relevancí pro jednotlivé obory: </b></span>
+                                <table th:each="relevanceScore : ${relevanceScores}" th:if="${relevanceScore.userId == registeredUser.id}" class="table table-sm text-center" style="font-size:0.7em">
+                                    <thead class="thead-dark">
+                                    <tr>
+                                        <th th:each="i : ${#numbers.sequence(0, 2)}" th:text="${relevanceScore.getFieldName(i)}"></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody style="color:steelblue">
+                                    <tr>
+                                        <td th:each="i : ${#numbers.sequence(0, 2)}"><b
+                                                th:text="${relevanceScore.getPercentRelevanceScore(i)}"></b></td>
+                                    </tr>
+                                    </tbody>
+                                    <thead class="thead-dark">
+                                    <tr>
+                                        <th th:each="i : ${#numbers.sequence(3, 5)}" th:text="${relevanceScore.getFieldName(i)}"></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody style="color:steelblue">
+                                    <tr>
+                                        <td th:each="i : ${#numbers.sequence(3, 5)}"><b
+                                                th:text="${relevanceScore.getPercentRelevanceScore(i)}"></b></td>
+                                    </tr>
+                                    </tbody>
+                                    <thead class="thead-dark">
+                                    <tr>
+                                        <th th:each="i : ${#numbers.sequence(6, 8)}" th:text="${relevanceScore.getFieldName(i)}"></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody style="color:steelblue">
+                                    <tr>
+                                        <td th:each="i : ${#numbers.sequence(6, 8)}"><b
+                                                th:text="${relevanceScore.getPercentRelevanceScore(i)}"></b></td>
+                                    </tr>
+                                    </tbody>
+                                    <thead class="thead-dark">
+                                    <tr>
+                                        <th th:each="i : ${#numbers.sequence(9, 11)}" th:text="${relevanceScore.getFieldName(i)}"></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody style="color:steelblue">
+                                    <tr>
+                                        <td th:each="i : ${#numbers.sequence(9, 11)}"><b
+                                                th:text="${relevanceScore.getPercentRelevanceScore(i)}"></b></td>
+                                    </tr>
+                                    </tbody>
+                                    <thead class="thead-dark">
+                                    <tr>
+                                        <th th:each="i : ${#numbers.sequence(12, 14)}" th:text="${relevanceScore.getFieldName(i)}"></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody style="color:steelblue">
+                                    <tr>
+                                        <td th:each="i : ${#numbers.sequence(12, 14)}"><b
+                                                th:text="${relevanceScore.getPercentRelevanceScore(i)}"></b></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Zavřít</button>
@@ -227,6 +289,7 @@
            th:text="'Zobrazuji nabídky ' + ${firstUserNum} + ' - ' + ${lastUserNum} + ' z celkem ' + ${totalUsers}"></p>
     </div>
 
+</div>
 </div>
 </body>
 </html>

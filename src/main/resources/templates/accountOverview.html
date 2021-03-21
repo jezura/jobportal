@@ -8,262 +8,331 @@
     <title>Pracovní portál</title>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" type="text/css" href="/css/account_overview.css"/>
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </head>
 
 <body>
 <div layout:fragment="content">
+    <div th:if="${(message_notification != null) && (message_notification.contains('úspě'))}" class="alert alert-success alert-dismissible fade show">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <i class="fas fa-check-circle" style="color:green"></i>
+        <strong th:text="' ' + ${message_notification}"></strong>
+    </div>
+    <div th:if="${(message_notification != null) && (message_notification.contains('Chyba'))}" class="alert alert-danger alert-dismissible fade show">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <i class="fas fa-exclamation-triangle" style="color:red"></i>
+        <strong th:text="' ' + ${message_notification}"></strong>
+    </div>
+
     <div style="padding-top: 2.5em" class="container">
-        <h3 style="color: slateblue" th:text="'Podrobnosti účtu uživatele: ' + ${registeredUser.firstName} + ' ' + ${registeredUser.lastName}"></h3>
+        <h3 style="color: slateblue"
+            th:text="'Podrobnosti účtu uživatele: ' + ${registeredUser.firstName} + ' ' + ${registeredUser.lastName}"></h3>
 
         <div id="desktopInfoView">
-        <h5 style="padding-top:1.5em; font-size:1.15em">Informace o uživateli</h5>
-        <div class="container" style="background-color: #eee9; border-radius:" 0.3em>
-            <div style="font-size: 0.9em; padding-top:1em; padding-bottom:1em;">
+            <h5 style="padding-top:1.5em; font-size:1.15em">Informace o uživateli</h5>
+            <div class="container" style="background-color: #eee9; border-radius:" 0.3em>
+                <div style="font-size: 0.9em; padding-top:1em; padding-bottom:1em;">
                 <span>
                     <i class="far fa-user moreInfoIcon"></i>
                     <span class="moreInfoLabel">Jméno a příjmení:</span>
                         <span th:text="${registeredUser.firstName} + ' ' + ${registeredUser.lastName}"></span><br>
                     <hr class="moreInfoHrDivider">
                 </span>
-                <span>
+                    <span>
                     <i class='fas fa-at moreInfoIcon'></i>
                     <span class="moreInfoLabel">Email/login:</span>
                         <span th:text="${registeredUser.email}"></span><br>
                     <hr class="moreInfoHrDivider">
                 </span>
-                <span>
+                    <span>
                     <i class='fas fa-venus-mars moreInfoIcon'></i>
                     <span class="moreInfoLabel">Pohlaví:</span>
                         <span th:text="${registeredUser.gender}"></span><br>
                     <hr class="moreInfoHrDivider">
                 </span>
-                <span>
+                    <span>
                     <i class='fas fa-baby moreInfoIcon'></i>
                     <span class="moreInfoLabel">Rok narození:</span>
                         <span th:text="${registeredUser.birthYear}"></span><br>
                     <hr class="moreInfoHrDivider">
                 </span>
-                <span>
+                    <span>
                     <i class='fas fa-map-marked-alt moreInfoIcon'></i>
                     <span class="moreInfoLabel">Kraj aktuálního bydliště:</span>
                         <span th:text="${registeredUser.region.name}"></span><br>
                     <hr class="moreInfoHrDivider">
                 </span>
-                <span>
+                    <span>
                     <i class='fas fa-user-graduate moreInfoIcon'></i>
                     <span class="moreInfoLabel">Stupeň nejvyššího dosaženého (nebo právě studovaného) vzdělání:</span>
                         <span th:text="${registeredUser.eduLevel.prettyName}"></span><br>
                     <hr class="moreInfoHrDivider">
                 </span>
-                <span>
+                    <span>
                     <i class='fas fa-briefcase moreInfoIcon'></i>
                     <span class="moreInfoLabel">Obecný obor nejvyššího dosaženého (nebo právě studovaného) vzdělání:</span>
                         <span th:text="${registeredUser.eduGeneralField.prettyName}"></span><br>
                     <hr class="moreInfoHrDivider">
                 </span>
+                </div>
             </div>
         </div>
-        </div>
+
+        <!--<div class="container" style="margin-bottom:3em; margin-top: 2em; margin-left:0em; width:27em">
+        <span style="color:steelblue"><b>Predikovaná skóre relevancí pro jednotlivé obory: </b></span>
+        <table class="table table-sm text-center" style="font-size:0.7em">
+            <thead class="thead-dark">
+            <tr>
+                <th th:each="i : ${#numbers.sequence(0, 2)}" th:text="${relevanceScore.getFieldName(i)}"></th>
+            </tr>
+            </thead>
+            <tbody style="color:steelblue">
+            <tr>
+                <td th:each="i : ${#numbers.sequence(0, 2)}"><b
+                        th:text="${relevanceScore.getPercentRelevanceScore(i)}"></b></td>
+            </tr>
+            </tbody>
+            <thead class="thead-dark">
+            <tr>
+                <th th:each="i : ${#numbers.sequence(3, 5)}" th:text="${relevanceScore.getFieldName(i)}"></th>
+            </tr>
+            </thead>
+            <tbody style="color:steelblue">
+            <tr>
+                <td th:each="i : ${#numbers.sequence(3, 5)}"><b
+                        th:text="${relevanceScore.getPercentRelevanceScore(i)}"></b></td>
+            </tr>
+            </tbody>
+            <thead class="thead-dark">
+            <tr>
+                <th th:each="i : ${#numbers.sequence(6, 8)}" th:text="${relevanceScore.getFieldName(i)}"></th>
+            </tr>
+            </thead>
+            <tbody style="color:steelblue">
+            <tr>
+                <td th:each="i : ${#numbers.sequence(6, 8)}"><b
+                        th:text="${relevanceScore.getPercentRelevanceScore(i)}"></b></td>
+            </tr>
+            </tbody>
+            <thead class="thead-dark">
+            <tr>
+                <th th:each="i : ${#numbers.sequence(9, 11)}" th:text="${relevanceScore.getFieldName(i)}"></th>
+            </tr>
+            </thead>
+            <tbody style="color:steelblue">
+            <tr>
+                <td th:each="i : ${#numbers.sequence(9, 11)}"><b
+                        th:text="${relevanceScore.getPercentRelevanceScore(i)}"></b></td>
+            </tr>
+            </tbody>
+            <thead class="thead-dark">
+            <tr>
+                <th th:each="i : ${#numbers.sequence(12, 14)}" th:text="${relevanceScore.getFieldName(i)}"></th>
+            </tr>
+            </thead>
+            <tbody style="color:steelblue">
+            <tr>
+                <td th:each="i : ${#numbers.sequence(12, 14)}"><b
+                        th:text="${relevanceScore.getPercentRelevanceScore(i)}"></b></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>-->
 
         <div class="container">
-            <button type="button" id="buttonEditInfo" data-toggle="modal" data-target="#modalEditInfo" class="btn btn-success" style="margin-right: 1em; margin-top:0.5em; margin-bottom: 1em;">Aktualizovat vybrané údaje</button>
-            <button type="button" id="buttonChangePassword" data-toggle="modal" data-target="#modalChangePassword" class="btn btn-success" style="margin-top:0.5em; margin-bottom: 1em;">Změnit heslo</button>
+            <button type="button" id="buttonShowRelevances" data-toggle="modal"
+                    data-target="#modalShowRelevances" class="btn btn-success"
+                    style="margin-right: 1em; margin-top:0.5em; margin-bottom: 1em;">Predikované relevance pracovních oborů
+            </button>
+            <button type="button" id="buttonEditInfo" data-toggle="modal"
+                    th:attr="data-target='#modalEditInfo'+*{registeredUser.id}" class="btn btn-info"
+                    style="margin-right: 1em; margin-top:0.5em; margin-bottom: 1em;">Aktualizovat vybrané údaje
+            </button>
+            <button type="button" id="buttonChangePassword" data-toggle="modal" class="btn btn-info"
+                    data-target="#modalChangePassword"
+                    style="margin-top:0.5em; margin-bottom: 1em;">Změnit heslo
+            </button>
         </div>
+    </div>
 
-
-        <!--<div id="mobileInfoView">
-        <h5 style="padding-top:1.5em; font-size:1.15em">Další informace o pozici</h5>
-        <div class="container" style="background-color: #eee9; border-radius:" 0.3em>
-            <div style="font-size: 0.9em; padding-top:1em; padding-bottom:1em;">
-                <span th:if="${offer.numberOfJobs != null}">
-                    <i class="fas fa-users moreInfoIcon"></i>
-                    <span class="moreInfoLabel">Počet volných pracovních míst:</span>
-                        <br>
-                        <span class="infoRowMobile" th:text="${offer.numberOfJobs}"></span><br>
-                    <hr class="moreInfoHrDivider">
-                </span>
-                <span th:if="${offer.employer != null}">
-                    <i class='far fa-building moreInfoIcon'></i>
-                    <span class="moreInfoLabel">Informace o zaměstnavateli:</span>
-                        <br>
-                        <span class="infoRowMobile" th:text="${offer.employer.name} + ', ičo: ' + ${offer.employer.ico}"></span>
-                        <br>
-                    <hr class="moreInfoHrDivider">
-                </span>
-                <span th:if="${offer.workEndDate != null}">
-                    <i class="fas fa-map-marked-alt moreInfoIcon"></i>
-                    <span class="moreInfoLabel">Místo pracoviště:</span>
-                        <br>
-                        <span th:if="${(offer.placeType.code.equals('adrprov')) || (offer.placeType.code.equals('obec'))}" class="infoRowMobile">
-                            <span th:if="${offer.workPlace.village != null}"
-                                  th:text="' ' + ${offer.workPlace.village.name} + ', ' + ${offer.workPlace.village.district.region.name}"></span>
-                            <span th:if="${offer.workPlace.village == null}">místo neuvedeno</span>
-                        </span>
-                        <span th:if="${(offer.placeType.code.equals('okres')) && (offer.workPlace.districts.size() > 1)}"
-                              th:each="district : ${offer.workPlace.districts}"
-                              th:text="' · ' + ${district.name}" class="infoRowMobile"></span>
-                        <span th:if="${(offer.placeType.code.equals('okres')) && (offer.workPlace.districts.size() <= 1)}"
-                              th:each="district : ${offer.workPlace.districts}" th:text="${district.name}" class="infoRowMobile"></span>
-                        <span th:if="${(offer.placeType.code.equals('adrvolna')) || (offer.placeType.code.equals('celaCR'))}" class="infoRowMobile"> Celá ČR</span>
-                        <br>
-                    <hr class="moreInfoHrDivider">
-                </span>
-                <span th:if="${offer.workships != null}">
-                    <i class='fas fa-business-time moreInfoIcon'></i>
-                    <span class="moreInfoLabel">Možné pracovní vztahy:</span>
-                        <br>
-                        <span th:if="${offer.workships.size() > 1}" th:each="ship : ${offer.workships}"
-                              th:text="'· ' + ${ship.name} + ' '" class="infoRowMobile"></span>
-                        <span th:if="${offer.workships.size() <= 1}" th:each="ship : ${offer.workships}"
-                              th:text="${ship.name}" class="infoRowMobile"></span>
-                    <br>
-                    <hr class="moreInfoHrDivider">
-                </span>
-                <span th:if="${offer.workshift != null}">
-                    <i class="far fa-moon moreInfoIcon"></i>
-                    <span class="moreInfoLabel">Směnnost na této pozici:</span>
-                        <br>
-                        <span th:text="${offer.workshift.name}" class="infoRowMobile"></span>
-                        <br>
-                    <hr class="moreInfoHrDivider">
-                </span>
-                <span th:if="${offer.workStartDate != null}">
-                    <i class="far fa-calendar-alt moreInfoIcon"></i>
-                    <span class="moreInfoLabel">Doba zaměstnání od:</span>
-                        <br>
-                        <span th:text="${offer.workStartDate.getDayOfMonth() + '. ' + offer.workStartDate.getMonthValue() + '. ' + offer.workStartDate.getYear()}" class="infoRowMobile"></span>
-                        <br>
-                    <hr class="moreInfoHrDivider">
-                </span>
-                <span th:if="${offer.workEndDate != null}">
-                    <i class="far fa-calendar-alt moreInfoIcon"></i>
-                    <span class="moreInfoLabel">Doba zaměstnání do:</span>
-                        <br>
-                        <span th:text="${offer.workEndDate.getDayOfMonth() + '. ' + offer.workEndDate.getMonthValue() + '. ' + offer.workEndDate.getYear()}" class="infoRowMobile"></span>
-                        <br>
-                    <hr class="moreInfoHrDivider">
-                </span>
-                <span th:if="${offer.profession.getFields() != null}">
-                    <i class="fas fa-briefcase moreInfoIcon"></i>
-                    <span class="moreInfoLabel">Odpovídající obory:</span>
-                    <br>
-                    <span th:if="${offer.profession.getFields().size() > 1}" th:each="field : ${offer.profession.getFields()}">
-                        <span th:text="'· ' + ${field.name} + ' '" class="infoRowMobile"></span>
-                    </span>
-                    <span th:if="${offer.profession.getFields().size() <= 1}" th:each="field : ${offer.profession.getFields()}">
-                        <span th:text="${field.name}" class="infoRowMobile"></span>
-                    </span>
-                    <br>
-                    <hr class="moreInfoHrDivider">
-                </span>
-                <span th:if="${offer.education != null}">
-                    <i class="fas fa-user-graduate moreInfoIcon"></i>
-                    <span class="moreInfoLabel">Požadované vzdělání:</span>
-                        <br>
-                        <span th:text="${offer.education.name}" class="infoRowMobile"></span>
-                        <br>
-                    <hr class="moreInfoHrDivider">
-                </span>
-                <span th:if="${offer.offerSkills.size() > 0}">
-                    <i class='fas fa-business-time moreInfoIcon'></i>
-                    <span class="moreInfoLabel">Požadované dovednosti:</span>
-                        <br>
-                        <span th:if="${offer.offerSkills.size() > 1}" th:each="offerSkill : ${offer.offerSkills}">
-                            <span th:text="'· ' + ${offerSkill.skill.name} + ' '" class="infoRowMobile"></span>
-                            <br>
-                        </span>
-                        <span th:if="${offer.offerSkills.size() <= 1}" th:each="offerSkill : ${offer.offerSkills}"
-                              th:text="${offerSkill.skill.name}" class="infoRowMobile"></span>
-                            <br>
-                    <hr class="moreInfoHrDivider">
-                </span>
-                <span th:if="${offer.offerLanguages.size() > 0}">
-                    <i class='fas fa-language moreInfoIcon'></i>
-                    <span class="moreInfoLabel">Požadovaná jazyková znalost:</span>
-                        <br>
-                        <span th:if="${offer.offerLanguages.size() > 1}"
-                              th:each="offerLanguage : ${offer.offerLanguages}">
-                            <span th:text="'· ' + ${offerLanguage.language.name} + ' '" class="infoRowMobile"></span>
-                            <br>
-                        </span>
-                        <span th:if="${offer.offerLanguages.size() <= 1}"
-                              th:each="offerLanguage : ${offer.offerLanguages}"
-                              th:text="${offerLanguage.language.name}" class="infoRowMobile"></span>
-                    <br>
-                    <hr class="moreInfoHrDivider">
-                </span>
-                <span th:if="${offer.offerBenefits.size() > 0}">
-                    <i class='far fa-plus-square moreInfoIcon'></i>
-                    <span class="moreInfoLabel">Výhody volného místa:</span>
-                        <br>
-                        <span th:if="${offer.offerBenefits.size() > 1}" th:each="offerBenefit : ${offer.offerBenefits}">
-                            <span th:text="'· ' + ${offerBenefit.benefit.name} + ' '" class="infoRowMobile"></span>
-                            <span th:if="${offerBenefit.description != null}"
-                                  th:text="' (' + ${offerBenefit.description} + ')'"></span>
-                            <br>
-                        </span>
-                        <span th:if="${offer.offerBenefits.size() <= 1}"
-                              th:each="offerBenefit : ${offer.offerBenefits}">
-                            <span th:text="${offerBenefit.benefit.name}" class="infoRowMobile"></span>
-                            <span th:if="${offerBenefit.description != null}"
-                                  th:text="' (' + ${offerBenefit.description} + ')'"></span>
-                        </span>
-                    <br>
-                    <hr class="moreInfoHrDivider">
-                </span>
-                <span th:if="${offer.salaryType != null}">
-                    <i class="fas fa-coins moreInfoIcon"></i>
-                    <span class="moreInfoLabel">Nabízená mzda:</span>
-                    <br>
-                    <span th:if="${offer.salaryType.equals('TypMzdy/mesic')}">
-                    <span th:if="${(offer.monthlyRateFrom > 0) && (offer.monthlyRateTo > 0)}">
-                        <span th:text="' Od ' + ${offer.monthlyRateFrom.intValue()} + ' do ' + ${offer.monthlyRateTo.intValue()} + ' KČ měsíčně'" class="infoRowMobile"></span>
-                    </span>
-                    <span th:if="${(offer.monthlyRateFrom > 0) && (offer.monthlyRateTo == null)}">
-                        <span th:text="' Od ' + ${offer.monthlyRateFrom.intValue()} + ' KČ měsíčně'" class="infoRowMobile"></span>
-                    </span>
-                    <span th:if="${(offer.monthlyRateFrom == null) && (offer.monthlyRateTo > 0)}">
-                        <span th:text="' Až ' + ${offer.monthlyRateTo.intValue()} + ' KČ měsíčně'" class="infoRowMobile"></span>
-                    </span>
-                    </span>
-
-                    <span th:if="${offer.salaryType.equals('TypMzdy/hod')}">
-                        <span th:if="${(offer.monthlyRateFrom > 0) && (offer.monthlyRateTo > 0)}">
-                        <span th:text="' Od ' + ${offer.monthlyRateFrom.intValue()} + ' do ' + ${offer.monthlyRateTo.intValue()} + ' KČ za hodinu'" class="infoRowMobile"></span>
-                     </span>
-                    <span th:if="${(offer.monthlyRateFrom > 0) && (offer.monthlyRateTo == null)}">
-                        <span th:text="' Od ' + ${offer.monthlyRateFrom.intValue()} + ' KČ za hodinu'" class="infoRowMobile"></span>
-                    </span>
-                    <span th:if="${(offer.monthlyRateFrom == null) && (offer.monthlyRateTo > 0)}">
-                        <span th:text="' Až ' + ${offer.monthlyRateTo.intValue()} + ' KČ za hodinu'" class="infoRowMobile"></span>
-                    </span>
-                    </span>
-                    <br>
-                    <hr class="moreInfoHrDivider">
-                </span>
-                <span th:if="${offer.suitabilities != null}">
-                    <i class='fas fa-wheelchair moreInfoIcon'></i>
-                    <span class="moreInfoLabel">Vhodné pro:</span>
-                        <br>
-                        <span th:if="${offer.suitabilities.size() > 1}" th:each="suitability : ${offer.suitabilities}">
-                            <span th:text="'· ' + ${suitability.name} + ' '" class="infoRowMobile"></span>
-                            <br>
-                        </span>
-                        <span th:if="${offer.suitabilities.size() <= 1}"
-                              th:each="suitability : ${offer.suitabilities}">
-                            <span th:text="${suitability.name}" class="infoRowMobile"></span>
-                        </span>
-                    <br>
-                    <hr class="moreInfoHrDivider">
-                </span>
+    <div class="modal fade" th:id="*{'modalEditInfo'+{registeredUser.id}}" tabindex="-1" role="dialog"
+         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" style="max-width:50em" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalEditTitle">Aktualizace vybraných údajů</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="#" th:action="@{'/updateUser/' + ${registeredUser.id}}" method="post">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="userFirstName">Jméno:</label>
+                            <input type="text" class="form-control" id="userFirstName"
+                                   th:value="*{registeredUser.firstName}" disabled="disabled">
+                        </div>
+                        <div class="form-group">
+                            <label for="userLastName">Příjmení:</label>
+                            <input type="text" class="form-control" id="userLastName" name="newLastName"
+                                   th:value="*{registeredUser.lastName}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="userLastName">Email (login):</label>
+                            <input type="text" class="form-control" id="userEmail" th:value="*{registeredUser.email}"
+                                   disabled="disabled">
+                        </div>
+                        <div class="form-group">
+                            <label for="userLastName">Rok narození:</label>
+                            <input type="text" class="form-control" id="userBirthYear"
+                                   th:value="*{registeredUser.birthYear}" disabled="disabled">
+                        </div>
+                        <div class="form-group blu-margin">
+                            <label>Kraj aktuálního bydliště:</label>
+                            <select class="form-control" id="region" name="newRegion">
+                                <option th:each="region : ${regions}" th:value="${region.id}" th:text="${region.name}"
+                                        th:selected="${region.id==registeredUser.region.id}"></option>
+                            </select>
+                        </div>
+                        <div class="form-group blu-margin">
+                            <label>Stupeň nejvyššího dosaženého (nebo právě studovaného) vzdělání:</label>
+                            <select class="form-control" id="eduLevel" name="newEduLevel">
+                                <option th:each="eduLevel : ${eduLevels}" th:value="${eduLevel.id}"
+                                        th:text="${eduLevel.prettyName}"
+                                        th:selected="${eduLevel.id==registeredUser.eduLevel.id}"></option>
+                            </select>
+                        </div>
+                        <div class="form-group blu-margin">
+                            <label>Obecný obor nejvyššího dosaženého (nebo právě studovaného) vzdělání:</label>
+                            <select class="form-control" id="eduGeneralField" name="newEduGeneralField">
+                                <option th:each="eduGeneralField : ${eduGeneralFields}" th:value="${eduGeneralField.id}"
+                                        th:text="${eduGeneralField.prettyName}"
+                                        th:selected="${eduGeneralField.id==registeredUser.eduGeneralField.id}"></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Zpět</button>
+                        <button type="submit" class="btn btn-success">Uložit změny</button>
+                    </div>
+                </form>
             </div>
         </div>
-        </div>-->
-
-
     </div>
+
+    <div class="modal fade" id="modalChangePassword" tabindex="-1" role="dialog"
+         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" style="max-width:50em" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalChangePasswordTitle">Změna hesla</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="#" th:action="@{'/changePassword/' + ${registeredUser.id}}" method="post">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="oldPassword">Vaše současné heslo:</label>
+                            <input type="password" class="form-control" id="oldPassword" name="oldPassword" minlength="5" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="oldPassword">Nové heslo:</label>
+                            <input type="password" class="form-control" id="newPassword" name="newPassword" minlength="5" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="oldPassword">Nové heslo znovu:</label>
+                            <input type="password" class="form-control" id="newPasswordCheck" name="newPasswordCheck" minlength="5" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Zpět</button>
+                        <button type="submit" class="btn btn-success">Změnit heslo</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script th:if="${openModalChangePassword.equals('modalTrue')}" type="text/javascript" src="/js/adminAccountOverview.js"></script>
+
+    <div class="modal fade" id="modalShowRelevances" tabindex="-1" role="dialog"
+         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" style="max-width:36em" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalChangeRelevancesTitle">Predikovaná skóre relevancí pro obecné pracovní obory</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container" style="margin: 0 auto; max-width:27em">
+                        <span style="color:steelblue"><b>Predikovaná skóre relevancí pro jednotlivé obory: </b></span>
+                        <table class="table table-sm text-center" style="font-size:0.7em">
+                            <thead class="thead-dark">
+                            <tr>
+                                <th th:each="i : ${#numbers.sequence(0, 2)}" th:text="${relevanceScore.getFieldName(i)}"></th>
+                            </tr>
+                            </thead>
+                            <tbody style="color:steelblue">
+                            <tr>
+                                <td th:each="i : ${#numbers.sequence(0, 2)}"><b
+                                        th:text="${relevanceScore.getPercentRelevanceScore(i)}"></b></td>
+                            </tr>
+                            </tbody>
+                            <thead class="thead-dark">
+                            <tr>
+                                <th th:each="i : ${#numbers.sequence(3, 5)}" th:text="${relevanceScore.getFieldName(i)}"></th>
+                            </tr>
+                            </thead>
+                            <tbody style="color:steelblue">
+                            <tr>
+                                <td th:each="i : ${#numbers.sequence(3, 5)}"><b
+                                        th:text="${relevanceScore.getPercentRelevanceScore(i)}"></b></td>
+                            </tr>
+                            </tbody>
+                            <thead class="thead-dark">
+                            <tr>
+                                <th th:each="i : ${#numbers.sequence(6, 8)}" th:text="${relevanceScore.getFieldName(i)}"></th>
+                            </tr>
+                            </thead>
+                            <tbody style="color:steelblue">
+                            <tr>
+                                <td th:each="i : ${#numbers.sequence(6, 8)}"><b
+                                        th:text="${relevanceScore.getPercentRelevanceScore(i)}"></b></td>
+                            </tr>
+                            </tbody>
+                            <thead class="thead-dark">
+                            <tr>
+                                <th th:each="i : ${#numbers.sequence(9, 11)}" th:text="${relevanceScore.getFieldName(i)}"></th>
+                            </tr>
+                            </thead>
+                            <tbody style="color:steelblue">
+                            <tr>
+                                <td th:each="i : ${#numbers.sequence(9, 11)}"><b
+                                        th:text="${relevanceScore.getPercentRelevanceScore(i)}"></b></td>
+                            </tr>
+                            </tbody>
+                            <thead class="thead-dark">
+                            <tr>
+                                <th th:each="i : ${#numbers.sequence(12, 14)}" th:text="${relevanceScore.getFieldName(i)}"></th>
+                            </tr>
+                            </thead>
+                            <tbody style="color:steelblue">
+                            <tr>
+                                <td th:each="i : ${#numbers.sequence(12, 14)}"><b
+                                        th:text="${relevanceScore.getPercentRelevanceScore(i)}"></b></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Zpět</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 </body>
 </html>

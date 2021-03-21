@@ -195,6 +195,16 @@ public class OfferController {
         model.addAttribute("totalOffers", totalOffers);
         model.addAttribute("totalPages", totalPages);
 
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        RegisteredUser registeredUser;
+        String email;
+        if (principal instanceof UserDetails) {
+            email = ((UserDetails) principal).getUsername();
+        } else {
+            email = principal.toString();
+        }
+        registeredUser = personService.findRegisteredUserByEmail(email);
+
         System.out.println("Offers list size: " + offers.size());
         Collection<Region> regions = regionService.findAllRegions();
         Collection<District> districts = districtService.findAllDistricts();
@@ -205,6 +215,7 @@ public class OfferController {
         model.addAttribute("fields", fields);
         model.addAttribute("offers", offers);
         model.addAttribute("currentPage", currentPage);
+        model.addAttribute("user", registeredUser);
         model.addAttribute("searching", true);
         return "index";
     }

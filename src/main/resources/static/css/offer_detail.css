@@ -49,6 +49,11 @@ min-width: 1.3em;
 color: darkseagreen;
 }
 
+.contactIcon{
+min-width: 1.3em;
+color: cornflowerblue;
+}
+
 .moreInfoLabel {
     min-width: 15em;
     display: inline-block;
@@ -70,6 +75,21 @@ padding-left: 1.5em;
 
 #topLine{
 border-top: 3px solid rgba(0,0,0,.1);
+}
+
+.buttonShowContacts{
+padding: 0.2em 0.8em;
+background-color: cornflowerblue;
+margin-top: 1em;
+}
+
+.buttonReply{
+padding: 0.2em 0.8em;
+margin: 1em 1em 2em;
+}
+
+#replyBlock{
+text-align: center;
 }
 
 @media only screen and (max-width: 999px) {

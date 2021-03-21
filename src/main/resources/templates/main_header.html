@@ -31,11 +31,14 @@
                 </div>
                 <div sec:authorize="hasRole('REGISTERED_USER')"
                      style="position:absolute; right: 0; margin-right: 2em; margin-top: 0.5em;">
-                    <li style="float:left" class="nav-item-active">
-                        <i style="color:lightgrey" class="far fa-user"></i>
-                        <span style="display:inline-block">
-                            <a style="padding-left: 0.1em" class="nav-link" href="/accountOverview">pejezkova@post.cz</a>
-                        <span>
+                    <li style="float:left" class="nav-item dropdown">
+                        <a id="accountDropdown" class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" sec:authentication="name"></a>
+                        <div class="dropdown-menu">
+                            <a class="nav-link" style="color: mediumslateblue" href="/accountOverview/modalFalse">Můj účet</a>
+                            <a class="nav-link" style="color: mediumslateblue"  href="/accountOverview/modalTrue">Změnit heslo</a>
+                        </div>
+                        <script type="text/javascript" src="/js/mainHeader.js"></script>
+                    </li>
                     <li style="float:left" class="nav-item-active">
                         <a class="nav-link" href="/logout">Odhlásit se</a>
                     </li>

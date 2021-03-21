@@ -6,6 +6,7 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface EduLevelRepository extends CrudRepository <EduLevel, Integer>
 {
+    EduLevel findEduLevelById(int id);
     EduLevel findEduLevelByAnnCode(int annCode);
     EduLevel findEduLevelByName(String name);
 }

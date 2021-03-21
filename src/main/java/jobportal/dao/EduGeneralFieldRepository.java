@@ -6,6 +6,7 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface EduGeneralFieldRepository extends CrudRepository <EduGeneralField, Integer>
 {
+    EduGeneralField findEduGeneralFieldById(int id);
     EduGeneralField findEduGeneralFieldByAnnCode(int annCode);
     EduGeneralField findEduGeneralFieldByName(String name);
 }
