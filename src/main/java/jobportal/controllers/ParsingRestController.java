@@ -130,8 +130,9 @@ public class ParsingRestController {
         }
         codebookParsingProgress++;
 
-        File file = new ClassPathResource("okresy.json").getFile();
-        obj = new JSONParser().parse(new FileReader(file));
+        url = new URL("https://data.mpsv.cz/od/soubory/ciselniky/okresy.json");
+        in = new BufferedReader(new InputStreamReader(url.openStream()));
+        obj = new JSONParser().parse(in);
         jsonObject = (JSONObject) obj;
         polozky = (JSONArray) jsonObject.get("polozky");
 
@@ -150,8 +151,9 @@ public class ParsingRestController {
         }
         codebookParsingProgress++;
 
-        file = new ClassPathResource("obce.json").getFile();
-        obj = new JSONParser().parse(new FileReader(file));
+        url = new URL("https://data.mpsv.cz/od/soubory/ciselniky/obce.json");
+        in = new BufferedReader(new InputStreamReader(url.openStream()));
+        obj = new JSONParser().parse(in);
         jsonObject = (JSONObject) obj;
         polozky = (JSONArray) jsonObject.get("polozky");
 
@@ -169,8 +171,9 @@ public class ParsingRestController {
         }
         codebookParsingProgress++;
 
-        file = new ClassPathResource("casti-obci.json").getFile();
-        obj = new JSONParser().parse(new FileReader(file));
+        url = new URL("https://data.mpsv.cz/od/soubory/ciselniky/casti-obci.json");
+        in = new BufferedReader(new InputStreamReader(url.openStream()));
+        obj = new JSONParser().parse(in);
         jsonObject = (JSONObject) obj;
         polozky = (JSONArray) jsonObject.get("polozky");
 
@@ -187,8 +190,9 @@ public class ParsingRestController {
         }
         codebookParsingProgress++;
 
-        file = new ClassPathResource("dovednosti.json").getFile();
-        obj = new JSONParser().parse(new FileReader(file));
+        url = new URL("https://data.mpsv.cz/od/soubory/ciselniky/dovednosti.json");
+        in = new BufferedReader(new InputStreamReader(url.openStream()));
+        obj = new JSONParser().parse(in);
         jsonObject = (JSONObject) obj;
         polozky = (JSONArray) jsonObject.get("polozky");
 
@@ -205,8 +209,9 @@ public class ParsingRestController {
         }
         codebookParsingProgress++;
 
-        file = new ClassPathResource("typy-mista-vykonu-prace.json").getFile();
-        obj = new JSONParser().parse(new FileReader(file));
+        url = new URL("https://data.mpsv.cz/od/soubory/ciselniky/typy-mista-vykonu-prace.json");
+        in = new BufferedReader(new InputStreamReader(url.openStream()));
+        obj = new JSONParser().parse(in);
         jsonObject = (JSONObject) obj;
         polozky = (JSONArray) jsonObject.get("polozky");
 
@@ -223,8 +228,9 @@ public class ParsingRestController {
         }
         codebookParsingProgress++;
 
-        file = new ClassPathResource("vhodnosti-pro-typ-zamestnance.json").getFile();
-        obj = new JSONParser().parse(new FileReader(file));
+        url = new URL("https://data.mpsv.cz/od/soubory/ciselniky/vhodnosti-pro-typ-zamestnance.json");
+        in = new BufferedReader(new InputStreamReader(url.openStream()));
+        obj = new JSONParser().parse(in);
         jsonObject = (JSONObject) obj;
         polozky = (JSONArray) jsonObject.get("polozky");
 
@@ -241,8 +247,9 @@ public class ParsingRestController {
         }
         codebookParsingProgress++;
 
-        file = new ClassPathResource("vyhody-volneho-mista.json").getFile();
-        obj = new JSONParser().parse(new FileReader(file));
+        url = new URL("https://data.mpsv.cz/od/soubory/ciselniky/vyhody-volneho-mista.json");
+        in = new BufferedReader(new InputStreamReader(url.openStream()));
+        obj = new JSONParser().parse(in);
         jsonObject = (JSONObject) obj;
         polozky = (JSONArray) jsonObject.get("polozky");
 
@@ -259,8 +266,9 @@ public class ParsingRestController {
         }
         codebookParsingProgress++;
 
-        file = new ClassPathResource("jazyky.json").getFile();
-        obj = new JSONParser().parse(new FileReader(file));
+        url = new URL("https://data.mpsv.cz/od/soubory/ciselniky/jazyky.json");
+        in = new BufferedReader(new InputStreamReader(url.openStream()));
+        obj = new JSONParser().parse(in);
         jsonObject = (JSONObject) obj;
         polozky = (JSONArray) jsonObject.get("polozky");
 
@@ -277,8 +285,9 @@ public class ParsingRestController {
         }
         codebookParsingProgress++;
 
-        file = new ClassPathResource("obory-cinnosti-vm.json").getFile();
-        obj = new JSONParser().parse(new FileReader(file));
+        url = new URL("https://data.mpsv.cz/od/soubory/ciselniky/obory-cinnosti-vm.json");
+        in = new BufferedReader(new InputStreamReader(url.openStream()));
+        obj = new JSONParser().parse(in);
         jsonObject = (JSONObject) obj;
         polozky = (JSONArray) jsonObject.get("polozky");
 
@@ -295,8 +304,9 @@ public class ParsingRestController {
         }
         codebookParsingProgress++;
 
-        file = new ClassPathResource("czisco.json").getFile();
-        obj = new JSONParser().parse(new FileReader(file));
+        url = new URL("https://data.mpsv.cz/od/soubory/ciselniky/czisco.json");
+        in = new BufferedReader(new InputStreamReader(url.openStream()));
+        obj = new JSONParser().parse(in);
         jsonObject = (JSONObject) obj;
         polozky = (JSONArray) jsonObject.get("polozky");
 
@@ -328,8 +338,9 @@ public class ParsingRestController {
         }
         codebookParsingProgress++;
 
-        file = new ClassPathResource("pracovnepravni-vztahy.json").getFile();
-        obj = new JSONParser().parse(new FileReader(file));
+        url = new URL("https://data.mpsv.cz/od/soubory/ciselniky/pracovnepravni-vztahy.json");
+        in = new BufferedReader(new InputStreamReader(url.openStream()));
+        obj = new JSONParser().parse(in);
         jsonObject = (JSONObject) obj;
         polozky = (JSONArray) jsonObject.get("polozky");
 
@@ -346,8 +357,9 @@ public class ParsingRestController {
         }
         codebookParsingProgress++;
 
-        file = new ClassPathResource("smennosti.json").getFile();
-        obj = new JSONParser().parse(new FileReader(file));
+        url = new URL("https://data.mpsv.cz/od/soubory/ciselniky/smennosti.json");
+        in = new BufferedReader(new InputStreamReader(url.openStream()));
+        obj = new JSONParser().parse(in);
         jsonObject = (JSONObject) obj;
         polozky = (JSONArray) jsonObject.get("polozky");
 
@@ -364,8 +376,9 @@ public class ParsingRestController {
         }
         codebookParsingProgress++;
 
-        file = new ClassPathResource("vzdelani.json").getFile();
-        obj = new JSONParser().parse(new FileReader(file));
+        url = new URL("https://data.mpsv.cz/od/soubory/ciselniky/vzdelani.json");
+        in = new BufferedReader(new InputStreamReader(url.openStream()));
+        obj = new JSONParser().parse(in);
         jsonObject = (JSONObject) obj;
         polozky = (JSONArray) jsonObject.get("polozky");
 
