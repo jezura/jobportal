@@ -18,6 +18,8 @@ import org.json.simple.parser.JSONParser;
 
 import java.io.*;
 import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -108,7 +110,9 @@ public class ParsingRestController {
     // method parse all codebook data and store to the app database, if success returns true
     @GetMapping(value = "/admin/parseAllCodeBookData")
     public boolean parseAllCodeBookData() throws IOException, ParseException {
-        File file = new ClassPathResource("kraje.json").getFile();
+        Path fileNameAndPath = Paths.get(new ClassPathResource("kraje.json").getPath());
+        //File file = new ClassPathResource("kraje.json").getFile();
+        File file = new File(String.valueOf(fileNameAndPath));
         Object obj = new JSONParser().parse(new FileReader(file));
         JSONObject jsonObject = (JSONObject) obj;
         JSONArray polozky = (JSONArray) jsonObject.get("polozky");
