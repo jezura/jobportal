@@ -15,6 +15,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.ParseException;
 import org.json.simple.parser.JSONParser;
+
 import java.io.*;
 import java.net.URL;
 import java.time.LocalDate;
@@ -114,7 +115,7 @@ public class ParsingRestController {
 
         Iterator<JSONObject> iterator = polozky.iterator();
         while (iterator.hasNext()) {
-            JSONObject nextObject =  iterator.next();
+            JSONObject nextObject = iterator.next();
             Region region = new Region();
             region.setId(nextObject.get("id").toString());
             region.setCode(nextObject.get("kod").toString());
@@ -133,7 +134,7 @@ public class ParsingRestController {
 
         iterator = polozky.iterator();
         while (iterator.hasNext()) {
-            JSONObject nextObject =  iterator.next();
+            JSONObject nextObject = iterator.next();
             District district = new District();
             district.setId(nextObject.get("id").toString());
             district.setCode(nextObject.get("kod").toString());
@@ -153,7 +154,7 @@ public class ParsingRestController {
 
         iterator = polozky.iterator();
         while (iterator.hasNext()) {
-            JSONObject nextObject =  iterator.next();
+            JSONObject nextObject = iterator.next();
             Village village = new Village();
             village.setId(nextObject.get("id").toString());
             village.setCode(nextObject.get("kod").toString());
@@ -172,7 +173,7 @@ public class ParsingRestController {
 
         iterator = polozky.iterator();
         while (iterator.hasNext()) {
-            JSONObject nextObject =  iterator.next();
+            JSONObject nextObject = iterator.next();
             VillagePart villagePart = new VillagePart();
             villagePart.setId(nextObject.get("id").toString());
             villagePart.setCode(nextObject.get("kod").toString());
@@ -190,7 +191,7 @@ public class ParsingRestController {
 
         iterator = polozky.iterator();
         while (iterator.hasNext()) {
-            JSONObject nextObject =  iterator.next();
+            JSONObject nextObject = iterator.next();
             Skill skill = new Skill();
             skill.setId(nextObject.get("id").toString());
             skill.setCode(nextObject.get("kod").toString());
@@ -208,7 +209,7 @@ public class ParsingRestController {
 
         iterator = polozky.iterator();
         while (iterator.hasNext()) {
-            JSONObject nextObject =  iterator.next();
+            JSONObject nextObject = iterator.next();
             PlaceType placeType = new PlaceType();
             placeType.setId(nextObject.get("id").toString());
             placeType.setCode(nextObject.get("kod").toString());
@@ -226,7 +227,7 @@ public class ParsingRestController {
 
         iterator = polozky.iterator();
         while (iterator.hasNext()) {
-            JSONObject nextObject =  iterator.next();
+            JSONObject nextObject = iterator.next();
             Suitability suitability = new Suitability();
             suitability.setId(nextObject.get("id").toString());
             suitability.setCode(nextObject.get("kod").toString());
@@ -244,7 +245,7 @@ public class ParsingRestController {
 
         iterator = polozky.iterator();
         while (iterator.hasNext()) {
-            JSONObject nextObject =  iterator.next();
+            JSONObject nextObject = iterator.next();
             Benefit benefit = new Benefit();
             benefit.setId(nextObject.get("id").toString());
             benefit.setCode(nextObject.get("kod").toString());
@@ -262,7 +263,7 @@ public class ParsingRestController {
 
         iterator = polozky.iterator();
         while (iterator.hasNext()) {
-            JSONObject nextObject =  iterator.next();
+            JSONObject nextObject = iterator.next();
             Language language = new Language();
             language.setId(nextObject.get("id").toString());
             language.setCode(nextObject.get("kod").toString());
@@ -280,7 +281,7 @@ public class ParsingRestController {
 
         iterator = polozky.iterator();
         while (iterator.hasNext()) {
-            JSONObject nextObject =  iterator.next();
+            JSONObject nextObject = iterator.next();
             Field field = new Field();
             field.setId(nextObject.get("id").toString());
             field.setCode(nextObject.get("kod").toString());
@@ -298,7 +299,7 @@ public class ParsingRestController {
 
         iterator = polozky.iterator();
         while (iterator.hasNext()) {
-            JSONObject nextObject =  iterator.next();
+            JSONObject nextObject = iterator.next();
             Profession profession = new Profession();
             profession.setId(nextObject.get("id").toString());
             profession.setCode(nextObject.get("kod").toString());
@@ -315,9 +316,7 @@ public class ParsingRestController {
                     fieldSet.add(fieldService.findFieldById(fieldObject.get("id").toString()));
                 }
                 profession.setFields(fieldSet);
-            }
-            catch (java.lang.NullPointerException exception)
-            {
+            } catch (java.lang.NullPointerException exception) {
                 System.out.println("nullpointer exception");
             }
 
@@ -333,7 +332,7 @@ public class ParsingRestController {
 
         iterator = polozky.iterator();
         while (iterator.hasNext()) {
-            JSONObject nextObject =  iterator.next();
+            JSONObject nextObject = iterator.next();
             Workship workship = new Workship();
             workship.setId(nextObject.get("id").toString());
             workship.setCode(nextObject.get("kod").toString());
@@ -351,7 +350,7 @@ public class ParsingRestController {
 
         iterator = polozky.iterator();
         while (iterator.hasNext()) {
-            JSONObject nextObject =  iterator.next();
+            JSONObject nextObject = iterator.next();
             Workshift workshift = new Workshift();
             workshift.setId(nextObject.get("id").toString());
             workshift.setCode(nextObject.get("kod").toString());
@@ -369,7 +368,7 @@ public class ParsingRestController {
 
         iterator = polozky.iterator();
         while (iterator.hasNext()) {
-            JSONObject nextObject =  iterator.next();
+            JSONObject nextObject = iterator.next();
             Education education = new Education();
             education.setId(nextObject.get("id").toString());
             education.setCode(nextObject.get("kod").toString());
@@ -393,7 +392,7 @@ public class ParsingRestController {
 
         Iterator<JSONObject> iterator = polozky.iterator();
         while (iterator.hasNext()) {
-            JSONObject nextObject =  iterator.next();
+            JSONObject nextObject = iterator.next();
             Region region = new Region();
             region.setId(nextObject.get("id").toString());
             region.setCode(nextObject.get("kod").toString());
@@ -415,7 +414,7 @@ public class ParsingRestController {
 
         Iterator<JSONObject> iterator = polozky.iterator();
         while (iterator.hasNext()) {
-            JSONObject nextObject =  iterator.next();
+            JSONObject nextObject = iterator.next();
             District district = new District();
             district.setId(nextObject.get("id").toString());
             district.setCode(nextObject.get("kod").toString());
@@ -438,7 +437,7 @@ public class ParsingRestController {
 
         Iterator<JSONObject> iterator = polozky.iterator();
         while (iterator.hasNext()) {
-            JSONObject nextObject =  iterator.next();
+            JSONObject nextObject = iterator.next();
             Village village = new Village();
             village.setId(nextObject.get("id").toString());
             village.setCode(nextObject.get("kod").toString());
@@ -460,7 +459,7 @@ public class ParsingRestController {
 
         Iterator<JSONObject> iterator = polozky.iterator();
         while (iterator.hasNext()) {
-            JSONObject nextObject =  iterator.next();
+            JSONObject nextObject = iterator.next();
             Skill skill = new Skill();
             skill.setId(nextObject.get("id").toString());
             skill.setCode(nextObject.get("kod").toString());
@@ -481,7 +480,7 @@ public class ParsingRestController {
 
         Iterator<JSONObject> iterator = polozky.iterator();
         while (iterator.hasNext()) {
-            JSONObject nextObject =  iterator.next();
+            JSONObject nextObject = iterator.next();
             Language language = new Language();
             language.setId(nextObject.get("id").toString());
             language.setCode(nextObject.get("kod").toString());
@@ -502,7 +501,7 @@ public class ParsingRestController {
 
         Iterator<JSONObject> iterator = polozky.iterator();
         while (iterator.hasNext()) {
-            JSONObject nextObject =  iterator.next();
+            JSONObject nextObject = iterator.next();
             Field field = new Field();
             field.setId(nextObject.get("id").toString());
             field.setCode(nextObject.get("kod").toString());
@@ -523,7 +522,7 @@ public class ParsingRestController {
 
         Iterator<JSONObject> iterator = polozky.iterator();
         while (iterator.hasNext()) {
-            JSONObject nextObject =  iterator.next();
+            JSONObject nextObject = iterator.next();
             Profession profession = new Profession();
             profession.setId(nextObject.get("id").toString());
             profession.setCode(nextObject.get("kod").toString());
@@ -555,7 +554,7 @@ public class ParsingRestController {
 
         Iterator<JSONObject> iterator = polozky.iterator();
         while (iterator.hasNext()) {
-            JSONObject nextObject =  iterator.next();
+            JSONObject nextObject = iterator.next();
             Workship workship = new Workship();
             workship.setId(nextObject.get("id").toString());
             workship.setCode(nextObject.get("kod").toString());
@@ -576,7 +575,7 @@ public class ParsingRestController {
 
         Iterator<JSONObject> iterator = polozky.iterator();
         while (iterator.hasNext()) {
-            JSONObject nextObject =  iterator.next();
+            JSONObject nextObject = iterator.next();
             Workshift workshift = new Workshift();
             workshift.setId(nextObject.get("id").toString());
             workshift.setCode(nextObject.get("kod").toString());
@@ -597,7 +596,7 @@ public class ParsingRestController {
 
         Iterator<JSONObject> iterator = polozky.iterator();
         while (iterator.hasNext()) {
-            JSONObject nextObject =  iterator.next();
+            JSONObject nextObject = iterator.next();
             Education education = new Education();
             education.setId(nextObject.get("id").toString());
             education.setCode(nextObject.get("kod").toString());
@@ -609,7 +608,7 @@ public class ParsingRestController {
         return "redirect:/admin/index";
     }
 
-// method parse all job offers data according to given parameters and store to the app database, if success returns true
+    // method parse all job offers data according to given parameters and store to the app database, if success returns true
     @GetMapping(value = "/admin/parseOffers")
     public boolean parseOffers(
             @Param("insertionDateFrom") String insertionDateFrom,
@@ -625,27 +624,27 @@ public class ParsingRestController {
         LocalDate localEditDateFrom;
         LocalDate localEditDateTo;
 
-        if(!insertionDateFrom.isEmpty()) {
+        if (!insertionDateFrom.isEmpty()) {
             localInsertionDateFrom = LocalDate.parse(insertionDateFrom);
-        }else{
+        } else {
             localInsertionDateFrom = LocalDate.parse("2020-01-01");
         }
 
-        if(!insertionDateTo.isEmpty()) {
+        if (!insertionDateTo.isEmpty()) {
             localInsertionDateTo = LocalDate.parse(insertionDateTo);
-        }else{
+        } else {
             localInsertionDateTo = LocalDate.parse("2025-01-01");
         }
 
-        if(!editDateFrom.isEmpty()) {
+        if (!editDateFrom.isEmpty()) {
             localEditDateFrom = LocalDate.parse(editDateFrom);
-        }else{
+        } else {
             localEditDateFrom = LocalDate.parse("2020-01-01");
         }
 
-        if(!editDateTo.isEmpty()) {
+        if (!editDateTo.isEmpty()) {
             localEditDateTo = LocalDate.parse(editDateTo);
-        }else{
+        } else {
             localEditDateTo = LocalDate.parse("2025-01-01");
         }
 
@@ -653,12 +652,11 @@ public class ParsingRestController {
         System.out.println("Delete empty: " + skipEmptyDescription);
 
         // pokud je zapnuta moznost stahovani dat z internetu
-        if(useApiSource.equals("switchedOn"))
-        {
+        if (useApiSource.equals("switchedOn")) {
             URL url = new URL("https://data.mpsv.cz/od/soubory/volna-mista/volna-mista.json");
             BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
             obj = new JSONParser().parse(in);
-        }else{
+        } else {
             File file = new ClassPathResource("offers10.json").getFile();
             obj = new JSONParser().parse(new FileReader(file));
         }
@@ -667,19 +665,18 @@ public class ParsingRestController {
         JSONArray polozky = (JSONArray) jsonObject.get("polozky");
 
         Iterator<JSONObject> iterator = polozky.iterator();
-        System.out.println("Mam offer objekty.");
         while (iterator.hasNext()) {
-            JSONObject nextObject =  iterator.next();
+            JSONObject nextObject = iterator.next();
 
             String stringDateInsertion = nextObject.get("datumVlozeni").toString();
-            String correctedDateInsertion = stringDateInsertion.substring(0,10);
+            String correctedDateInsertion = stringDateInsertion.substring(0, 10);
 
             System.out.println("Offer date insertion " + correctedDateInsertion);
 
             LocalDate localDateInsertion = LocalDate.parse(correctedDateInsertion);
 
             String stringDateEdit = nextObject.get("datumZmeny").toString();
-            String correctedDateEdit = stringDateEdit.substring(0,10);
+            String correctedDateEdit = stringDateEdit.substring(0, 10);
             LocalDate localDateEdit = LocalDate.parse(correctedDateEdit);
 
             LocalDate today = LocalDate.now();
@@ -688,16 +685,15 @@ public class ParsingRestController {
 
             JSONObject zverejnovat = (JSONObject) nextObject.get("zverejnovat");
 
-            try
-            {
+            try {
                 // pokud datumove rozsahy odpovidaji definovanym parametrum
-                if((localDateInsertion.isAfter(localInsertionDateFrom.minusDays(1)))
+                if ((localDateInsertion.isAfter(localInsertionDateFrom.minusDays(1)))
                         && (localDateInsertion.isBefore(localInsertionDateTo.plusDays(1)))
                         && (localDateEdit.isAfter(localEditDateFrom.minusDays(1)))
                         && (localDateEdit.isBefore(localEditDateTo.plusDays(1)))) {
                     // pokud jsou vyplneny upresnujiciInformace
                     // a pokud je povoleno zverejnovat - pridej do db
-                    if((nextObject.get("upresnujiciInformace") != null)
+                    if ((nextObject.get("upresnujiciInformace") != null)
                             && zverejnovat.get("id").toString() != "ZverejnovatVpm/ne") {
                         Offer offer = new Offer();
                         offer.setId(Long.valueOf(nextObject.get("referencniCislo").toString()));
@@ -712,9 +708,7 @@ public class ParsingRestController {
                             String stringExpireDate = nextObject.get("expirace").toString();
                             LocalDate localExpireDate = LocalDate.parse(stringExpireDate);
                             offer.setExpireDate(localExpireDate);
-                        }
-                        catch (java.lang.NullPointerException exception)
-                        {
+                        } catch (java.lang.NullPointerException exception) {
                             System.out.println("Offer-ExpireDate - nullpointer exception");
                         }
 
@@ -722,9 +716,7 @@ public class ParsingRestController {
                             String stringWorkStartDate = nextObject.get("terminZahajeniPracovnihoPomeru").toString();
                             LocalDate localWorkStartDate = LocalDate.parse(stringWorkStartDate);
                             offer.setWorkStartDate(localWorkStartDate);
-                        }
-                        catch (java.lang.NullPointerException exception)
-                        {
+                        } catch (java.lang.NullPointerException exception) {
                             System.out.println("Offer-WorkStartDate - nullpointer exception");
                         }
 
@@ -732,34 +724,26 @@ public class ParsingRestController {
                             String stringWorkEndDate = nextObject.get("terminUkonceniPracovnihoPomeru").toString();
                             LocalDate localWorkEndDate = LocalDate.parse(stringWorkEndDate);
                             offer.setWorkEndDate(localWorkEndDate);
-                        }
-                        catch (java.lang.NullPointerException exception)
-                        {
+                        } catch (java.lang.NullPointerException exception) {
                             System.out.println("Offer-WorkEndDate - nullpointer exception");
                         }
 
                         try {
                             offer.setMonthlyRateFrom(Double.valueOf(nextObject.get("mesicniMzdaOd").toString()));
-                        }
-                        catch (java.lang.NullPointerException exception)
-                        {
+                        } catch (java.lang.NullPointerException exception) {
                             System.out.println("Offer-MonthlyRateFrom - nullpointer exception");
                         }
 
                         try {
                             offer.setMonthlyRateTo(Double.valueOf(nextObject.get("mesicniMzdaDo").toString()));
-                        }
-                        catch (java.lang.NullPointerException exception)
-                        {
+                        } catch (java.lang.NullPointerException exception) {
                             System.out.println("Offer-MonthlyRateTo - nullpointer exception");
                         }
 
                         JSONObject salaryType = (JSONObject) nextObject.get("typMzdy");
                         try {
                             offer.setSalaryType(salaryType.get("id").toString());
-                        }
-                        catch (java.lang.NullPointerException exception)
-                        {
+                        } catch (java.lang.NullPointerException exception) {
                             System.out.println("Offer-SalaryType - nullpointer exception");
                         }
 
@@ -768,38 +752,30 @@ public class ParsingRestController {
                         JSONObject profession = (JSONObject) nextObject.get("profeseCzIsco");
                         try {
                             offer.setProfession(professionService.findProfessionById(profession.get("id").toString()));
-                        }
-                        catch (java.lang.NullPointerException exception)
-                        {
+                        } catch (java.lang.NullPointerException exception) {
                             System.out.println("Offer-Profession - nullpointer exception");
                         }
 
                         JSONObject shift = (JSONObject) nextObject.get("smennost");
                         try {
                             offer.setWorkshift(workshiftService.findWorkshiftById(shift.get("id").toString()));
-                        }
-                        catch (java.lang.NullPointerException exception)
-                        {
+                        } catch (java.lang.NullPointerException exception) {
                             System.out.println("Offer-WorkShift - nullpointer exception");
                         }
 
                         JSONObject education = (JSONObject) nextObject.get("minPozadovaneVzdelani");
                         try {
                             offer.setEducation(educationService.findEducationById(education.get("id").toString()));
-                        }
-                        catch (java.lang.NullPointerException exception)
-                        {
+                        } catch (java.lang.NullPointerException exception) {
                             System.out.println("Offer-education - nullpointer exception");
                         }
 
                         JSONObject employer = (JSONObject) nextObject.get("zamestnavatel");
-                        if(employerService.findEmployerByIco(Integer.valueOf(employer.get("ico").toString())) != null)
-                        {
+                        if (employerService.findEmployerByIco(Integer.valueOf(employer.get("ico").toString())) != null) {
                             offer.setEmployer(employerService.findEmployerByIco(Integer.valueOf(employer.get("ico").toString())));
-                        }
-                        else {
+                        } else {
                             Employer emp = new Employer();
-                            emp.setIco( Integer.valueOf(employer.get("ico").toString()));
+                            emp.setIco(Integer.valueOf(employer.get("ico").toString()));
                             emp.setName(employer.get("nazev").toString());
                             employerService.saveEmployer(emp);
                             offer.setEmployer(emp);
@@ -838,9 +814,7 @@ public class ParsingRestController {
 
                             firstContactService.saveFirstContact(firstContact);
                             offer.setFirstContact(firstContact);
-                        }
-                        catch (java.lang.NullPointerException exception)
-                        {
+                        } catch (java.lang.NullPointerException exception) {
                             System.out.println("Offer-firstContact - nullpointer exception");
                         }
 
@@ -856,7 +830,7 @@ public class ParsingRestController {
                                 Skill skill = skillService.findSkillById(dovednostObject.get("id").toString());
                                 offerSkill.setSkill(skill);
                                 offerSkill.setOffer(offerService.findOfferById(Long.valueOf(nextObject.get("referencniCislo").toString())));
-                                if(skillObject.get("popis") != null) {
+                                if (skillObject.get("popis") != null) {
                                     offerSkill.setDescription(skillObject.get("popis").toString());
                                 }
                                 offer.addOfferSkill(offerSkill);
@@ -864,9 +838,7 @@ public class ParsingRestController {
                                 skill.addOfferSkill(offerSkill);
                                 offerSkill.setSkill(skill);
                             }
-                        }
-                        catch (java.lang.NullPointerException exception)
-                        {
+                        } catch (java.lang.NullPointerException exception) {
                             System.out.println("Offer-skill - nullpointer exception");
                         }
 
@@ -882,7 +854,7 @@ public class ParsingRestController {
                                 Benefit benefit = benefitService.findBenefitById(vyhodaObject.get("id").toString());
                                 offerBenefit.setBenefit(benefit);
                                 offerBenefit.setOffer(offerService.findOfferById(Long.valueOf(nextObject.get("referencniCislo").toString())));
-                                if(benefitObject.get("popis") != null) {
+                                if (benefitObject.get("popis") != null) {
                                     offerBenefit.setDescription(benefitObject.get("popis").toString());
                                 }
                                 offer.addOfferBenefit(offerBenefit);
@@ -890,9 +862,7 @@ public class ParsingRestController {
                                 benefit.addOfferBenefit(offerBenefit);
                                 offerBenefit.setBenefit(benefit);
                             }
-                        }
-                        catch (java.lang.NullPointerException exception)
-                        {
+                        } catch (java.lang.NullPointerException exception) {
                             System.out.println("Offer-benefit - nullpointer exception");
                         }
 
@@ -922,7 +892,7 @@ public class ParsingRestController {
                                         break;
                                 }
 
-                                if(languageObject.get("popis") != null) {
+                                if (languageObject.get("popis") != null) {
                                     offerLanguage.setDescription(languageObject.get("popis").toString());
                                 }
                                 offer.addOfferLanguage(offerLanguage);
@@ -930,12 +900,10 @@ public class ParsingRestController {
                                 language.addOfferLanguage(offerLanguage);
                                 offerLanguage.setLanguage(language);
                             }
-                        }
-                        catch (java.lang.NullPointerException exception)
-                        {
+                        } catch (java.lang.NullPointerException exception) {
                             System.out.println("Offer-skill - nullpointer exception");
                         }
-                        
+
                         // !! pracovnich vztahu je vice polozek - ukladaji se jako M:N do setu (id vs id) / pomocna tabulka
                         JSONArray ships = (JSONArray) nextObject.get("pracovnePravniVztahy");
                         try {
@@ -947,9 +915,7 @@ public class ParsingRestController {
                                 workshipSet.add(workshipService.findWorkshipById(workShipObject.get("id").toString()));
                             }
                             offer.setWorkships(workshipSet);
-                        }
-                        catch (java.lang.NullPointerException exception)
-                        {
+                        } catch (java.lang.NullPointerException exception) {
                             System.out.println("Offer-workship - nullpointer exception");
                         }
 
@@ -964,9 +930,7 @@ public class ParsingRestController {
                                 suitabilitySet.add(suitabilityService.findSuitabilityById(suitabilityObject.get("id").toString()));
                             }
                             offer.setSuitabilities(suitabilitySet);
-                        }
-                        catch (java.lang.NullPointerException exception)
-                        {
+                        } catch (java.lang.NullPointerException exception) {
                             System.out.println("Offer-suitability - nullpointer exception");
                         }
 
@@ -974,23 +938,18 @@ public class ParsingRestController {
                         try {
                             JSONObject placeType = (JSONObject) place.get("typMistaVykonuPrace");
                             offer.setPlaceType(placeTypeService.findPlaceTypeById(placeType.get("id").toString()));
-                        }
-                        catch (java.lang.NullPointerException exception)
-                        {
+                        } catch (java.lang.NullPointerException exception) {
                             System.out.println("Offer-placeType - nullpointer exception");
                         }
 
                         // Work place - misto pracoviste podle typu pracoviste
-                        if((offer.getPlaceType().getCode().equals("obec")) || (offer.getPlaceType().getCode().equals("adrvolna")))
-                        {
+                        if ((offer.getPlaceType().getCode().equals("obec")) || (offer.getPlaceType().getCode().equals("adrvolna"))) {
                             WorkPlace workPlace = new WorkPlace();
 
                             JSONObject village = (JSONObject) place.get("obec");
                             try {
                                 workPlace.setVillage(villageService.findVillageById(village.get("id").toString()));
-                            }
-                            catch (java.lang.NullPointerException exception)
-                            {
+                            } catch (java.lang.NullPointerException exception) {
                                 System.out.println("Workplace-village - nullpointer exception");
                             }
 
@@ -998,126 +957,111 @@ public class ParsingRestController {
                             Iterator<JSONObject> iteratorPracoviste = pracoviste.iterator();
                             JSONObject pracovisteObject = iteratorPracoviste.next();
 
-                            if(pracovisteObject.get("email") != null)
+                            if (pracovisteObject.get("email") != null)
                                 workPlace.setEmail(pracovisteObject.get("email").toString());
-                            if(pracovisteObject.get("nazev") != null)
+                            if (pracovisteObject.get("nazev") != null)
                                 workPlace.setName(pracovisteObject.get("nazev").toString());
-                            if(pracovisteObject.get("telefon") != null)
+                            if (pracovisteObject.get("telefon") != null)
+                                workPlace.setPhone(pracovisteObject.get("telefon").toString());
+                            workPlaceService.saveWorkPlace(workPlace);
+
+                            offer.setWorkPlace(workPlace);
+                        } else if (offer.getPlaceType().getCode().equals("okres")) {
+                            WorkPlace workPlace = new WorkPlace();
+
+                            JSONArray districts = (JSONArray) place.get("okresy");
+                            try {
+                                Iterator<JSONObject> iteratorDistricts = districts.iterator();
+                                Set<District> districtSet = new HashSet<District>();
+
+                                while (iteratorDistricts.hasNext()) {
+                                    JSONObject districtObject = iteratorDistricts.next();
+                                    districtSet.add(districtService.findDistrictById(districtObject.get("id").toString()));
+                                }
+                                workPlace.setDistricts(districtSet);
+                            } catch (java.lang.NullPointerException exception) {
+                                System.out.println("Workplace-districts - nullpointer exception");
+                            }
+
+                            JSONArray pracoviste = (JSONArray) place.get("pracoviste");
+                            Iterator<JSONObject> iteratorPracoviste = pracoviste.iterator();
+                            JSONObject pracovisteObject = iteratorPracoviste.next();
+
+                            if (pracovisteObject.get("email") != null)
+                                workPlace.setEmail(pracovisteObject.get("email").toString());
+                            if (pracovisteObject.get("nazev") != null)
+                                workPlace.setName(pracovisteObject.get("nazev").toString());
+                            if (pracovisteObject.get("telefon") != null)
+                                workPlace.setPhone(pracovisteObject.get("telefon").toString());
+                            workPlaceService.saveWorkPlace(workPlace);
+
+                            offer.setWorkPlace(workPlace);
+                        } else if (offer.getPlaceType().getCode().equals("adrprov")) {
+                            WorkPlace workPlace = new WorkPlace();
+
+                            JSONArray pracoviste = (JSONArray) place.get("pracoviste");
+                            Iterator<JSONObject> iteratorPracoviste = pracoviste.iterator();
+                            JSONObject pracovisteObject = iteratorPracoviste.next();
+
+                            if (pracovisteObject.get("email") != null)
+                                workPlace.setEmail(pracovisteObject.get("email").toString());
+                            if (pracovisteObject.get("nazev") != null)
+                                workPlace.setName(pracovisteObject.get("nazev").toString());
+                            if (pracovisteObject.get("telefon") != null)
+                                workPlace.setPhone(pracovisteObject.get("telefon").toString());
+
+                            JSONObject addressObject = (JSONObject) pracovisteObject.get("adresa");
+                            if (addressObject.get("cisloDomovni") != null)
+                                workPlace.setHouseNumber(addressObject.get("cisloDomovni").toString());
+                            if (addressObject.get("cisloOrientacni") != null)
+                                workPlace.setOrientationNumber(addressObject.get("cisloOrientacni").toString());
+                            if (addressObject.get("psc") != null)
+                                workPlace.setZipCode(addressObject.get("psc").toString());
+
+                            JSONObject streetObject = (JSONObject) addressObject.get("ulice");
+                            if (streetObject != null)
+                                workPlace.setStreet(streetObject.get("nazev").toString());
+
+                            JSONObject villageObject = (JSONObject) addressObject.get("obec");
+                            try {
+                                workPlace.setVillage(villageService.findVillageById(villageObject.get("id").toString()));
+                            } catch (java.lang.NullPointerException exception) {
+                                System.out.println("Workplace-address-village - nullpointer exception");
+                            }
+
+                            JSONObject villagePartObject = (JSONObject) addressObject.get("castObce");
+                            try {
+                                workPlace.setVillagePart(villagePartService.findVillagePartById(villagePartObject.get("id").toString()));
+                            } catch (java.lang.NullPointerException exception) {
+                                System.out.println("Workplace-address-villagePart - nullpointer exception");
+                            }
+
+                            workPlaceService.saveWorkPlace(workPlace);
+
+                            offer.setWorkPlace(workPlace);
+                        } else if (offer.getPlaceType().getCode().equals("celaCR")) {
+                            WorkPlace workPlace = new WorkPlace();
+
+                            JSONArray pracoviste = (JSONArray) place.get("pracoviste");
+                            Iterator<JSONObject> iteratorPracoviste = pracoviste.iterator();
+                            JSONObject pracovisteObject = iteratorPracoviste.next();
+
+                            if (pracovisteObject.get("email") != null)
+                                workPlace.setEmail(pracovisteObject.get("email").toString());
+                            if (pracovisteObject.get("nazev") != null)
+                                workPlace.setName(pracovisteObject.get("nazev").toString());
+                            if (pracovisteObject.get("telefon") != null)
                                 workPlace.setPhone(pracovisteObject.get("telefon").toString());
                             workPlaceService.saveWorkPlace(workPlace);
 
                             offer.setWorkPlace(workPlace);
                         }
-                        else
-                            if(offer.getPlaceType().getCode().equals("okres")) {
-                                WorkPlace workPlace = new WorkPlace();
-
-                                JSONArray districts = (JSONArray) place.get("okresy");
-                                try {
-                                    Iterator<JSONObject> iteratorDistricts = districts.iterator();
-                                    Set<District> districtSet = new HashSet<District>();
-
-                                    while (iteratorDistricts.hasNext()) {
-                                        JSONObject districtObject = iteratorDistricts.next();
-                                        districtSet.add(districtService.findDistrictById(districtObject.get("id").toString()));
-                                    }
-                                    workPlace.setDistricts(districtSet);
-                                }
-                                catch (java.lang.NullPointerException exception)
-                                {
-                                    System.out.println("Workplace-districts - nullpointer exception");
-                                }
-
-                                JSONArray pracoviste = (JSONArray) place.get("pracoviste");
-                                Iterator<JSONObject> iteratorPracoviste = pracoviste.iterator();
-                                JSONObject pracovisteObject = iteratorPracoviste.next();
-
-                                if(pracovisteObject.get("email") != null)
-                                    workPlace.setEmail(pracovisteObject.get("email").toString());
-                                if(pracovisteObject.get("nazev") != null)
-                                    workPlace.setName(pracovisteObject.get("nazev").toString());
-                                if(pracovisteObject.get("telefon") != null)
-                                    workPlace.setPhone(pracovisteObject.get("telefon").toString());
-                                workPlaceService.saveWorkPlace(workPlace);
-
-                                offer.setWorkPlace(workPlace);
-                            }
-                            else
-                                if(offer.getPlaceType().getCode().equals("adrprov")) {
-                                    WorkPlace workPlace = new WorkPlace();
-
-                                    JSONArray pracoviste = (JSONArray) place.get("pracoviste");
-                                    Iterator<JSONObject> iteratorPracoviste = pracoviste.iterator();
-                                    JSONObject pracovisteObject = iteratorPracoviste.next();
-
-                                    if(pracovisteObject.get("email") != null)
-                                        workPlace.setEmail(pracovisteObject.get("email").toString());
-                                    if(pracovisteObject.get("nazev") != null)
-                                        workPlace.setName(pracovisteObject.get("nazev").toString());
-                                    if(pracovisteObject.get("telefon") != null)
-                                        workPlace.setPhone(pracovisteObject.get("telefon").toString());
-
-                                    JSONObject addressObject = (JSONObject) pracovisteObject.get("adresa");
-                                    if(addressObject.get("cisloDomovni") != null)
-                                       workPlace.setHouseNumber(addressObject.get("cisloDomovni").toString());
-                                    if(addressObject.get("cisloOrientacni") != null)
-                                        workPlace.setOrientationNumber(addressObject.get("cisloOrientacni").toString());
-                                    if(addressObject.get("psc") != null)
-                                        workPlace.setZipCode(addressObject.get("psc").toString());
-
-                                    JSONObject streetObject = (JSONObject) addressObject.get("ulice");
-                                    if(streetObject != null)
-                                        workPlace.setStreet(streetObject.get("nazev").toString());
-
-                                    JSONObject villageObject = (JSONObject) addressObject.get("obec");
-                                    try {
-                                        workPlace.setVillage(villageService.findVillageById(villageObject.get("id").toString()));
-                                    }
-                                    catch (java.lang.NullPointerException exception)
-                                    {
-                                         System.out.println("Workplace-address-village - nullpointer exception");
-                                    }
-
-                                    JSONObject villagePartObject = (JSONObject) addressObject.get("castObce");
-                                    try {
-                                        workPlace.setVillagePart(villagePartService.findVillagePartById(villagePartObject.get("id").toString()));
-                                    }
-                                    catch (java.lang.NullPointerException exception)
-                                    {
-                                        System.out.println("Workplace-address-villagePart - nullpointer exception");
-                                    }
-
-                                    workPlaceService.saveWorkPlace(workPlace);
-
-                                    offer.setWorkPlace(workPlace);
-                                }
-                                else
-                                    if(offer.getPlaceType().getCode().equals("celaCR")) {
-                                        WorkPlace workPlace = new WorkPlace();
-
-                                        JSONArray pracoviste = (JSONArray) place.get("pracoviste");
-                                        Iterator<JSONObject> iteratorPracoviste = pracoviste.iterator();
-                                        JSONObject pracovisteObject = iteratorPracoviste.next();
-
-                                        if(pracovisteObject.get("email") != null)
-                                            workPlace.setEmail(pracovisteObject.get("email").toString());
-                                        if(pracovisteObject.get("nazev") != null)
-                                            workPlace.setName(pracovisteObject.get("nazev").toString());
-                                        if(pracovisteObject.get("telefon") != null)
-                                            workPlace.setPhone(pracovisteObject.get("telefon").toString());
-                                        workPlaceService.saveWorkPlace(workPlace);
-
-                                        offer.setWorkPlace(workPlace);
-                                    }
-                                    offerService.saveOffer(offer);
-                                    parsedOffersCount++;
-
+                        offerService.saveOffer(offer);
+                        parsedOffersCount++;
                     }
                 }
-            }
-            catch (java.lang.NullPointerException exception)
-            {
-               System.out.println("Offer - nullpointer exception");
+            } catch (java.lang.NullPointerException exception) {
+                System.out.println("Offer - nullpointer exception");
             }
         }
         parsedOffersCount = 1;

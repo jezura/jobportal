@@ -103,7 +103,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="#" th:action="@{'/updateUser/' + ${registeredUser.id}}" method="post">
+                <form action="#" th:action="@{'/registeredUser/updateUser/' + ${registeredUser.id}}" method="post">
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="userFirstName">Jméno:</label>
@@ -168,7 +168,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="#" th:action="@{'/changePassword/' + ${registeredUser.id}}" method="post">
+                <form action="#" th:action="@{'/registeredUser/changePassword/' + ${registeredUser.id}}" method="post">
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="oldPassword">Vaše současné heslo:</label>

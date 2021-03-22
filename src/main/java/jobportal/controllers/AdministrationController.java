@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class AdministrationController {
     private String message_notification = "";
     private static final int pageSize = 20;
+
     @Autowired
     private OfferService offerService;
     @Autowired
@@ -33,27 +34,25 @@ public class AdministrationController {
     @Autowired
     private FieldService fieldService;
 
-    public AdministrationController() {
-    }
 
     @RequestMapping({"/admin/overview"})
     public String showAdminOverview() {
-        return "adminOverview";
+        return "admin/adminOverview";
     }
 
     @RequestMapping({"/admin/codebook"})
     public String showAdminCodebookPage() {
-        return "adminCodebook";
+        return "admin/adminCodebook";
     }
 
     @RequestMapping({"/admin/offerDataLoad"})
     public String showAdminOfferDataLoadPage() {
-        return "adminOfferDataLoad";
+        return "admin/adminOfferDataLoad";
     }
 
     @RequestMapping({"/admin/offerDataDelete"})
     public String showAdminOfferDataDeletePage() {
-        return "adminOfferDataDelete";
+        return "admin/adminOfferDataDelete";
     }
 
     @RequestMapping({"/admin/allOffers"})
@@ -83,7 +82,7 @@ public class AdministrationController {
         model.addAttribute("lastOfferNum", lastOfferNum);
         model.addAttribute("message_notification", this.message_notification);
         this.message_notification = "";
-        return "adminAllOffers";
+        return "admin/adminAllOffers";
     }
 
     @PostMapping({"/admin/deleteOffer/{id}"})
@@ -176,6 +175,6 @@ public class AdministrationController {
         model.addAttribute("searching", true);
         model.addAttribute("message_notification", this.message_notification);
         this.message_notification = "";
-        return "adminAllOffers";
+        return "admin/adminAllOffers";
     }
 }

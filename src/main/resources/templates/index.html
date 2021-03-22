@@ -129,8 +129,8 @@
 
     <h4 th:if="${relevanceScore != null}" class="text-center personalizedOffersTitle">Doporučené pracovní nabídky</h4>
     <div class="container" th:each="offer : ${offers}">
-
         <hr>
+        <p sec:authorize="hasRole('ADMINISTRATOR')" id="adminOfferId" th:text="'ID: ' + ${offer.id}"></p>
         <a th:href="'/offerDetail/' + ${offer.id}"><h5 id="offerTitle" th:text="${offer.title}"></h5></a>
 
         <p class="offerDetailMeta">

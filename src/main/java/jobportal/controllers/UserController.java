@@ -263,7 +263,7 @@ public class UserController {
         return "login";
     }
 
-    @GetMapping(value = "/accountOverview/{openModalChangePassword}")
+    @GetMapping(value = "/registeredUser/accountOverview/{openModalChangePassword}")
     public String showAccountOverviewPage(@PathVariable(name = "openModalChangePassword") String openModalChangePassword, Model model) {
         System.out.println("Boolean openModalChangePassword: " + openModalChangePassword);
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -283,10 +283,10 @@ public class UserController {
         model.addAttribute("message_notification", message_notification);
         message_notification = "";
         populateWithData(model);
-        return "accountOverview";
+        return "registeredUser/accountOverview";
     }
 
-    @RequestMapping(value = "/updateUser/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/registeredUser/updateUser/{id}", method = RequestMethod.POST)
     public String updateUser(@PathVariable(name = "id") int id,
                              @RequestParam("newLastName") String newLastName,
                              @RequestParam("newRegion") String newRegion,
@@ -308,7 +308,7 @@ public class UserController {
                 registeredUser.setLastName(newLastName);
             } else {
                 message_notification = "Chyba: Nově zadané příjmení neodpovídá kritériím pro příjmení. Aktualizace se nezdařila";
-                return "redirect:/accountOverview/modalFalse";
+                return "redirect:/registeredUser/accountOverview/modalFalse";
             }
         }
 
@@ -337,10 +337,10 @@ public class UserController {
 
         personService.saveRegisteredUser(registeredUser);
         message_notification = "Aktualizace osobních údajů proběhla úspěšně";
-        return "redirect:/accountOverview/modalFalse";
+        return "redirect:/registeredUser/accountOverview/modalFalse";
     }
 
-    @RequestMapping(value = "/changePassword/{userId}", method = RequestMethod.POST)
+    @RequestMapping(value = "/registeredUser/changePassword/{userId}", method = RequestMethod.POST)
     public String changePassword(@PathVariable(name = "userId") int userId,
                                  @RequestParam("oldPassword") String oldPassword,
                                  @RequestParam("newPassword") String newPassword,
@@ -357,14 +357,14 @@ public class UserController {
                 registeredUser.setPassword(bCryptPasswordEncoder.encode(newPassword));
                 personService.saveRegisteredUser(registeredUser);
                 message_notification = "Vaše heslo bylo úspěšně změněno";
-                return "redirect:/accountOverview/modalFalse";
+                return "redirect:/registeredUser/accountOverview/modalFalse";
             }else{
                 message_notification = "Chyba: Nově zadaná hesla se neshodují, zkuste to prosím znovu";
-                return "redirect:/accountOverview/modalFalse";
+                return "redirect:/registeredUser/accountOverview/modalFalse";
             }
         }else{
             message_notification = "Chyba: Vaše dosavadní heslo bylo zadáno chybně, zkuste to prosím znovu";
-            return "redirect:/accountOverview/modalFalse";
+            return "redirect:/registeredUser/accountOverview/modalFalse";
         }
     }
 

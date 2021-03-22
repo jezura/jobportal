@@ -60,3 +60,9 @@ border-top: 2px solid rgba(0,0,0,.1);
 padding-top: 1em;
 }
 
+#adminOfferId{
+font-size: 0.7em;
+margin-block-end: 0em;
+color: red;
+}
+
