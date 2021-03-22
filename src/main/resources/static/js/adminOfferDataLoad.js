@@ -14,6 +14,7 @@ function getOffersCount() {
 			offersResult.innerHTML = "<i style='color:red' class='fas fa-exclamation-triangle'></i> Databáze zatím neobsahuje žádné externí pracovní nabídky...";
 		}
 	}).fail(function() {
+	    dataloadingend();
         alert("Došlo k chybě při požadavku GET na OfferRestController -> /admin/getOffersCount v metodě getOffersCount() skriptu adminOfferDataLoad. Error in adminOfferDataLoad.js");
 	});
 }
@@ -30,6 +31,7 @@ function dataloadingstart(useApiSource) {
 	loader.innerHTML = "<div class='loader' style='margin:0 auto'></div>";
 	filters.innerHTML = "<i style='color:blue' class='fas fa-filter'></i> Nahrávám nabídky splňující podmínky:<br> ";
 	info.innerHTML = "Čekání na data...";
+	location.href = "#down";
 
 // loading animation
 	var i = 0;
@@ -48,7 +50,6 @@ function dataloadingstart(useApiSource) {
 					getActualOfferInsertionDate();
 					getActualOfferEditDate();
 					getOffersCount();
-					location.href = "#down";
 				}else{
 					return;
 				}
@@ -112,6 +113,7 @@ function parseOffers() {
 			}
 			totalOffersCount = 0;
     }).fail(function() {
+        dataloadingend();
         alert("Došlo k chybě při požadavku GET na ParsingRestController -> /admin/parseOffers v metodě parseOffers() skriptu adminOfferDataLoad. Error in adminOfferDataLoad.js");
     });
 }
@@ -134,6 +136,7 @@ function getParsedOffersCount(useApiSource) {
 		}
 		return response;
 	}).fail(function() {
+	    dataloadingend();
         alert("Došlo k chybě při požadavku GET na ParsingRestController -> /admin/parsedOffersCount v metodě getParsedOffersCount(useApiSource) skriptu adminOfferDataLoad. Error in adminOfferDataLoad.js");
 	});
 }
@@ -145,6 +148,7 @@ function getActualOfferInsertionDate() {
 	$.get(url, function(response) {
 		actualInsertionDate.innerHTML = "Datum vložení aktuálně zpracovávané nabídky: <b style='color:blue'>" + response + "</b>.";
 	}).fail(function() {
+	    dataloadingend();
         alert("Došlo k chybě při požadavku GET na ParsingRestController -> /admin/actualParsedOfferInsertionDate v metodě getActualOfferInsertionDate() skriptu adminOfferDataLoad. Error in adminOfferDataLoad.js");
 	});
 }
@@ -156,6 +160,7 @@ function getActualOfferEditDate() {
 	$.get(url, function(response) {
 		actualEditDate.innerHTML = "Datum poslední změny aktuálně zpracovávané nabídky: <b style='color:blue'>" + response + "</b>.";
     }).fail(function() {
+        dataloadingend();
         alert("Došlo k chybě při požadavku GET na ParsingRestController -> /admin/actualParsedOfferEditDate v metodě getActualOfferEditDate() skriptu adminOfferDataLoad. Error in adminOfferDataLoad.js");
 	});
 }

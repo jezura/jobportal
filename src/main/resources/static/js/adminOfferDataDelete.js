@@ -13,6 +13,7 @@ function getOffersCount() {
 			offersResult.innerHTML = "<i style='color:red' class='fas fa-exclamation-triangle'></i> Databáze zatím neobsahuje žádné externí pracovní nabídky...";
 		}
 	}).fail(function() {
+	    datadeleteend();
         alert("Došlo k chybě při požadavku GET na OfferRestController -> /admin/getOffersCount v metodě getOffersCount() skriptu adminOfferDataDelete. Error in adminOfferDataDelete.js");
 	});
 }
@@ -93,6 +94,7 @@ function deleteOffers() {
             }
             datadeleteend();
         }).fail(function() {
+            datadeleteend();
             alert("Došlo k chybě při požadavku GET na OfferRestController -> /admin/deleteAllOffers v metodě deleteOffers() skriptu adminOfferDataDelete. Error in adminOfferDataDelete.js");
         });
         }
@@ -108,6 +110,7 @@ function deleteOffers() {
             }
             datadeleteend();
         }).fail(function() {
+            datadeleteend();
             alert("Došlo k chybě při požadavku GET na OfferRestController -> /admin/deleteAllExpiredOffers v metodě deleteOffers() skriptu adminOfferDataDelete. Error in adminOfferDataDelete.js");
         });
     }else{
@@ -142,6 +145,7 @@ function deleteOffers() {
             }
             datadeleteend();
         }).fail(function() {
+            datadeleteend();
             alert("Došlo k chybě při požadavku GET na OfferRestController -> /admin/deleteAllOffersBeforeGivenDates v metodě deleteOffers() skriptu adminOfferDataDelete. Error in adminOfferDataDelete.js");
         });
     }

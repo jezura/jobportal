@@ -16,6 +16,7 @@ $.get(url, function(response) {
         button.innerHTML = "Nahrát data všech číselníků";
     }
 }).fail(function() {
+    dataloadingend();
     alert("Došlo k chybě při požadavku GET na CodebookRestController -> /admin/checkCodebookData v metodě checkCodebookDataPresent() skriptu adminCodebook. Error in adminCodebook.js");
 });
 }
@@ -87,6 +88,7 @@ $.get(url, function(response) {
     checkCodebookDataPresent();
 
 }).fail(function() {
+    dataloadingend()
     alert("Došlo k chybě při požadavku GET na CodebookRestController -> /admin/parseAllCodeBookData v metodě parseAllCodebookData() skriptu adminCodebook. Error in adminCodebook.js");
 });
 }
@@ -97,8 +99,8 @@ function getCodebookParsingProgress() {
 
  $.get(url, function(response) {
      progress.innerHTML = "Zpracováno " + response + " ze 14 číselníkových tabulek...";
-
  }).fail(function() {
+    dataloadingend()
     alert("Došlo k chybě při požadavku GET na CodebookRestController -> /admin/codebookParsingProgress v metodě getCodebookParsingProgress() skriptu adminCodebook. Error in adminCodebook.js");
  });
  }
@@ -111,6 +113,7 @@ function getCodebookParsingProgress() {
      count.innerHTML = "Ukládám <b style='color: blue'>" + response +"</b>. datový záznam...";
 
  }).fail(function() {
+    dataloadingend()
     alert("Došlo k chybě při požadavku GET na CodebookRestController -> /admin/codebookParsedRecords v metodě getCodebookParsedRecords() skriptu adminCodebook. Error in adminCodebook.js");
  });
  }
