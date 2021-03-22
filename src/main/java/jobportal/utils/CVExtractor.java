@@ -21,6 +21,7 @@ import org.apache.pdfbox.text.PDFTextStripper;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.web.multipart.MultipartFile;
 
 
@@ -54,16 +55,16 @@ public class CVExtractor {
 
     public void processCvAndSetTextContentToExtractedTextVariable(MultipartFile[] files){
         String fileName = files[0].getOriginalFilename();
-        Path fileNameAndPath = Paths.get("D:\\",fileName);
-        //Path fileNameAndPath = Paths.get(new ClassPathResource("filename").getPath());
+        //Path fileNameAndPath = Paths.get("D:\\",fileName);
+        Path fileNameAndPath = Paths.get(new ClassPathResource("filename").getPath());
         try {
             Files.write(fileNameAndPath,files[0].getBytes());
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        File savedFile = new File("D:\\" + files[0].getOriginalFilename());
-        //File savedFile = new File(String.valueOf(fileNameAndPath));
+        //File savedFile = new File("D:\\" + files[0].getOriginalFilename());
+        File savedFile = new File(String.valueOf(fileNameAndPath));
         this.extractedText = getCvTextData(savedFile, fileName);
 
         //Deleting of saved file
