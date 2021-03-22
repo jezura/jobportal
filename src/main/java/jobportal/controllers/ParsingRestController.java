@@ -110,10 +110,9 @@ public class ParsingRestController {
     // method parse all codebook data and store to the app database, if success returns true
     @GetMapping(value = "/admin/parseAllCodeBookData")
     public boolean parseAllCodeBookData() throws IOException, ParseException {
-        Path fileNameAndPath = Paths.get(new ClassPathResource("kraje.json").getPath());
-        //File file = new ClassPathResource("kraje.json").getFile();
-        File file = new File(String.valueOf(fileNameAndPath));
-        Object obj = new JSONParser().parse(new FileReader(file));
+        URL url = new URL("https://data.mpsv.cz/od/soubory/ciselniky/kraje.json");
+        BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
+        Object obj = new JSONParser().parse(in);
         JSONObject jsonObject = (JSONObject) obj;
         JSONArray polozky = (JSONArray) jsonObject.get("polozky");
 
@@ -131,7 +130,7 @@ public class ParsingRestController {
         }
         codebookParsingProgress++;
 
-        file = new ClassPathResource("okresy.json").getFile();
+        File file = new ClassPathResource("okresy.json").getFile();
         obj = new JSONParser().parse(new FileReader(file));
         jsonObject = (JSONObject) obj;
         polozky = (JSONArray) jsonObject.get("polozky");
