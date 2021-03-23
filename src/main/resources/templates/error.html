@@ -4,14 +4,18 @@
        xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout",
        xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
+  <link rel="stylesheet" type="text/css" href="/css/error.css"/>
   <title>Error</title>
 </head>
 <body>
 <div layout:fragment="content">
-<h1>Something went wrong</h1>
-<h2>An error occured</h2>
- <p style="color:red">Probably caused due to exceeded the 'max_questions' limit in ClearDB free plan which is set only to 3 600 questions per hour.</p>
-<a href="/">Go back to homepage</a>
+    <div class="container">
+        <h2>Something went wrong, an error occured</h2>
+        <span th:if="${errorCode > 0}" th:text="${errorCode} + ' - '"></span>
+        <span th:if="${errorMsg != ''}" th:text="${errorMsg} + ' error'"></span><br>
+        <!--<p style="color:red">Probably caused due to exceeded the 'max_questions' limit in ClearDB free plan which is set only to 3 600 questions per hour.</p>-->
+        <a class="btn btn-info" href="/"><i class="fas fa-reply"></i> Back to homepage</a>
+    </div>
 </div>
 </body>
 </html>
