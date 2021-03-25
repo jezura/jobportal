@@ -675,8 +675,9 @@ public class ParsingRestController {
             obj = new JSONParser().parse(in);
         } else {
             InputStream in = classLoader.getResourceAsStream("static/offers10.json");
+            BufferedReader bin = new BufferedReader(new InputStreamReader(in));
             //File file = new File(classLoader.getResource("offers10.json").getFile());
-            obj = new JSONParser().parse(new InputStreamReader(in, "UTF-8"));
+            obj = new JSONParser().parse(bin);
         }
 
         JSONObject jsonObject = (JSONObject) obj;
