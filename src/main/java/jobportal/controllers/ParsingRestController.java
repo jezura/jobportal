@@ -76,6 +76,7 @@ public class ParsingRestController {
     @Autowired
     private OfferService offerService;
 
+    ClassLoader classLoader = getClass().getClassLoader();
 
     // method returns codebook parsing progress, it is number of processed codebook tables from total
     @GetMapping(value = "/admin/codebookParsingProgress")
@@ -669,11 +670,11 @@ public class ParsingRestController {
 
         // pokud je zapnuta moznost stahovani dat z internetu
         if (useApiSource.equals("switchedOn")) {
-            URL url = new URL("https://data.mpsv.cz/od/soubory/volna-mista/volna-mista.json");
+            URL url = new URL("https://raw.githubusercontent.com/jezura/jobportal/master/src/main/resources/offers10.json");
             BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
             obj = new JSONParser().parse(in);
         } else {
-            File file = new ClassPathResource("offers10.json").getFile();
+            File file = new File(classLoader.getResource("offers10.json").getFile());
             obj = new JSONParser().parse(new FileReader(file));
         }
 
