@@ -635,7 +635,7 @@ public class ParsingRestController {
             @Param("useApiSource") String useApiSource,
             @Param("skipEmptyDescription") String skipEmptyDescription)
             throws IOException, ParseException {
-        Object obj = new Object();
+        Object obj;
         LocalDate localInsertionDateFrom;
         LocalDate localInsertionDateTo;
         LocalDate localEditDateFrom;
@@ -665,23 +665,27 @@ public class ParsingRestController {
             localEditDateTo = LocalDate.parse("2025-01-01");
         }
 
-        System.out.println("Use api source: " + useApiSource);
-        System.out.println("Delete empty: " + skipEmptyDescription);
-
-        // pokud je zapnuta moznost stahovani dat z internetu
+        // --- DATA SOURCE ---
+        /*
+        // -- STANDARDNI VERZE --
         if (useApiSource.equals("switchedOn")) {
-            URL url = new URL("https://raw.githubusercontent.com/jezura/jobportal/master/src/main/resources/offers10.json");
+            // oficialni datovy zdroj MPSV CR s velkym souborem (> 330 MB)
+            URL url = new URL("https://data.mpsv.cz/od/soubory/volna-mista/volna-mista.json");
             BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
             obj = new JSONParser().parse(in);
         } else {
-           /* InputStream in = classLoader.getResourceAsStream("static/offers10.json");
-            BufferedReader bin = new BufferedReader(new InputStreamReader(in));
-            //File file = new File(classLoader.getResource("offers10.json").getFile());
-            obj = new JSONParser().parse(bin);*/
-            InputStream in = getClass().getResourceAsStream("offers10.json");
-            BufferedReader bin = new BufferedReader(new InputStreamReader(in));
-            obj = new JSONParser().parse(bin);
+            // verze s lokalnim stazenym JSON souborem
+            File file = new ClassPathResource("offers10.json").getFile();
+            obj = new JSONParser().parse(new FileReader(file));
         }
+        */
+
+        // -- VERZE PRO HEROKU DEPLOYMENT --
+        // datovy zdroj s mensim souborem s daty pouze za rok 2021 - urceny pro verzi deployed na Heroku (kvuli HW pozadavkum - RAM a DB)
+        URL url = new URL("https://raw.githubusercontent.com/jezura/jobportal/master/src/main/resources/offers10.json");
+        BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
+        obj = new JSONParser().parse(in);
+
 
         JSONObject jsonObject = (JSONObject) obj;
         JSONArray polozky = (JSONArray) jsonObject.get("polozky");
@@ -700,10 +704,6 @@ public class ParsingRestController {
             String stringDateEdit = nextObject.get("datumZmeny").toString();
             String correctedDateEdit = stringDateEdit.substring(0, 10);
             LocalDate localDateEdit = LocalDate.parse(correctedDateEdit);
-
-            LocalDate today = LocalDate.now();
-            LocalDate weekAgo = today.minusWeeks(1);
-            LocalDate yearAgo = today.minusYears(1);
 
             JSONObject zverejnovat = (JSONObject) nextObject.get("zverejnovat");
 
