@@ -87,7 +87,7 @@ public class Offer extends LongIdEntity {
     @JoinColumn(name = "workshift_id")
     private Workshift workshift;
 
-    @ManyToOne(cascade=CascadeType.ALL)
+    @ManyToOne
     @NotNull(message = "Choose employer")
     @JoinColumn(name = "employer_ico")
     private Employer employer;
