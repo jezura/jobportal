@@ -9,17 +9,13 @@ import jobportal.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.repository.query.Param;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.ParseException;
 import org.json.simple.parser.JSONParser;
-
 import java.io.*;
 import java.net.URL;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -75,8 +71,6 @@ public class ParsingRestController {
     private EducationService educationService;
     @Autowired
     private OfferService offerService;
-
-    ClassLoader classLoader = getClass().getClassLoader();
 
     // method returns codebook parsing progress, it is number of processed codebook tables from total
     @GetMapping(value = "/admin/codebookParsingProgress")
@@ -402,7 +396,7 @@ public class ParsingRestController {
 
     @GetMapping(value = "/admin/parseRegions")
     public String parseRegions() throws IOException, ParseException {
-        File file = new ClassPathResource("kraje.json").getFile();
+        File file = new ClassPathResource("offers_json_data/codebook_data/kraje.json").getFile();
         Object obj = new JSONParser().parse(new FileReader(file));
         JSONObject jsonObject = (JSONObject) obj;
         JSONArray polozky = (JSONArray) jsonObject.get("polozky");
@@ -424,7 +418,7 @@ public class ParsingRestController {
 
     @GetMapping(value = "/admin/parseDistricts")
     public String parseDistricts() throws IOException, ParseException {
-        File file = new ClassPathResource("okresy.json").getFile();
+        File file = new ClassPathResource("offers_json_data/codebook_data/okresy.json").getFile();
         Object obj = new JSONParser().parse(new FileReader(file));
         JSONObject jsonObject = (JSONObject) obj;
         JSONArray polozky = (JSONArray) jsonObject.get("polozky");
@@ -447,7 +441,7 @@ public class ParsingRestController {
 
     @GetMapping(value = "/admin/parseVillages")
     public String parseVillages() throws IOException, ParseException {
-        File file = new ClassPathResource("obce.json").getFile();
+        File file = new ClassPathResource("offers_json_data/codebook_data/obce.json").getFile();
         Object obj = new JSONParser().parse(new FileReader(file));
         JSONObject jsonObject = (JSONObject) obj;
         JSONArray polozky = (JSONArray) jsonObject.get("polozky");
@@ -469,7 +463,7 @@ public class ParsingRestController {
 
     @GetMapping(value = "/admin/parseSkills")
     public String parseSkills() throws IOException, ParseException {
-        File file = new ClassPathResource("dovednosti.json").getFile();
+        File file = new ClassPathResource("offers_json_data/codebook_data/dovednosti.json").getFile();
         Object obj = new JSONParser().parse(new FileReader(file));
         JSONObject jsonObject = (JSONObject) obj;
         JSONArray polozky = (JSONArray) jsonObject.get("polozky");
@@ -490,7 +484,7 @@ public class ParsingRestController {
 
     @GetMapping(value = "/admin/parseLanguages")
     public String parseLanguages() throws IOException, ParseException {
-        File file = new ClassPathResource("jazyky.json").getFile();
+        File file = new ClassPathResource("offers_json_data/codebook_data/jazyky.json").getFile();
         Object obj = new JSONParser().parse(new FileReader(file));
         JSONObject jsonObject = (JSONObject) obj;
         JSONArray polozky = (JSONArray) jsonObject.get("polozky");
@@ -511,7 +505,7 @@ public class ParsingRestController {
 
     @GetMapping(value = "/admin/parseFields")
     public String parseFields() throws IOException, ParseException {
-        File file = new ClassPathResource("obory-cinnosti-vm.json").getFile();
+        File file = new ClassPathResource("offers_json_data/codebook_data/obory-cinnosti-vm.json").getFile();
         Object obj = new JSONParser().parse(new FileReader(file));
         JSONObject jsonObject = (JSONObject) obj;
         JSONArray polozky = (JSONArray) jsonObject.get("polozky");
@@ -532,7 +526,7 @@ public class ParsingRestController {
 
     @GetMapping(value = "/admin/parseProfessions")
     public String parseProfessions() throws IOException, ParseException {
-        File file = new ClassPathResource("profese-czisco.json").getFile();
+        File file = new ClassPathResource("offers_json_data/codebook_data/profese-czisco.json").getFile();
         Object obj = new JSONParser().parse(new FileReader(file));
         JSONObject jsonObject = (JSONObject) obj;
         JSONArray polozky = (JSONArray) jsonObject.get("polozky");
@@ -564,7 +558,7 @@ public class ParsingRestController {
 
     @GetMapping(value = "/admin/parseWorkships")
     public String parseWorkships() throws IOException, ParseException {
-        File file = new ClassPathResource("pracovnepravni-vztahy.json").getFile();
+        File file = new ClassPathResource("offers_json_data/codebook_data/pracovnepravni-vztahy.json").getFile();
         Object obj = new JSONParser().parse(new FileReader(file));
         JSONObject jsonObject = (JSONObject) obj;
         JSONArray polozky = (JSONArray) jsonObject.get("polozky");
@@ -585,7 +579,7 @@ public class ParsingRestController {
 
     @GetMapping(value = "/admin/parseWorkshifts")
     public String parseWorkshifts() throws IOException, ParseException {
-        File file = new ClassPathResource("smennosti.json").getFile();
+        File file = new ClassPathResource("offers_json_data/codebook_data/smennosti.json").getFile();
         Object obj = new JSONParser().parse(new FileReader(file));
         JSONObject jsonObject = (JSONObject) obj;
         JSONArray polozky = (JSONArray) jsonObject.get("polozky");
@@ -606,7 +600,7 @@ public class ParsingRestController {
 
     @GetMapping(value = "/admin/parseEducations")
     public String parseEducations() throws IOException, ParseException {
-        File file = new ClassPathResource("vzdelani.json").getFile();
+        File file = new ClassPathResource("offers_json_data/codebook_data/vzdelani.json").getFile();
         Object obj = new JSONParser().parse(new FileReader(file));
         JSONObject jsonObject = (JSONObject) obj;
         JSONArray polozky = (JSONArray) jsonObject.get("polozky");
@@ -666,25 +660,24 @@ public class ParsingRestController {
         }
 
         // --- DATA SOURCE ---
-        /*
+
         // -- STANDARDNI VERZE --
         if (useApiSource.equals("switchedOn")) {
-            // oficialni datovy zdroj MPSV CR s velkym souborem (> 330 MB)
+            // oficialni datovy zdroj MPSV CR s velkym souborem (300 MB)
             URL url = new URL("https://data.mpsv.cz/od/soubory/volna-mista/volna-mista.json");
             BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
             obj = new JSONParser().parse(in);
         } else {
-            // verze s lokalnim stazenym JSON souborem
-            File file = new ClassPathResource("offers10.json").getFile();
+            // verze s lokalnim stazenym JSON souborem - s daty pouze pro dny 2021_03_22-23
+            File file = new ClassPathResource("offers_json_data/volna-mista-2021_03_22-23.json").getFile();
             obj = new JSONParser().parse(new FileReader(file));
         }
-        */
 
         // -- VERZE PRO HEROKU DEPLOYMENT --
-        // datovy zdroj s mensim souborem s daty pouze za rok 2021 - urceny pro verzi deployed na Heroku (kvuli HW pozadavkum - RAM a DB)
-        URL url = new URL("https://raw.githubusercontent.com/jezura/jobportal/master/src/main/resources/offers10.json");
+        /*// datovy zdroj s mensim souborem s daty pouze pro dny 2021_03_22-23 - urceny pro verzi deployed na Heroku (kvuli HW pozadavkum - RAM a DB)
+        URL url = new URL("https://raw.githubusercontent.com/jezura/jobportal/master/src/main/resources/offers_json_data/volna-mista-2021_03_22-23.json");
         BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
-        obj = new JSONParser().parse(in);
+        obj = new JSONParser().parse(in);*/
 
 
         JSONObject jsonObject = (JSONObject) obj;
@@ -714,9 +707,10 @@ public class ParsingRestController {
                         && (localDateEdit.isAfter(localEditDateFrom.minusDays(1)))
                         && (localDateEdit.isBefore(localEditDateTo.plusDays(1)))) {
                     // pokud jsou vyplneny upresnujiciInformace
-                    // a pokud je povoleno zverejnovat - pridej do db
+                    // a pokud je povoleno zverejnovat
                     if ((nextObject.get("upresnujiciInformace") != null)
                             && zverejnovat.get("id").toString() != "ZverejnovatVpm/ne") {
+                        // z parsovanych informaci postupne vytvarej novou instanci pracovni nabidky
                         Offer offer = new Offer();
                         offer.setId(Long.valueOf(nextObject.get("referencniCislo").toString()));
                         offer.setOfferText(nextObject.get("upresnujiciInformace").toString());
@@ -726,72 +720,83 @@ public class ParsingRestController {
                         offer.setInsertionDate(localDateInsertion.plusDays(1));
                         offer.setEditDate(localDateEdit.plusDays(1));
 
+                        // nastaveni data expirace
                         try {
                             String stringExpireDate = nextObject.get("expirace").toString();
                             LocalDate localExpireDate = LocalDate.parse(stringExpireDate);
                             offer.setExpireDate(localExpireDate);
                         } catch (java.lang.NullPointerException exception) {
-                            System.out.println("Offer-ExpireDate - nullpointer exception");
+                            logNPException("ExpireDate", offer.getId());
                         }
 
+                        // nastaveni terminu zahajeni prac. pomeru
                         try {
                             String stringWorkStartDate = nextObject.get("terminZahajeniPracovnihoPomeru").toString();
                             LocalDate localWorkStartDate = LocalDate.parse(stringWorkStartDate);
                             offer.setWorkStartDate(localWorkStartDate);
                         } catch (java.lang.NullPointerException exception) {
-                            System.out.println("Offer-WorkStartDate - nullpointer exception");
+                            logNPException("WorkStartDate", offer.getId());
                         }
 
+                        // nastaveni terminu ukonceni prac. pomeru
                         try {
                             String stringWorkEndDate = nextObject.get("terminUkonceniPracovnihoPomeru").toString();
                             LocalDate localWorkEndDate = LocalDate.parse(stringWorkEndDate);
                             offer.setWorkEndDate(localWorkEndDate);
                         } catch (java.lang.NullPointerException exception) {
-                            System.out.println("Offer-WorkEndDate - nullpointer exception");
+                            logNPException("WorkEndDate", offer.getId());
                         }
 
+                        // nastaveni dolni hranice mesicni mzdy
                         try {
                             offer.setMonthlyRateFrom(Double.valueOf(nextObject.get("mesicniMzdaOd").toString()));
                         } catch (java.lang.NullPointerException exception) {
-                            System.out.println("Offer-MonthlyRateFrom - nullpointer exception");
+                            logNPException("MonthlyRateFrom", offer.getId());
                         }
 
+                        // nastaveni horni hranice mesicni mzdy
                         try {
                             offer.setMonthlyRateTo(Double.valueOf(nextObject.get("mesicniMzdaDo").toString()));
                         } catch (java.lang.NullPointerException exception) {
-                            System.out.println("Offer-MonthlyRateTo - nullpointer exception");
+                            logNPException("MonthlyRateTo", offer.getId());
                         }
 
+                        // nastaveni typu mzdy
                         JSONObject salaryType = (JSONObject) nextObject.get("typMzdy");
                         try {
                             offer.setSalaryType(salaryType.get("id").toString());
                         } catch (java.lang.NullPointerException exception) {
-                            System.out.println("Offer-SalaryType - nullpointer exception");
+                            logNPException("SalaryType", offer.getId());
                         }
 
+                        // nastaveni poctu volnych mist
                         offer.setNumberOfJobs(Integer.valueOf(nextObject.get("pocetMist").toString()));
 
+                        // nastaveni odpovidajici profese
                         JSONObject profession = (JSONObject) nextObject.get("profeseCzIsco");
                         try {
                             offer.setProfession(professionService.findProfessionById(profession.get("id").toString()));
                         } catch (java.lang.NullPointerException exception) {
-                            System.out.println("Offer-Profession - nullpointer exception");
+                            logNPException("Profession", offer.getId());
                         }
 
+                        // nastaveni odpovidajici smennosti
                         JSONObject shift = (JSONObject) nextObject.get("smennost");
                         try {
                             offer.setWorkshift(workshiftService.findWorkshiftById(shift.get("id").toString()));
                         } catch (java.lang.NullPointerException exception) {
-                            System.out.println("Offer-WorkShift - nullpointer exception");
+                            logNPException("WorkShift", offer.getId());
                         }
 
+                        // nastaveni min. pozadovaneho vzdelani
                         JSONObject education = (JSONObject) nextObject.get("minPozadovaneVzdelani");
                         try {
                             offer.setEducation(educationService.findEducationById(education.get("id").toString()));
                         } catch (java.lang.NullPointerException exception) {
-                            System.out.println("Offer-education - nullpointer exception");
+                            logNPException("Education", offer.getId());
                         }
 
+                        // nastaveni zamestanavatele
                         JSONObject employer = (JSONObject) nextObject.get("zamestnavatel");
                         if (employerService.findEmployerByIco(Integer.valueOf(employer.get("ico").toString())) != null) {
                             offer.setEmployer(employerService.findEmployerByIco(Integer.valueOf(employer.get("ico").toString())));
@@ -803,6 +808,7 @@ public class ParsingRestController {
                             offer.setEmployer(emp);
                         }
 
+                        // nastaveni prvniho kontaktu
                         JSONObject fc = (JSONObject) nextObject.get("prvniKontaktSeZamestnavatelem");
                         FirstContact firstContact = new FirstContact();
                         try {
@@ -837,10 +843,11 @@ public class ParsingRestController {
                             firstContactService.saveFirstContact(firstContact);
                             offer.setFirstContact(firstContact);
                         } catch (java.lang.NullPointerException exception) {
-                            System.out.println("Offer-firstContact - nullpointer exception");
+                            logNPException("FirstContact", offer.getId());
                         }
 
-                        // !! dovednosti muze byt vice polozek - ukladaji se jako M:N do setu (id vs id) / pomocna tabulka
+                        // nastaveni odpovidajicich dovednosti
+                        // !! dovednosti muze byt vice polozek - ukladaji se jako M:N >> pomocna tabulka
                         JSONArray skills = (JSONArray) nextObject.get("pozadovanaDovednost");
                         try {
                             Iterator<JSONObject> iteratorSkills = skills.iterator();
@@ -861,10 +868,11 @@ public class ParsingRestController {
                                 offerSkill.setSkill(skill);
                             }
                         } catch (java.lang.NullPointerException exception) {
-                            System.out.println("Offer-skill - nullpointer exception");
+                            logNPException("Skill", offer.getId());
                         }
 
-                        // !! benefitu muze byt nula nebo vice polozek - ukladaji se jako M:N do setu (id vs id) / pomocna tabulka
+                        // nastaveni odpovidajicich benefitu
+                        // !! benefitu muze byt vice polozek - ukladaji se jako M:N >> pomocna tabulka
                         JSONArray benefits = (JSONArray) nextObject.get("vyhodyVolnehoMista");
                         try {
                             Iterator<JSONObject> iteratorBenefits = benefits.iterator();
@@ -885,10 +893,11 @@ public class ParsingRestController {
                                 offerBenefit.setBenefit(benefit);
                             }
                         } catch (java.lang.NullPointerException exception) {
-                            System.out.println("Offer-benefit - nullpointer exception");
+                            logNPException("Benefit", offer.getId());
                         }
 
-                        // !! jazyku muze byt vice polozek - ukladaji se jako M:N do setu (id vs id) / pomocna tabulka
+                        // nastaveni pozadovanych jazyku
+                        // !! jazyku muze byt vice polozek - ukladaji se jako M:N >> pomocna tabulka
                         JSONArray languages = (JSONArray) nextObject.get("pozadovanaJazykovaZnalost");
                         try {
                             Iterator<JSONObject> iteratorLanguages = languages.iterator();
@@ -923,10 +932,11 @@ public class ParsingRestController {
                                 offerLanguage.setLanguage(language);
                             }
                         } catch (java.lang.NullPointerException exception) {
-                            System.out.println("Offer-skill - nullpointer exception");
+                            logNPException("Language", offer.getId());
                         }
 
-                        // !! pracovnich vztahu je vice polozek - ukladaji se jako M:N do setu (id vs id) / pomocna tabulka
+                        // nastaveni odpovidajicich pracovnich vztahu
+                        // !! pracovnich vztahu muze byt vice polozek - ukladaji se jako M:N >> pomocna tabulka
                         JSONArray ships = (JSONArray) nextObject.get("pracovnePravniVztahy");
                         try {
                             Iterator<JSONObject> iteratorWorkShips = ships.iterator();
@@ -938,10 +948,11 @@ public class ParsingRestController {
                             }
                             offer.setWorkships(workshipSet);
                         } catch (java.lang.NullPointerException exception) {
-                            System.out.println("Offer-workship - nullpointer exception");
+                            logNPException("WorkShip", offer.getId());
                         }
 
-                        // !! vhodnosti muze byt nula i vice polozek - ukladaji se jako M:N do setu (id vs id) / pomocna tabulka
+                        // nastaveni odpovidajicich vhodnosti
+                        // !! vhodnosti muze byt vice polozek - ukladaji se jako M:N >> pomocna tabulka
                         JSONArray suitabilites = (JSONArray) nextObject.get("vhodnostiPracovnihoMista");
                         try {
                             Iterator<JSONObject> iteratorSuitabilites = suitabilites.iterator();
@@ -953,7 +964,7 @@ public class ParsingRestController {
                             }
                             offer.setSuitabilities(suitabilitySet);
                         } catch (java.lang.NullPointerException exception) {
-                            System.out.println("Offer-suitability - nullpointer exception");
+                            logNPException("Suitability", offer.getId());
                         }
 
                         JSONObject place = (JSONObject) nextObject.get("mistoVykonuPrace");
@@ -961,10 +972,10 @@ public class ParsingRestController {
                             JSONObject placeType = (JSONObject) place.get("typMistaVykonuPrace");
                             offer.setPlaceType(placeTypeService.findPlaceTypeById(placeType.get("id").toString()));
                         } catch (java.lang.NullPointerException exception) {
-                            System.out.println("Offer-placeType - nullpointer exception");
+                            logNPException("PlaceType", offer.getId());
                         }
 
-                        // Work place - misto pracoviste podle typu pracoviste
+                        // nastaveni mista pracoviste podle typu pracoviste, vcetne adresnich informaci
                         if ((offer.getPlaceType().getCode().equals("obec")) || (offer.getPlaceType().getCode().equals("adrvolna"))) {
                             WorkPlace workPlace = new WorkPlace();
 
@@ -972,7 +983,7 @@ public class ParsingRestController {
                             try {
                                 workPlace.setVillage(villageService.findVillageById(village.get("id").toString()));
                             } catch (java.lang.NullPointerException exception) {
-                                System.out.println("Workplace-village - nullpointer exception");
+                                logNPException("Village", offer.getId());
                             }
 
                             JSONArray pracoviste = (JSONArray) place.get("pracoviste");
@@ -1002,7 +1013,7 @@ public class ParsingRestController {
                                 }
                                 workPlace.setDistricts(districtSet);
                             } catch (java.lang.NullPointerException exception) {
-                                System.out.println("Workplace-districts - nullpointer exception");
+                                logNPException("Districts", offer.getId());
                             }
 
                             JSONArray pracoviste = (JSONArray) place.get("pracoviste");
@@ -1048,14 +1059,14 @@ public class ParsingRestController {
                             try {
                                 workPlace.setVillage(villageService.findVillageById(villageObject.get("id").toString()));
                             } catch (java.lang.NullPointerException exception) {
-                                System.out.println("Workplace-address-village - nullpointer exception");
+                                logNPException("Village", offer.getId());
                             }
 
                             JSONObject villagePartObject = (JSONObject) addressObject.get("castObce");
                             try {
                                 workPlace.setVillagePart(villagePartService.findVillagePartById(villagePartObject.get("id").toString()));
                             } catch (java.lang.NullPointerException exception) {
-                                System.out.println("Workplace-address-villagePart - nullpointer exception");
+                                logNPException("VillagePart", offer.getId());
                             }
 
                             workPlaceService.saveWorkPlace(workPlace);
@@ -1083,17 +1094,29 @@ public class ParsingRestController {
                     }
                 }
             } catch (java.lang.NullPointerException exception) {
-                System.out.println("Offer - nullpointer exception");
+                System.out.println("No offers found");
             }
         }
-        parsedOffersCount = 1;
-        actualParsedOfferInsertionDate = "zatím žádný";
-        actualParsedOfferEditDate = "zatím žádný";
+        // vynulovani progress hodnot
+        resetOffersCounters();
         return true;
     }
 
+    // vynulovani progress hodnot pro codebook data
     private void resetCodebookCounters() {
         codebookParsedRecords = 0;
         codebookParsingProgress = 0;
+    }
+
+    // vynulovani progress hodnot pro codebook data
+    private void resetOffersCounters() {
+        parsedOffersCount = 1;
+        actualParsedOfferInsertionDate = "zatím žádný";
+        actualParsedOfferEditDate = "zatím žádný";
+    }
+
+    // do console vypisuje log objektu, ktere byly behem procesu parsovani ve zdrojovych JSON datech identifikovany jak chybejici - NULL
+    private void logNPException(String targetObject, Long offerId) {
+        System.out.println("NullPointerException for target object: " + targetObject + " - these data was not set in parsed JSON file for offer with ID: " + offerId);
     }
 }

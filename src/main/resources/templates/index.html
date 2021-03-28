@@ -122,6 +122,7 @@
             <span style="font-size: 0.9em" th:if="${searchedTitleAndEmployer != null}" th:text="'(název nabídky nebo zaměstnavatele obsahuje výraz '"></span><i style="color:blue; font-size: 0.9em" th:text="${searchedTitleAndEmployer}"></i><span th:if="${searchedTitleAndEmployer != null}" style="font-size: 0.9em">)</span>
         </p>
         <h5 class="text-center" style="width:95%; padding-top: 1.5em;" th:text="'Nalezeno celkem ' + ${totalOffers} + ' pracovních nabídek'"></h5>
+        <p id="noOffersTip" th:if="${totalOffers == 0}">Tip: pokud jste vyhledávali s nastavením filtrů, pokuste se použít filtry obecnější.. pomoci může také vypnutí automatického filtru pro lokalizovaný kraj - zkuste vyhledávat ve všech krajích.</p>
     </div>
     <div th:if="${(totalOffers != null) && (totalOffers > 0)}" class="container">
         <p style="font-size:0.8em; padding-top: 0.8em;" th:text="'Zobrazuji nabídky ' + ${firstOfferNum} + ' - ' + ${lastOfferNum} + ' z celkem ' + ${totalOffers}"></p>
@@ -270,10 +271,10 @@
                             <input style="padding: 1em; min-width: 100%" class="btn btn-info" type="file" name="file">
                             <div style="padding-top: 1em" class="form-group">
                             <label class="switch">
-                                <input type="checkbox" id="switchUseLocalization" name="switchUseLocalization" value="isChecked" checked>
+                                <input type="checkbox" id="switchUseLocalization" name="switchUseLocalization" value="isChecked">
                                 <span class="slider round"></span>
                             </label>
-                            <span style="font-size: 0.85em">Zahrnout také Vaší aktuálně zjištěnou lokaci: </span>
+                            <span style="font-size: 0.85em">Výsledky omezit pouze na vaší aktuálně zjištěnou lokaci: </span>
                                 <span style="font-size: 0.85em" id="found-region-name" ></span>
                                 <select style="display: none" class="form-control" id="location" name="location">
                                 </select>

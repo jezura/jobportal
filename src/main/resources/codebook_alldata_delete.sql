@@ -1,0 +1,16 @@
+Delete from regions;
+Delete from place_types;
+Delete from profession_field;
+Delete from professions;
+Delete from fields;
+Delete from skills;
+Delete from suitabilities;
+Delete from villages;
+Delete from village_parts;
+Delete from workshifts;
+Delete from workships;
+Delete from districts;
+delete from languages;
+delete from educations;
+delete from benefits;
+Commit;
