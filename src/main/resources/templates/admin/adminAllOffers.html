@@ -23,7 +23,7 @@
     <p class="text-center" id="offersCount"></p>
 
     <div class="container">
-        <form class="form-inline" style="padding: 25px" action="#" th:action="@{/admin/searchOffers}" method="post">
+        <form class="form-inline" style="padding: 25px" action="#" th:action="@{/admin/searchOffers}" method="get">
             <label>Hledání a filtry:</label>
             <input style="margin: 8px" type="number" name="idSearch" id="idSearch" class="form-control"
                    placeholder="ID nabídky" th:attrappend="value=${searchedId}?${searchedId}">
@@ -160,7 +160,7 @@
         </nav>
         <nav th:if="${searching == true}" aria-label="pagenav" style="padding-top:1.5em">
             <ul class="pagination justify-content-center">
-                <form action="#" th:action="@{/admin/searchOffers}" method="post">
+                <form action="#" th:action="@{/admin/searchOffers}" method="get">
                     <input style="display:none" type="number" name="idSearch" th:attrappend="value=${searchedId}?${searchedId}">
                     <input style="display:none" type="text" name="titleSearch" th:attrappend="value=${searchedTitle}?${searchedTitle}">
                     <input style="display:none" type="text" name="fieldIdSearch" th:attrappend="value=${searchedFieldId}?${searchedFieldId}">
@@ -174,7 +174,7 @@
                     <button type="button" class="btn btn-light" disabled
                             th:text="'Stránka ' + ${currentPage} + ' z ' + ${totalPages}"></button>
                 </li>
-                <form action="#" th:action="@{/admin/searchOffers}" method="post">
+                <form action="#" th:action="@{/admin/searchOffers}" method="get">
                     <input style="display:none" type="number" name="idSearch" th:attrappend="value=${searchedId}?${searchedId}">
                     <input style="display:none" type="text" name="titleSearch" th:attrappend="value=${searchedTitle}?${searchedTitle}">
                     <input style="display:none" type="text" name="fieldIdSearch" th:attrappend="value=${searchedFieldId}?${searchedFieldId}">

@@ -44,8 +44,8 @@ pureScriptSelect = (selector) => {
             });
             let html = `
             <div class="directorist-select__label">
-                <div class="directorist-select__label--text">${option[0].text}</div>
-                <span class="directorist-select__label--icon"><img src="/resources/images/svg/angle-down-solid.svg" alt=""></span>
+                ${option[0].text}
+                <img src="/resources/images/svg/angle-down-solid.svg" alt="">
             </div>
             <div class="directorist-select__dropdown">
                 <input class='directorist-select__search ${ isSearch ? 'directorist-select__search--show' : 'directorist-select__search--hide' }' type='text' class='value' placeholder='Filter Options....' />
@@ -359,5 +359,5 @@ pureScriptSelect = (selector) => {
        
     });  
 }
-pureScriptSelect('#selectIcon');
+pureScriptSelect('#selectFirst');
 pureScriptSelect('#selectSecond');

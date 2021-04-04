@@ -410,7 +410,6 @@ public class CVExtractor {
                     return maxEducation;
             }
         }
-
         return null;
     }
 }

@@ -16,6 +16,13 @@
 <div layout:fragment="content">
     <div style="padding-top: 2.5em" class="container">
         <p sec:authorize="hasRole('ADMINISTRATOR')" id="adminOfferId" th:text="'ID: ' + ${offer.id}"></p>
+
+        <button sec:authorize="!hasRole('ADMINISTRATOR')" type="button" onclick="history.go(-1);" class="btn btn-info buttonBackToOffersList" href="/searchOffers">
+            <i class="fas fa-arrow-left"></i> Zpět na výpis nabídek
+        </button>
+
+
+
         <h3 style="color: slateblue" th:text="${offer.title}"></h3>
 
         <p class="offerDetailMeta">

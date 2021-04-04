@@ -2,3 +2,10 @@
 text-decoration:none;
 color:white;
 }
+
+#testVersionInfo{
+font-size: 0.6em;
+margin-block: 0em;
+margin-left: 0.8em;
+color: white;
+}

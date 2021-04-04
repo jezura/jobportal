@@ -104,7 +104,7 @@ public class OfferController {
         return "index";
     }
 
-    @PostMapping({"/searchOffers"})
+    @GetMapping({"/searchOffers"})
     public String showFilteredOffers(Model model, @RequestParam(name = "locationSearch", required = false) String locationSearch,
                                      @RequestParam(name = "fieldSearch", required = false) String fieldSearch,
                                      @RequestParam(name = "titleAndEmployerSearch", required = false) String titleAndEmployerSearch,

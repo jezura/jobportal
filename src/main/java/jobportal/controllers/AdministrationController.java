@@ -110,7 +110,7 @@ public class AdministrationController {
         return titles;
     }
 
-    @PostMapping({"/admin/searchOffers"})
+    @GetMapping({"/admin/searchOffers"})
     public String showAdminFilteredOffers(Model model, @RequestParam(name = "titleSearch",required = false) String titleSearch, @RequestParam(name = "idSearch",required = false) String idSearch, @RequestParam(name = "fieldIdSearch",required = false) String fieldIdSearch, @RequestParam(name = "page",required = false) String page) {
         int currentPage;
         if (page != null) {

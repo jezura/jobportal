@@ -25,11 +25,11 @@
         <h4 class="text-center" style="margin-bottom:1.5em;padding-top: 0.6em;">Hledáte práci?
             <span style="color: yellowgreen;">Tady jste správně..</span></h4>
         <div class="container text-center">
-            <form name="filters" action="#" th:action="@{/searchOffers}" method="post">
+            <form name="filters" action="#" th:action="@{/searchOffers}" method="get">
                 <div class="form-row">
                     <div style="margin-bottom:1em" class="form-group col-md-4">
                         <label for="region">Vyberte kraj nebo okres</label>
-                        <div class="directorist-select" id="selectIcon" data-isSearch="true">
+                        <div class="directorist-select" id="selectFirst" data-isSearch="true">
                         <select class="form-control" id="region" name="locationSearch">
                             <option value="all">Všechny kraje</option>
                             <option icon="fas fa-map-marked-alt" th:each="region : ${regions}" th:value="${region.id}" th:text="${region.name}" th:selected="${region.id==searchedLocation}"></option>
@@ -314,7 +314,7 @@
         </nav>
         <nav th:if="${searching == true}" aria-label="pagenav" style="padding-top:1.5em">
             <ul class="pagination justify-content-center">
-                <form action="#" th:action="@{/searchOffers}" method="post">
+                <form action="#" th:action="@{/searchOffers}" method="get">
                     <input style="display:none" type="text" name="locationSearch" th:attrappend="value=${searchedLocation}?${searchedLocation}">
                     <input style="display:none" type="text" name="fieldSearch" th:attrappend="value=${searchedFieldId}?${searchedFieldId}">
                     <input style="display:none" type="text" name="titleAndEmployerSearch" th:attrappend="value=${searchedTitleAndEmployer}?${searchedTitleAndEmployer}">
@@ -328,7 +328,7 @@
                     <button type="button" class="btn btn-light" disabled
                             th:text="'Stránka ' + ${currentPage} + ' z ' + ${totalPages}"></button>
                 </li>
-                <form action="#" th:action="@{/searchOffers}" method="post">
+                <form action="#" th:action="@{/searchOffers}" method="get">
                     <input style="display:none" type="text" name="locationSearch" th:attrappend="value=${searchedLocation}?${searchedLocation}">
                     <input style="display:none" type="text" name="fieldSearch" th:attrappend="value=${searchedFieldId}?${searchedFieldId}">
                     <input style="display:none" type="text" name="titleAndEmployerSearch" th:attrappend="value=${searchedTitleAndEmployer}?${searchedTitleAndEmployer}">
