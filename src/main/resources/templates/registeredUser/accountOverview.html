@@ -2,35 +2,32 @@
 
 <html layout:decorate="~{main_layout}"
       xmlns:th="https://www.thymeleaf.org"
-      xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout"
-      xmlns:sec="http://www.w3.org/1999/xhtml">
+      xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <title>Pracovní portál</title>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" type="text/css" href="/css/account_overview.css"/>
 </head>
 
-<body>
+<body class="flexBodyClear">
 <div layout:fragment="content">
     <div th:if="${(message_notification != null) && (message_notification.contains('úspě'))}" class="alert alert-success alert-dismissible fade show">
         <button type="button" class="close" data-dismiss="alert">&times;</button>
-        <i class="fas fa-check-circle" style="color:green"></i>
+        <i class="fas fa-check-circle green"></i>
         <strong th:text="' ' + ${message_notification}"></strong>
     </div>
     <div th:if="${(message_notification != null) && (message_notification.contains('Chyba'))}" class="alert alert-danger alert-dismissible fade show">
         <button type="button" class="close" data-dismiss="alert">&times;</button>
-        <i class="fas fa-exclamation-triangle" style="color:red"></i>
+        <i class="fas fa-exclamation-triangle red"></i>
         <strong th:text="' ' + ${message_notification}"></strong>
     </div>
 
-    <div style="padding-top: 2.5em" class="container">
-        <h3 style="color: slateblue"
-            th:text="'Podrobnosti účtu uživatele: ' + ${registeredUser.firstName} + ' ' + ${registeredUser.lastName}"></h3>
-
+    <div id="accountOverviewContainer" class="container">
+        <h3 class="slateblue" th:text="'Podrobnosti účtu uživatele: ' + ${registeredUser.firstName} + ' ' + ${registeredUser.lastName}"></h3>
         <div id="desktopInfoView">
-            <h5 style="padding-top:1.5em; font-size:1.15em">Informace o uživateli</h5>
-            <div class="container" style="background-color: #eee9; border-radius:" 0.3em>
-                <div style="font-size: 0.9em; padding-top:1em; padding-bottom:1em;">
+            <h5 class="moreInfo">Informace o uživateli</h5>
+            <div class="container containerInfoSection">
+                <div class="infoSection">
                 <span>
                     <i class="far fa-user moreInfoIcon"></i>
                     <span class="moreInfoLabel">Jméno a příjmení:</span>
@@ -79,23 +76,23 @@
 
         <div class="container">
             <button type="button" id="buttonShowRelevances" data-toggle="modal"
-                    data-target="#modalShowRelevances" class="btn btn-success"
-                    style="margin-right: 1em; margin-top:0.5em; margin-bottom: 1em;">Predikované relevance pracovních oborů
+                    data-target="#modalShowRelevances" class="btn btn-success">
+                Predikované relevance pracovních oborů
             </button>
             <button type="button" id="buttonEditInfo" data-toggle="modal"
-                    th:attr="data-target='#modalEditInfo'+*{registeredUser.id}" class="btn btn-info"
-                    style="margin-right: 1em; margin-top:0.5em; margin-bottom: 1em;">Aktualizovat vybrané údaje
+                    th:attr="data-target='#modalEditInfo'+*{registeredUser.id}" class="btn btn-info">
+                Aktualizovat vybrané údaje
             </button>
             <button type="button" id="buttonChangePassword" data-toggle="modal" class="btn btn-info"
-                    data-target="#modalChangePassword"
-                    style="margin-top:0.5em; margin-bottom: 1em;">Změnit heslo
+                    data-target="#modalChangePassword">
+                Změnit heslo
             </button>
         </div>
     </div>
 
     <div class="modal fade" th:id="*{'modalEditInfo'+{registeredUser.id}}" tabindex="-1" role="dialog"
          aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" style="max-width:50em" role="document">
+        <div class="modal-dialog modal-dialog-centered modalDialogGeneral" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modalEditTitle">Aktualizace vybraných údajů</h5>
@@ -160,7 +157,7 @@
 
     <div class="modal fade" id="modalChangePassword" tabindex="-1" role="dialog"
          aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" style="max-width:50em" role="document">
+        <div class="modal-dialog modal-dialog-centered modalDialogGeneral" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modalChangePasswordTitle">Změna hesla</h5>
@@ -195,7 +192,7 @@
 
     <div class="modal fade" id="modalShowRelevances" tabindex="-1" role="dialog"
          aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" style="max-width:36em" role="document">
+        <div class="modal-dialog modal-dialog-centered modalDialogRelevances" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modalChangeRelevancesTitle">Predikovaná skóre relevancí pro obecné pracovní obory</h5>
@@ -204,15 +201,15 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="container" style="margin: 0 auto; max-width:27em">
-                        <span style="color:steelblue"><b>Predikovaná skóre relevancí pro jednotlivé obory: </b></span>
-                        <table class="table table-sm text-center" style="font-size:0.7em">
+                    <div id="relevanceModalContent" class="container">
+                        <span class="steelblue"><b>Predikovaná skóre relevancí pro jednotlivé obory: </b></span>
+                        <table class="table table-sm text-center font-size-07">
                             <thead class="thead-dark">
                             <tr>
                                 <th th:each="i : ${#numbers.sequence(0, 2)}" th:text="${relevanceScore.getFieldName(i)}"></th>
                             </tr>
                             </thead>
-                            <tbody style="color:steelblue">
+                            <tbody class="steelblue">
                             <tr>
                                 <td th:each="i : ${#numbers.sequence(0, 2)}"><b
                                         th:text="${relevanceScore.getPercentRelevanceScore(i)}"></b></td>
@@ -223,7 +220,7 @@
                                 <th th:each="i : ${#numbers.sequence(3, 5)}" th:text="${relevanceScore.getFieldName(i)}"></th>
                             </tr>
                             </thead>
-                            <tbody style="color:steelblue">
+                            <tbody class="steelblue">
                             <tr>
                                 <td th:each="i : ${#numbers.sequence(3, 5)}"><b
                                         th:text="${relevanceScore.getPercentRelevanceScore(i)}"></b></td>
@@ -234,7 +231,7 @@
                                 <th th:each="i : ${#numbers.sequence(6, 8)}" th:text="${relevanceScore.getFieldName(i)}"></th>
                             </tr>
                             </thead>
-                            <tbody style="color:steelblue">
+                            <tbody class="steelblue">
                             <tr>
                                 <td th:each="i : ${#numbers.sequence(6, 8)}"><b
                                         th:text="${relevanceScore.getPercentRelevanceScore(i)}"></b></td>
@@ -245,7 +242,7 @@
                                 <th th:each="i : ${#numbers.sequence(9, 11)}" th:text="${relevanceScore.getFieldName(i)}"></th>
                             </tr>
                             </thead>
-                            <tbody style="color:steelblue">
+                            <tbody class="steelblue">
                             <tr>
                                 <td th:each="i : ${#numbers.sequence(9, 11)}"><b
                                         th:text="${relevanceScore.getPercentRelevanceScore(i)}"></b></td>
@@ -256,7 +253,7 @@
                                 <th th:each="i : ${#numbers.sequence(12, 14)}" th:text="${relevanceScore.getFieldName(i)}"></th>
                             </tr>
                             </thead>
-                            <tbody style="color:steelblue">
+                            <tbody class="steelblue">
                             <tr>
                                 <td th:each="i : ${#numbers.sequence(12, 14)}"><b
                                         th:text="${relevanceScore.getPercentRelevanceScore(i)}"></b></td>

@@ -6,53 +6,47 @@
     <header xmlns:th="https://www.thymeleaf.org"
             th:fragment="header">
 
-        <nav style="padding-bottom:0.15em; padding-right:2em; padding-left:2em"
-             class="navbar navbar-expand-sm bg-dark navbar-dark">
+        <nav id="mainHeaderNav" class="navbar navbar-expand-sm bg-dark navbar-dark">
             <ul class="navbar-nav">
                 <li class="nav-item">
                     <a href="/"><img class="img-responsive" src="../static/resources/images/pracovo_icon.png"
                                      th:src="@{/resources/images/pracovo_icon.png}" height="60em"/></a>
                 </li>
                 <li class="nav-item-active active">
-                    <a id="top" href="/"><h4
-                            style="color:white; padding-top: 0.6em; font-family: 'Tahoma';font-weight: bold;"
-                            class="nav-link">Pracovo.cz</h4></a>
+                    <a id="top" href="/"><h4 id="appTitle" class="nav-link">Pracovo.cz</h4></a>
                     <p id="testVersionInfo">Portál je nasazen v nekomerčním režimu, pouze za účelem testování akademické práce. Jeho užíváním to berete na vědomí.</p>
                 </li>
-                <div sec:authorize="isAnonymous()"
-                     style="position:absolute; right: 0; margin-right: 2em; margin-top: 0.5em;">
-                    <li style="float:left; padding-right: 1.2em" class="nav-item-active">
+                <div sec:authorize="isAnonymous()" class="navBlock">
+                    <li id="loginButton" class="nav-item-active">
                         <a class="btn btn-info" href="/login">Přihlášení</a>
                     </li>
-                    <li style="float:left" class="nav-item-active">
+                    <li class="nav-item-active floatLeft">
                         <button type="button" id="buttonRegistration" data-toggle="modal" data-target="#modalRegistration"
                                 class="btn btn-success">Registrace
                         </button>
                     </li>
                 </div>
-                <div sec:authorize="hasRole('REGISTERED_USER')"
-                     style="position:absolute; right: 0; margin-right: 2em; margin-top: 0.5em;">
-                    <li style="float:left" class="nav-item dropdown">
+                <div sec:authorize="hasRole('REGISTERED_USER')" class="navBlock">
+                    <li class="nav-item dropdown floatLeft">
                         <a id="accountDropdown" class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" sec:authentication="name"></a>
                         <div class="dropdown-menu">
-                            <a class="nav-link" style="color: mediumslateblue" href="/registeredUser/accountOverview/modalFalse">Můj účet</a>
-                            <a class="nav-link" style="color: mediumslateblue" href="/registeredUser/accountOverview/modalTrue">Změnit heslo</a>
+                            <a class="nav-link mediumslateblue" href="/registeredUser/accountOverview/modalFalse">Můj účet</a>
+                            <a class="nav-link mediumslateblue" href="/registeredUser/accountOverview/modalTrue">Změnit heslo</a>
                         </div>
                         <script type="text/javascript" src="/js/mainHeader.js"></script>
                     </li>
-                    <li style="float:left" class="nav-item-active">
+                    <li class="nav-item-active floatLeft">
                         <a class="nav-link" href="/logout">Odhlásit se</a>
                     </li>
                 </div>
-                <div sec:authorize="hasRole('ADMINISTRATOR')"
-                     style="position:absolute; right: 0; margin-right: 2em; margin-top: 0.5em;">
-                    <li style="float:left" class="nav-item-active">
+                <div sec:authorize="hasRole('ADMINISTRATOR')" class="navBlock">
+                    <li class="nav-item-active floatLeft">
                         <a class="nav-link" href="/admin/overview">Administrační rozhraní</a>
                     </li>
-                    <li style="float:left" class="nav-item-active">
+                    <li class="nav-item-active floatLeft">
                         <a class="nav-link" href="/demo">Demo režim</a>
                     </li>
-                    <li style="float:left" class="nav-item-active">
+                    <li class="nav-item-active floatLeft">
                         <a class="nav-link" href="/logout">Odhlásit se</a>
                     </li>
                 </div>
@@ -66,7 +60,7 @@
 <!-- Modal registration methods -->
 <div class="modal fade" id="modalRegistration" tabindex="-1" role="dialog"
      aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div style="max-width: 40em" class="modal-dialog modal-dialog-centered" role="document">
+    <div id="modalRegistrationDialog" class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="modalDeleteTitle">Vyberte způsob registrace</h5>
@@ -75,26 +69,26 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="container" style=" text-align: center;">
+                <div class="container text-center">
                     <a class="btn btn-success text-center" href="/registration" role="button">Registrovat se standardním způsobem
                     </a>
-                    <p style="padding-top: 1em;" class="text-center">nebo</p>
+                    <p id="orDivider" class="text-center">nebo</p>
                 </div>
-                <hr style="height: 2px; border-width: 4px;">
+                <hr>
                 <h5 class="text-center">Využít funkci zrychlené registrace pomocí životopisu</h5>
                 <form action="#" th:action="@{/quickRegistration}" method="post" enctype="multipart/form-data">
                     <div class="form-group">
-                        <label style="font-size: 0.85em" class="text-center">Vyberte nebo přetáhněte PDF/DOCX soubor
+                        <label class="text-center font-size-085">Vyberte nebo přetáhněte PDF/DOCX soubor
                             se životopisem:</label><br>
-                        <input style="padding: 1em; min-width: 100%" class="btn btn-info" type="file" name="file">
+                        <input id="modalInputFile" class="btn btn-info" type="file" name="file">
                     </div>
 
-                    <div style="display: block; min-height:13em" class="modal-footer text-center">
-                        <button id="buttonRegistrationPersonalizationStart" style="margin: 0 auto" class="btn btn-success"
+                    <div id="modalRegistrationFooter" class="modal-footer text-center">
+                        <button id="buttonRegistrationPersonalizationStart" class="btn btn-success"
                                 type="submit" onclick="registrationLoading()">Dokončit zrychlenou registraci
                         </button>
                         <div id="registrationLoader" class="text-center"></div>
-                        <p style="margin-top:0em; font-size: 0.8em" class="text-center" id="registrationInfo"></p>
+                        <p id="registrationInfo" class="text-center"></p>
                     </div>
                 </form>
             </div>

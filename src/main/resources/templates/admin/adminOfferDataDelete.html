@@ -12,47 +12,47 @@
 <body>
 <div layout:fragment="content">
     <span id="message_notification"></span>
-    <h4 style="padding-bottom: 0.8em; padding-top:1em" class="text-center">Správa dat pracovních nabídek</h4>
+    <h4 id="dataLoadHeading" class="text-center">Správa dat pracovních nabídek</h4>
     <p class="text-center" id="offersCount"></p>
     <div class="container text-center">
         <p></p>
-        <h5 style="padding-bottom: 0.5em; padding-top:1.5em" class="text-center"><a id="delete">Odstranit data</a></h5>
+        <h5 id="deleteHeading" class="text-center"><a id="delete">Odstranit data</a></h5>
         <form name="deleteForm">
             <label class="switch">
                 <input type="checkbox" id="switchDeleteAll" onclick="showFormPart()">
                 <span class="slider round"></span>
             </label>
-            <span style="font-size: 0.85em">Odstranit veškerá data VŠECH pracovních nabídek</span><br>
-            <div id="expired" style="display:block">
+            <span class="font-size-085">Odstranit veškerá data VŠECH pracovních nabídek</span><br>
+            <div id="expired">
             <label class="switch">
                 <input type="checkbox" id="switchOnlyExpired" onclick="showFormPart()">
                 <span class="slider round"></span>
             </label>
-            <span style="font-size: 0.85em">Identifikovat a smazat pouze a jenom data všech expirovaných pracovních nabídek</span><br>
+            <span class="font-size-085">Identifikovat a smazat pouze a jenom data všech expirovaných pracovních nabídek</span><br>
             </div>
-            <div id="dates" style="display:block; padding-top:0.75em">
+            <div id="dates">
                 <p class="text-center">Odstranit data všech nabídek starších než zvolené filtry:</p>
-                <div class="input-group" style="max-width: 80%; margin: 0 auto">
+                <div class="input-group selectDeleteDatesDiv">
                     <div class="input-group-prepend">
-                        <span class="input-group-text" style="width: 21em">Smazat vše starší než datum vložení:</span>
+                        <span class="input-group-text selectDeleteDatesSpan">Smazat vše starší než datum vložení:</span>
                     </div>
                     <input type="date" name="oldestInsertionDate" class="form-control">
                 </div>
-                <div class="input-group" style="max-width: 80%; margin: 0 auto">
+                <div class="input-group selectDeleteDatesDiv">
                     <div class="input-group-prepend">
-                        <span class="input-group-text" style="width: 21em">Smazat vše starší než datum poslední změny:</span>
+                        <span class="input-group-text selectDeleteDatesSpan">Smazat vše starší než datum poslední změny:</span>
                     </div>
                     <input type="date" name="oldestEditDate" class="form-control">
                 </div>
             </div>
-            <div class="form-group" style="padding-top:1em">
+            <div class="form-group dataActionDiv">
                 <button id= "buttonDelete" type="button" onclick="return deleteOffers()" class="btn btn-danger">Trvale smazat odpovídající pracovní nabídky</button>
             </div>
         </form>
-        <div id="loader" style="padding-top:1em"></div>
-        <p style="margin-top:0em" class="text-center" id="info"></p>
-        <p style="margin-top:0em; font-size:0.8em" class="text-center" id="filters"></p>
-        <span style="padding-bottom: 0.3em; padding-top:1.5em; visibility:hidden" class="text-center"><a id="down">down</a></span>
+        <div id="loader"></div>
+        <p id="info" class="text-center"></p>
+        <p id="filters" class="text-center"></p>
+        <span class="text-center downSpan"><a id="down">down</a></span>
     </div>
 </div>
 </body>

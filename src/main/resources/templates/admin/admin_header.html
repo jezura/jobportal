@@ -4,19 +4,18 @@
     <meta charset="UTF-8"><header  xmlns:th="https://www.thymeleaf.org"
                     th:fragment="header">
 
-        <nav style="margin-bottom: 0.3em; padding-bottom:0.15em; padding-right:2em; padding-left:2em" class="navbar navbar-expand-sm bg-dark navbar-dark">
+        <nav id="mainHeaderAdminNav" class="navbar navbar-expand-sm bg-dark navbar-dark">
             <ul class="navbar-nav">
                 <li class="nav-item">
                     <a href="/"><img class="img-responsive" src="../static/resources/images/pracovo_icon.png"
                                      th:src="@{/resources/images/pracovo_icon.png}" height="60em"/></a>
                 </li>
                 <li class="nav-item-active active">
-                    <a class="nav-white-link" id="top" href="/"><h4
-                            style="color:white; padding-top: 0.6em; font-family: 'Tahoma';font-weight: bold;padding-top: 0.2em;padding-bottom: 0.1em; margin-bottom:0.2em;"
-                            class="nav-link">Pracovo.cz</h4></a>
-                    <a class="nav-white-link" href="/admin/overview"><p style="color:white; font-family: 'Tahoma';font-size: 0.8em;margin-bottom: 0em;padding-top: 0em;" class="nav-link">ADMIN DASHBOARD</p></a>
+                    <a class="nav-white-link" id="top" href="/">
+                        <h4 class="nav-link">Pracovo.cz</h4></a>
+                    <a class="nav-white-link" href="/admin/overview"><p id="dashboard" class="nav-link">ADMIN DASHBOARD</p></a>
                 </li>
-                <li style="padding-left: 1.5em;" class="nav-item-active">
+                <li id="overview" class="nav-item-active">
                     <a class="nav-link" href="/admin/overview">Přehled</a>
                 </li>
                 <li class="nav-item-active">
@@ -27,8 +26,8 @@
                         Správa dat pracovních nabídek
                     </a>
                     <div class="dropdown-menu">
-                        <a class="nav-link" style="color:green" href="/admin/offerDataLoad">Nahrát nová data</a>
-                        <a class="nav-link" style="color:red" href="/admin/offerDataDelete">Smazat data</a>
+                        <a class="nav-link green" href="/admin/offerDataLoad">Nahrát nová data</a>
+                        <a class="nav-link red" href="/admin/offerDataDelete">Smazat data</a>
                     </div>
                 </li>
                 <li class="nav-item-active">

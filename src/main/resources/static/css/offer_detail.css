@@ -54,6 +54,11 @@ min-width: 1.3em;
 color: cornflowerblue;
 }
 
+.otherIcon{
+color: cornflowerblue;
+padding-left: 0.3em;
+}
+
 .moreInfoLabel {
     min-width: 15em;
     display: inline-block;
@@ -71,6 +76,11 @@ color: cornflowerblue;
 
 .infoRowMobile{
 padding-left: 1.5em;
+}
+
+.containerInfoSection{
+background-color: #eee9;
+border-radius: 0.3em;
 }
 
 #topLine{
@@ -102,6 +112,37 @@ text-align: center;
 font-size: 0.7em;
 margin-block-end: 0em;
 color: red;
+}
+
+#offerDetailContainer{
+padding-top: 2.5em;
+}
+
+.slateblue{
+color: slateblue;
+}
+
+.cornflowerblue{
+color: cornflowerblue;
+}
+
+.green{
+color: green;
+}
+
+h5.moreInfo{
+padding-top:1.5em;
+font-size:1.15em;
+}
+
+.infoSection{
+font-size: 0.9em;
+padding-top:1em;
+padding-bottom:1em;
+}
+
+#showContactModalDialog{
+max-width:50em;
 }
 
 @media only screen and (max-width: 999px) {

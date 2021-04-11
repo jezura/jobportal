@@ -1,0 +1,163 @@
+#top{
+text-decoration:none;
+color:white;
+}
+
+#appTitle{
+color:white;
+padding-top: 0.6em;
+font-family: 'Tahoma';font-weight: bold;
+}
+
+#testVersionInfo{
+font-size: 0.6em;
+margin-block: 0em;
+margin-left: 0.8em;
+color: white;
+}
+
+#mainHeaderNav{
+padding-bottom:0.15em;
+padding-right:2em;
+padding-left:2em;
+}
+
+.navBlock{
+position:absolute;
+right: 0;
+margin-right: 2em;
+margin-top: 0.5em;
+}
+
+.floatLeft{
+float: left;
+}
+
+#loginButton{
+float:left;
+padding-right: 1.2em;
+}
+
+.sendFormButton{
+margin-top:2em;
+}
+
+.mediumslateblue{
+color: mediumslateblue!important;
+}
+
+#modalRegistrationDialog{
+max-width: 40em;
+}
+
+hr{
+height: 2px;
+border-width: 4px;
+}
+
+#orDivider{
+padding-top: 1em;
+}
+
+.font-size-085{
+font-size: 0.85em;
+}
+
+.white{
+color: white;
+}
+
+#modalInputFile{
+padding: 1em;
+min-width: 100%;
+}
+
+#modalRegistrationFooter{
+display: block;
+min-height:13em;
+}
+
+#registrationInfo{
+margin-top:0em;
+font-size: 0.8em;
+}
+
+#buttonRegistrationPersonalizationStart{
+margin: 0 auto;
+}
+
+#mainBody{
+margin: 0 auto;
+}
+
+
+#footer{
+background-color: #343a40!important
+}
+
+#footerNav{
+margin-bottom: 0em;
+padding-bottom:0.15em;
+padding-right:2em;
+padding-left:2em;
+}
+
+#footerNav > ul {
+margin: 0 auto;
+}
+
+#author{
+text-align: center;
+color: white;
+font-size: 0.7em;
+margin-block-end: 0em;
+padding-bottom: 1em;
+}
+
+.flexBody{
+height: 100%;
+display: flex;
+flex-direction: column;
+background-color: #eee;
+}
+
+.flexBodyClear{
+height: 100%;
+display: flex;
+flex-direction: column;
+}
+
+.flexContent{
+flex: 1 0 auto;
+}
+
+#loginForm{
+max-width: 25em;
+margin:0 auto;
+}
+
+#registerForm{
+max-width: 50em;
+margin:0 auto;
+padding-bottom: 5em;
+}
+
+.orange{
+color:orange;
+}
+
+.formPageContainer{
+padding-top:3em;
+}
+
+h5.hint{
+padding-top: 1em;
+}
+
+#autoFilledAttributes{
+background-color: lightgreen;
+padding-bottom: 0.1em;
+padding-top: 0.2em;
+border-radius: 0.5em;
+margin-bottom: 0.5em;
+}

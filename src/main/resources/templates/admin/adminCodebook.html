@@ -11,21 +11,21 @@
 <body>
 <div layout:fragment="content">
     <span id="message_notification"></span>
-    <h4 style="padding-bottom: 1em; padding-top:1em" class="text-center">Správa dat číselníků</h4>
+    <h4 id="codebookHeading" class="text-center">Správa dat číselníků</h4>
     <p class="text-center" id="codebookCheckResult"></p>
     <div class="container text-center">
         <p></p>
         <form>
             <div class="form-group">
                 <button id="buttonLoad" type="button" onclick="parseAllCodebookData()" class="btn btn-success" disabled></button>
-                <p style="font-size: 0.7em; color: red;">Tato funkce je v nasazené verzi aplikace deaktivována z důvodu nadměrného vyčerpávání přidělenách/zaplacených výpočetních prostředků v zakoupeném programu Heroku. Navíc je zde tato funkce zbytečná, pokud již jednou byla všechna číselníková data (více než 24 000 záznamů) nahrána..</p>
+                <p id="deployDisabledInfo">Tato funkce je v nasazené verzi aplikace deaktivována z důvodu nadměrného vyčerpávání přidělenách/zaplacených výpočetních prostředků v zakoupeném programu Heroku. Navíc je zde tato funkce zbytečná, pokud již jednou byla všechna číselníková data (více než 24 000 záznamů) nahrána..</p>
             </div>
         </form>
         <div id="loader"></div>
-        <p style="margin-top:0em" class="text-center" id="info"></p>
-        <p style="margin:0 auto" class="text-center" id="progress"></p>
-        <p style="margin-top:0em" class="text-center" id="count"></p>
-        <p style="margin-top:0em; font-size: 0.8em" class="text-center" id="time"></p>
+        <p id="info" class="text-center"></p>
+        <p id="progress" class="text-center"></p>
+        <p id="count" class="text-center countCodebook"></p>
+        <p id="time" class="text-center"></p>
     </div>
 </div>
 </body>

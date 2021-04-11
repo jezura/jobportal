@@ -1,3 +1,15 @@
+#indexContainer{
+background-color: #19325a;
+padding-top:0.5em;
+padding-bottom: 0.4em;
+color:white;
+}
+
+#indexHeading{
+margin-bottom:1.5em;
+padding-top: 0.6em;
+}
+
 .offerDetailMeta {
 font-size:0.9em;
 margin-block-end: 0.3em;
@@ -70,3 +82,133 @@ color: red;
 font-size: 0.75em;
 }
 
+.yellowgreen{
+color: yellowgreen;
+}
+
+.white{
+color: white;
+}
+
+.lightgreen{
+color: lightgreen;
+}
+
+.green{
+color: green;
+}
+
+.blue{
+color: blue;
+}
+
+.cornflowerblue{
+color: cornflowerblue;
+}
+
+.indexSearchDiv{
+margin-bottom:1em;
+}
+
+#buttonPersonalizeByCv{
+margin-bottom:1em;
+}
+
+#indexIsPersonalized{
+font-size:0.9em;
+color:white;
+padding-top:2em;
+margin-block-end: 0.4em;
+}
+
+#flip{
+font-size:0.75em;
+color:white;
+text-decoration: underline;
+margin-block: 0.3em;
+}
+
+#indexPredictedRelevances{
+margin-bottom:3em;
+}
+
+#indexTableRelevances{
+font-size:0.7em;
+}
+
+#searchAppliedFilters{
+width:95%;
+margin-block-end:0em;
+padding-top: 0.5em;
+}
+
+.font-size-09{
+font-size: 0.9em;
+}
+
+.font-size-085{
+font-size: 0.85em;
+}
+
+.font-size-08{
+font-size: 0.8em;
+}
+
+#totalOffers{
+width:95%;
+padding-top: 1.5em;
+}
+
+#offersRange{
+font-size:0.8em;
+padding-top: 0.8em;
+}
+
+.offerParamsIcon{
+color: cornflowerblue;
+padding-left: 0.3em;
+}
+
+#modalPersonalizeDialog{
+max-width: 40em;
+}
+
+#modalInputFile{
+padding: 1em;
+min-width: 100%;
+}
+
+#info{
+margin-top:0em;
+font-size: 0.8em;
+}
+
+#buttonPersonalizationStart{
+margin: 0 auto;
+}
+
+#modalPersonalizeFooter{
+display: block;
+min-height:13em;
+}
+
+#modalPersonalizeFormGroup{
+padding-top: 1em;
+}
+
+.noDisplay{
+display: none;
+}
+
+.padding0{
+padding:0px;
+}
+
+.pagenavButton{
+color:white;
+background-color:seagreen;
+}
+
+.bottomNav{
+padding-top:1.5em;
+}

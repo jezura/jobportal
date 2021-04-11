@@ -64,10 +64,80 @@ color: darkseagreen;
     margin: 0.4em;
 }
 
+.modalDialogGeneral{
+max-width:50em;
+}
+
+#modalDialogRelevances{
+max-width:36em;
+}
+
 .infoRowMobile{
 padding-left: 1.5em;
 }
 
 #topLine{
 border-top: 3px solid rgba(0,0,0,.1);
+}
+
+.red{
+ color:red;
+ }
+
+.green{
+color:green;
+}
+
+.slateblue{
+color:slateblue;
+}
+
+.steelblue{
+color:steelblue;
+}
+
+#accountOverviewContainer{
+padding-top: 2.5em;
+}
+
+h5.moreInfo{
+padding-top:1.5em;
+font-size:1.15em;
+}
+
+.containerInfoSection{
+background-color: #eee9;
+border-radius: 0.3em;
+}
+
+.infoSection{
+font-size: 0.9em;
+padding-top:1em;
+padding-bottom:1em;
+}
+
+#buttonShowRelevances{
+margin-right: 1em;
+margin-top:0.5em;
+margin-bottom: 1em;
+}
+
+#buttonEditInfo{
+margin-right: 1em;
+margin-top:0.5em;
+margin-bottom: 1em;
+}
+
+#buttonChangePassword{
+margin-top:0.5em;
+margin-bottom: 1em;
+}
+
+.font-size-07{
+font-size: 0.7em;
+}
+
+#relevanceModalContent{
+margin: 0 auto;
+max-width:27em;
 }

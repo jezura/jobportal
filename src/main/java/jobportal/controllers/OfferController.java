@@ -210,12 +210,14 @@ public class OfferController {
         Collection<District> districts = districtService.findAllDistricts();
         Collection<Field> fields = fieldService.findAllFields();
 
+        int todayDay = LocalDate.now().getDayOfYear();
         model.addAttribute("regions", regions);
         model.addAttribute("districts", districts);
         model.addAttribute("fields", fields);
         model.addAttribute("offers", offers);
         model.addAttribute("currentPage", currentPage);
         model.addAttribute("user", registeredUser);
+        model.addAttribute("todayDay", todayDay);
         model.addAttribute("searching", true);
         return "index";
     }
@@ -292,12 +294,14 @@ public class OfferController {
             email = principal.toString();
         }
         registeredUser = personService.findRegisteredUserByEmail(email);
+        int todayDay = LocalDate.now().getDayOfYear();
         model.addAttribute("user", registeredUser);
         model.addAttribute("offers", offers);
         model.addAttribute("cvProfile", cvProfile);
         model.addAttribute("relevanceScore", relevanceScore);
         model.addAttribute("currentPage", currentPage);
         model.addAttribute("regionId", regionId);
+        model.addAttribute("todayDay", todayDay);
         return "index";
     }
 

@@ -14,7 +14,7 @@
 
 <body>
 <div layout:fragment="content">
-    <div style="padding-top: 2.5em" class="container">
+    <div id="offerDetailContainer" class="container">
         <p sec:authorize="hasRole('ADMINISTRATOR')" id="adminOfferId" th:text="'ID: ' + ${offer.id}"></p>
 
         <button sec:authorize="!hasRole('ADMINISTRATOR')" type="button" onclick="history.go(-1);" class="btn btn-info buttonBackToOffersList" href="/searchOffers">
@@ -23,7 +23,7 @@
 
 
 
-        <h3 style="color: slateblue" th:text="${offer.title}"></h3>
+        <h3 class="slateblue" th:text="${offer.title}"></h3>
 
         <p class="offerDetailMeta">
             <span th:if="${(!editDate.equals('Dnes')) && (!editDate.equals('Včera'))}">Aktualizováno
@@ -48,7 +48,7 @@
         </p>
 
         <p class="offerDetailMeta">
-            <i style="color: cornflowerblue" class='fas fa-map-marked-alt'></i>
+            <i class="fas fa-map-marked-alt cornflowerblue"></i>
             <span th:if="${(offer.placeType.code.equals('adrprov')) || (offer.placeType.code.equals('obec'))}">
                 <span th:if="${offer.workPlace.village != null}"
                       th:text="' ' + ${offer.workPlace.village.name} + ', ' + ${offer.workPlace.village.district.region.name}"></span>
@@ -60,15 +60,15 @@
                   th:each="district : ${offer.workPlace.districts}" th:text="${district.name}"></span>
             <span th:if="${(offer.placeType.code.equals('adrvolna')) || (offer.placeType.code.equals('celaCR'))}"> Celá ČR</span>
 
-            <i style="color: cornflowerblue; padding-left: 0.3em" class='far fa-building'></i>
+            <i class="far fa-building otherIcon"></i>
             <span th:text="' ' + ${offer.employer.name}"></span>
 
-            <i style="color: cornflowerblue; padding-left: 0.3em" class='fas fa-business-time'></i>
+            <i class="fas fa-business-time otherIcon"></i>
             <span class="workship" th:each="ship : ${workships}" th:text="' ' + ${ship}"></span>
         </p>
 
         <p class="offerDetailMeta">
-            <i style="color: green" class='fas fa-coins'></i> Mzda
+            <i class="fas fa-coins green"></i> Mzda
             <span th:if="${offer.salaryType.equals('TypMzdy/mesic')}">
                 <span th:if="${(offer.monthlyRateFrom > 0) && (offer.monthlyRateTo > 0)}">
                     <span class="salary"
@@ -97,16 +97,16 @@
             </span>
             <span th:if="${(offer.monthlyRateFrom == null) && (offer.monthlyRateTo == null)}"> neuvedeno</span>
 
-            <i style="color: cornflowerblue; padding-left: 0.3em" class='fas fa-briefcase'></i> Obory
+            <i class="fas fa-briefcase otherIcon"></i> Obory
             <span class="fields" th:each="field : ${offer.profession.getFields()}"
                   th:text="${field.name}"></span>
         </p>
         <hr id="topLine">
 
         <div id="desktopInfoView">
-            <h5 style="padding-top:1.5em; font-size:1.15em">Další informace o pozici</h5>
-            <div class="container" style="background-color: #eee9; border-radius:" 0.3em>
-                <div style="font-size: 0.9em; padding-top:1em; padding-bottom:1em;">
+            <h5 class="moreInfo">Další informace o pozici</h5>
+            <div class="container containerInfoSection">
+                <div class="infoSection">
                 <span th:if="${offer.numberOfJobs != null}">
                     <i class="fas fa-users moreInfoIcon"></i>
                     <span class="moreInfoLabel">Počet volných pracovních míst:</span>
@@ -294,9 +294,9 @@
 
 
         <div id="mobileInfoView">
-            <h5 style="padding-top:1.5em; font-size:1.15em">Další informace o pozici</h5>
-            <div class="container" style="background-color: #eee9; border-radius:" 0.3em>
-                <div style="font-size: 0.9em; padding-top:1em; padding-bottom:1em;">
+            <h5 class="moreInfo">Další informace o pozici</h5>
+            <div class="container containerInfoSection">
+                <div class="infoSection">
                 <span th:if="${offer.numberOfJobs != null}">
                     <i class="fas fa-users moreInfoIcon"></i>
                     <span class="moreInfoLabel">Počet volných pracovních míst:</span>
@@ -502,9 +502,9 @@
         </button>
 
 
-        <h5 style="padding-top:1.5em; font-size:1.15em">Doplňující informace zadané zaměstnavatelem</h5>
-        <div class="container" style="background-color: #eee9; border-radius:" 0.3em>
-            <p style="font-size: 0.9em; padding-top:1em; padding-bottom:1em;">
+        <h5 class="moreInfo">Doplňující informace zadané zaměstnavatelem</h5>
+        <div class="container containerInfoSection">
+            <p class="infoSection">
                 <span th:each="textParagraph : ${offerTextParagraphs}">
                     <span th:text="${textParagraph}"></span>
                     <br>
@@ -522,7 +522,7 @@
 
     <div class="modal fade" th:id="*{'modalShowContacts'+{offer.id}}" tabindex="-1" role="dialog"
          aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" style="max-width:50em" role="document">
+        <div id="showContactModalDialog" class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modalChangePasswordTitle">Kontaktní informace pro odpověď na
@@ -532,8 +532,8 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="container" style="background-color: #eee9; border-radius:" 0.3em>
-                        <div style="font-size: 0.9em; padding-top:1em; padding-bottom:1em;">
+                    <div class="container containerInfoSection">
+                        <div class="infoSection">
                             <span>
                                 <i class="far fa-user contactIcon"></i>
                                 <span class="moreInfoLabel">Kontaktní osoba:</span><br>

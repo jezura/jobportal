@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html  layout:decorate="~{main_layout}"
        xmlns:th="https://www.thymeleaf.org"
-       xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout",
-       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+       xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout">
 <head>
   <link rel="stylesheet" type="text/css" href="/css/error.css"/>
   <title>Error</title>
 </head>
-<body>
-<div layout:fragment="content">
+<body class="flexBodyClear">
+<div layout:fragment="content" class="flexContent">
     <div class="container">
         <h2>Something went wrong, an error occured</h2>
         <span th:if="${errorCode > 0}" th:text="${errorCode} + ' - '"></span>

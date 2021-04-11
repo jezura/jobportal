@@ -4,20 +4,21 @@
        xmlns:th="https://www.thymeleaf.org"
        xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout">
 <head>
+    <link rel="stylesheet" type="text/css" href="/css/demo.css"/>
     <title>Pracovní portál</title>
 </head>
 
 <body>
 <div layout:fragment="content">
-    <img style="max-width: 100%; height: auto; margin-top: -5em;" class="img-responsive" src="../static/resources/images/icon.jpg" th:src="@{/resources/images/icon.jpg}"/>
+    <img id="iconImage" class="img-responsive" src="../static/resources/images/icon.jpg" th:src="@{/resources/images/icon.jpg}"/>
 <p></p>
     <h2 class="text-center">Demo</h2>
     <h4 class="text-center">Testování procesů extrakce informací z CV a predikce skóre relevance pro pracovní obory</h4>
     <p></p>
     <div class="row">
     <div class="col-lg-1"></div>
-    <div class="col-lg-10" style="color:#1A3346">
-    <p style="font-size:0.85em">Účelem tohoto modulu webové aplikace je extrakce několika základních
+    <div id="descriptionDiv" class="col-lg-10">
+    <p class="font-size-085">Účelem tohoto modulu webové aplikace je extrakce několika základních
     informací z nestrukturovaného, případně polostrukturovaného textového dokumentu ve formátu PDF a DOCX, ze životopisu
         (CV) uchazeče o práci a následná predikce relevančních skóre pro 15 pracovních oborů. V aplikaci je uplatňována
          disciplína <b>Information Extraction (IE).</b> Mezi hlavní použité metody extrakce patří: <b>Regular expression (REGEX)
@@ -35,7 +36,7 @@
             <h4 class="text-center">Extrahovat informace</h4>
             <p></p>
             <p></p>
-            <form style="padding-bottom: 5em" action="#" th:action="@{/demo/processCv}"  method="post" enctype="multipart/form-data">
+            <form id="processCv" action="#" th:action="@{/demo/processCv}"  method="post" enctype="multipart/form-data">
                 <div class="form-group">
                     <label >Vyberte nebo přetáhněte PDF/DOCX soubor se životopisem:</label>
                     <input type="file" name="file" class="btn btn-info">

@@ -21,13 +21,13 @@
 
 <body>
 <div layout:fragment="content">
-    <div style="background-color: #19325a; padding-top:0.5em; padding-bottom: 0.4em; color:white">
-        <h4 class="text-center" style="margin-bottom:1.5em;padding-top: 0.6em;">Hledáte práci?
-            <span style="color: yellowgreen;">Tady jste správně..</span></h4>
+    <div id="indexContainer">
+        <h4 id="indexHeading" class="text-center">Hledáte práci?
+            <span class="yellowgreen">Tady jste správně..</span></h4>
         <div class="container text-center">
             <form name="filters" action="#" th:action="@{/searchOffers}" method="get">
                 <div class="form-row">
-                    <div style="margin-bottom:1em" class="form-group col-md-4">
+                    <div class="indexSearchDiv form-group col-md-4">
                         <label for="region">Vyberte kraj nebo okres</label>
                         <div class="directorist-select" id="selectFirst" data-isSearch="true">
                         <select class="form-control" id="region" name="locationSearch">
@@ -39,7 +39,7 @@
                         </div>
                     </div>
 
-                    <div style="margin-bottom:1em" class="form-group col-md-4">
+                    <div class="indexSearchDiv form-group col-md-4">
                         <label for="fieldSearch">Vyberte pracovní obor</label>
                         <div class="directorist-select" id="selectSecond" data-isSearch="true">
                             <select class="form-control" id="fieldSearch" name="fieldSearch">
@@ -50,7 +50,7 @@
                     </div>
                     <script type="text/javascript" src="/js/index-search-purescript.js"></script>
 
-                    <div style="margin-bottom:1em" class="form-group col-md-4">
+                    <div class="indexSearchDiv form-group col-md-4">
                         <label for="titleAndEmployerSearch">Hledání v názvu nabídky nebo zaměstnavatele</label>
                         <input type="text" class="form-control" name="titleAndEmployerSearch" id="titleAndEmployerSearch"
                                placeholder="Zadejte vyhledávaný text" th:attrappend="value=${searchedTitleAndEmployer}?${searchedTitleAndEmployer}">
@@ -58,27 +58,25 @@
                 </div>
                 <button type="submit" id="searchByFilters" class="btn btn-primary">Hledat nabídky</button>
             </form>
-            <p style="color:white" class="text-center">nebo</p>
-            <button style="margin-bottom:1em;" sec:authorize="!(hasRole('REGISTERED_USER'))" type="button" id="buttonPersonalizeByCv" data-toggle="modal" data-target="#modalPersonalizeByCv"
+            <p class="text-center white">nebo</p>
+            <button sec:authorize="!(hasRole('REGISTERED_USER'))" type="button" id="buttonPersonalizeByCv" data-toggle="modal" data-target="#modalPersonalizeByCv"
                     class="btn btn-success">Získat nabídku na míru na základě CV
             </button>
             <a sec:authorize="hasRole('REGISTERED_USER')" th:href="'/personalizedOffers/user/' + ${user.id}"><button type="button" id="buttonPersonalizeByRegistrationData"
                     class="btn btn-success">Zobrazit inteligentně doporučené nabídky
             </button></a>
         </div>
-        <p th:if="${relevanceScore != null}" style="font-size:0.9em; color:white; padding-top:2em; margin-block-end: 0.4em"
-           class="text-center">
-            <i style="color:lightgreen" class="fas fa-user-check"></i> Nabídka práce je nyní inteligentně personalizovaná</p>
-        <p id="flip" th:if="${relevanceScore != null}"
-           style="font-size:0.75em; color:white; text-decoration: underline; margin-block: 0.3em" class="text-center"><i
-                style="color:white" class="fas fa-caret-down"></i> zobrazit detaily personalizace <i style="color:white"
-                                                                                                     class="fas fa-caret-down"></i>
+        <p th:if="${relevanceScore != null}" id="indexIsPersonalized" class="text-center">
+            <i class="fas fa-user-check lightgreen"></i> Nabídka práce je nyní inteligentně personalizovaná</p>
+        <p id="flip" th:if="${relevanceScore != null}" class="text-center">
+            <i class="fas fa-caret-down white"></i> zobrazit detaily personalizace
+            <i class="fas fa-caret-down white"></i>
         </p>
     </div>
 
-    <div th:if="${relevanceScore != null}" id="personalizationDetails" style="display: none">
+    <div th:if="${relevanceScore != null}" id="personalizationDetails" class="noDisplay">
         <div class="container" th:if="${cvProfile != null}">
-            <span style="color:green"><b>Extrahované informace o uchazeči: </b></span>
+            <span class="green"><b>Extrahované informace o uchazeči: </b></span>
             <span th:text="${cvProfile.firstName} + ' ' + ${cvProfile.lastName}
             + ', ' + ${cvProfile.gender} + ', ' + ${cvProfile.age} + ' let, narozen(a) '"></span>
             <span th:if="${cvProfile.birthDate != null}" th:text="${cvProfile.birthDate}"></span>
@@ -90,16 +88,16 @@
         </div>
 
         <div class="container" th:if="${cvProfile == null}">
-            <span style="color:green"><b>Informace využité pro personalizaci: </b></span>
+            <span class="green"><b>Informace využité pro personalizaci: </b></span>
             <span th:text="'Rok narození: ' + ${user.birthYear} + ', pohlaví: ' + ${user.gender}
             + ', nejvyšší dosažený stupeň vzdělání: ' + ${user.eduLevel.prettyName} +
             ', obor nejvyššího stupně vzdělání: ' + ${user.eduGeneralField.prettyName}"></span>
             </p>
         </div>
 
-        <div class="container" style="margin-bottom:3em" th:if="${relevanceScore != null}">
-            <span style="color:green"><b>Predikovaná skóre relevancí pro jednotlivé obory: </b></span>
-            <table class="table table-sm text-center" style="font-size:0.7em">
+        <div id="indexPredictedRelevances" class="container" th:if="${relevanceScore != null}">
+            <span class="green"><b>Predikovaná skóre relevancí pro jednotlivé obory: </b></span>
+            <table id="indexTableRelevances" class="table table-sm text-center">
                 <thead class="thead-dark">
                 <tr>
                     <th th:each="i : ${#numbers.sequence(0, 14)}" th:text="${relevanceScore.getFieldName(i)}"></th>
@@ -107,7 +105,7 @@
                 </thead>
                 <tbody>
                 <tr>
-                    <td style="color:green" th:each="i : ${#numbers.sequence(0, 14)}"><b
+                    <td class="green" th:each="i : ${#numbers.sequence(0, 14)}"><b
                             th:text="${relevanceScore.getPercentRelevanceScore(i)}"></b></td>
                 </tr>
                 </tbody>
@@ -116,16 +114,16 @@
     </div>
 
     <div th:if="${(totalPages != null) && (searching == true)}" class="container">
-        <p th:if="${(searchedLocation != null) || (searchedFieldId != null) || (searchedTitleAndEmployer != null)}" class="text-center" style="width:95%; margin-block-end:0em; padding-top: 0.5em;">Výsledky vyhledávání pro filtry:
-            <span style="font-size: 0.9em" th:if="${searchedLocationName != null}" th:text="'(nabídky pouze v oblasti '"></span><i style="color:blue; font-size: 0.9em" th:text="${searchedLocationName}"></i><span th:if="${searchedLocationName != null}" style="font-size: 0.9em">)</span>
-            <span style="font-size: 0.9em" th:if="${searchedFieldName != null}" th:text="'(nabídky v oboru '"></span><i style="color:blue; font-size: 0.9em" th:text="${searchedFieldName}"></i><span th:if="${searchedFieldName != null}" style="font-size: 0.9em">)</span>
-            <span style="font-size: 0.9em" th:if="${searchedTitleAndEmployer != null}" th:text="'(název nabídky nebo zaměstnavatele obsahuje výraz '"></span><i style="color:blue; font-size: 0.9em" th:text="${searchedTitleAndEmployer}"></i><span th:if="${searchedTitleAndEmployer != null}" style="font-size: 0.9em">)</span>
+        <p th:if="${(searchedLocation != null) || (searchedFieldId != null) || (searchedTitleAndEmployer != null)}" class="text-center" id="searchAppliedFilters">Výsledky vyhledávání pro filtry:
+            <span class="font-size-09" th:if="${searchedLocationName != null}" th:text="'(nabídky pouze v oblasti '"></span><i class="font-size-09 blue" th:text="${searchedLocationName}"></i><span th:if="${searchedLocationName != null}" class="font-size-09">)</span>
+            <span class="font-size-09" th:if="${searchedFieldName != null}" th:text="'(nabídky v oboru '"></span><i class="font-size-09 blue" th:text="${searchedFieldName}"></i><span th:if="${searchedFieldName != null}" class="font-size-09">)</span>
+            <span class="font-size-09" th:if="${searchedTitleAndEmployer != null}" th:text="'(název nabídky nebo zaměstnavatele obsahuje výraz '"></span><i class="font-size-09 blue" th:text="${searchedTitleAndEmployer}"></i><span th:if="${searchedTitleAndEmployer != null}" class="font-size-09">)</span>
         </p>
-        <h5 class="text-center" style="width:95%; padding-top: 1.5em;" th:text="'Nalezeno celkem ' + ${totalOffers} + ' pracovních nabídek'"></h5>
+        <h5 class="text-center" id="totalOffers" th:text="'Nalezeno celkem ' + ${totalOffers} + ' pracovních nabídek'"></h5>
         <p id="noOffersTip" th:if="${totalOffers == 0}">Tip: pokud jste vyhledávali s nastavením filtrů, pokuste se použít filtry obecnější.. pomoci může také vypnutí automatického filtru pro lokalizovaný kraj - zkuste vyhledávat ve všech krajích.</p>
     </div>
     <div th:if="${(totalOffers != null) && (totalOffers > 0)}" class="container">
-        <p style="font-size:0.8em; padding-top: 0.8em;" th:text="'Zobrazuji nabídky ' + ${firstOfferNum} + ' - ' + ${lastOfferNum} + ' z celkem ' + ${totalOffers}"></p>
+        <p id="offersRange" th:text="'Zobrazuji nabídky ' + ${firstOfferNum} + ' - ' + ${lastOfferNum} + ' z celkem ' + ${totalOffers}"></p>
     </div>
 
     <h4 th:if="${relevanceScore != null}" class="text-center personalizedOffersTitle">Doporučené pracovní nabídky</h4>
@@ -157,7 +155,7 @@
         </p>
 
         <p class="offerDetailMeta">
-            <i style="color: cornflowerblue" class='fas fa-map-marked-alt'></i>
+            <i class="fas fa-map-marked-alt cornflowerblue"></i>
             <span th:if="${(offer.placeType.code.equals('adrprov')) || (offer.placeType.code.equals('obec'))}">
                 <span th:if="${offer.workPlace.village != null}"
                       th:text="' ' + ${offer.workPlace.village.name} + ', ' + ${offer.workPlace.village.district.region.name}"></span>
@@ -169,10 +167,10 @@
                   th:each="district : ${offer.workPlace.districts}" th:text="${district.name}"></span>
             <span th:if="${(offer.placeType.code.equals('adrvolna')) || (offer.placeType.code.equals('celaCR'))}"> Celá ČR</span>
 
-            <i style="color: cornflowerblue; padding-left: 0.3em" class='far fa-building'></i>
+            <i class="far fa-building offerParamsIcon"></i>
             <span th:text="' ' + ${offer.employer.name}"></span>
 
-            <i style="color: cornflowerblue; padding-left: 0.3em" class='fas fa-business-time'></i>
+            <i class='fas fa-business-time offerParamsIcon'></i>
             <span th:if="${offer.workships.size() > 1}" class="workship" th:each="ship : ${offer.workships}">
                 <th:block th:switch="${ship.code}">
                     <span th:case="'dpc'">
@@ -215,7 +213,7 @@
         </p>
 
         <p class="offerDetailMeta">
-            <i style="color: green" class='fas fa-coins'></i> Mzda
+            <i class="fas fa-coins green"></i> Mzda
             <span th:if="${offer.salaryType.equals('TypMzdy/mesic')}">
                 <span th:if="${(offer.monthlyRateFrom > 0) && (offer.monthlyRateTo > 0)}">
                     <span class="salary" th:text="' Od ' + ${offer.monthlyRateFrom.intValue()} + ' do ' + ${offer.monthlyRateTo.intValue()} + ' KČ měsíčně'"></span>
@@ -241,7 +239,7 @@
             </span>
             <span th:if="${(offer.monthlyRateFrom == null) && (offer.monthlyRateTo == null)}"> neuvedeno</span>
 
-            <i style="color: cornflowerblue; padding-left: 0.3em" class='fas fa-briefcase'></i> Obory
+            <i class="fas fa-briefcase offerParamsIcon"></i> Obory
             <span class="fields" th:each="field : ${offer.profession.getFields()}"
                   th:text="${field.name}"></span>
         </p>
@@ -253,7 +251,7 @@
     <!-- Modal personalizeByCv -->
     <div class="modal fade" id="modalPersonalizeByCv" tabindex="-1" role="dialog"
          aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div style="max-width: 40em" class="modal-dialog modal-dialog-centered" role="document">
+        <div id="modalPersonalizeDialog" class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modalDeleteTitle">Inteligentní personalizace nabídek pomocí
@@ -265,28 +263,27 @@
                 <div class="modal-body">
                     <form action="#" th:action="@{/personalizedOffers}" method="post" enctype="multipart/form-data">
                         <div class="form-group">
-                            <label style="font-size: 0.85em" class="text-center">Vyberte nebo přetáhněte PDF/DOCX soubor
-                                se
+                            <label class="text-center font-size-085">Vyberte nebo přetáhněte PDF/DOCX soubor se
                                 životopisem:</label><br>
-                            <input style="padding: 1em; min-width: 100%" class="btn btn-info" type="file" name="file">
-                            <div style="padding-top: 1em" class="form-group">
+                            <input id="modalInputFile" class="btn btn-info" type="file" name="file">
+                            <div id="modalPersonalizeFormGroup" class="form-group">
                             <label class="switch">
                                 <input type="checkbox" id="switchUseLocalization" name="switchUseLocalization" value="isChecked">
                                 <span class="slider round"></span>
                             </label>
-                            <span style="font-size: 0.85em">Výsledky omezit pouze na vaší aktuálně zjištěnou lokaci: </span>
-                                <span style="font-size: 0.85em" id="found-region-name" ></span>
-                                <select style="display: none" class="form-control" id="location" name="location">
+                            <span class="font-size-085">Výsledky omezit pouze na vaší aktuálně zjištěnou lokaci: </span>
+                                <span class="font-size-085" id="found-region-name" ></span>
+                                <select class="form-control noDisplay" id="location" name="location">
                                 </select>
                                 <script type="text/javascript" src="/js/regionLocationProviderModal.js"></script>
                             </div>
                         </div>
-                        <div style="display: block; min-height:13em" class="modal-footer text-center">
-                            <button id="buttonPersonalizationStart" style="margin: 0 auto" class="btn btn-success"
+                        <div id="modalPersonalizeFooter" class="modal-footer text-center">
+                            <button id="buttonPersonalizationStart" class="btn btn-success"
                                     type="submit" onclick="loading()">Získat nabídku na míru
                             </button>
                             <div id="loader" class="text-center"></div>
-                            <p style="margin-top:0em; font-size: 0.8em" class="text-center" id="info"></p>
+                            <p class="text-center" id="info"></p>
                         </div>
                     </form>
                 </div>
@@ -295,74 +292,67 @@
     </div>
 
     <div th:if="${(totalPages != null) && (totalOffers > 0)}">
-        <nav th:if="${searching == null}" aria-label="pagenav" style="padding-top:1.5em">
+        <nav th:if="${searching == null}" aria-label="pagenav" class="bottomNav">
             <ul class="pagination justify-content-center">
-                <li class="page-item" th:if="${currentPage > 1}"><a style="color:white; background-color:seagreen"
-                                                                    class="page-link"
-                                                                    th:href="'/page/' + ${currentPage-1}">
-                    <i style="color:white" class="fas fa-arrow-left"></i> </a></li>
+                <li class="page-item" th:if="${currentPage > 1}">
+                    <a class="page-link pagenavButton" th:href="'/page/' + ${currentPage-1}">
+                    <i class="fas fa-arrow-left white"></i> </a></li>
                 <li class="page-item">
                     <button type="button" class="btn btn-light" disabled
                             th:text="'Stránka ' + ${currentPage} + ' z ' + ${totalPages}"></button>
                 </li>
-                <li class="page-item" th:if="${currentPage < totalPages}"><a
-                        style="color:white; background-color:seagreen"
-                        class="page-link"
+                <li class="page-item" th:if="${currentPage < totalPages}">
+                    <a class="page-link pagenavButton"
                         th:href="'/page/' + ${currentPage+1}">
-                    <i style="color:white" class="fas fa-arrow-right"></i> </a></li>
+                    <i class="fas fa-arrow-right white"></i> </a></li>
             </ul>
         </nav>
-        <nav th:if="${searching == true}" aria-label="pagenav" style="padding-top:1.5em">
+        <nav th:if="${searching == true}" aria-label="pagenav" class="bottomNav">
             <ul class="pagination justify-content-center">
                 <form action="#" th:action="@{/searchOffers}" method="get">
-                    <input style="display:none" type="text" name="locationSearch" th:attrappend="value=${searchedLocation}?${searchedLocation}">
-                    <input style="display:none" type="text" name="fieldSearch" th:attrappend="value=${searchedFieldId}?${searchedFieldId}">
-                    <input style="display:none" type="text" name="titleAndEmployerSearch" th:attrappend="value=${searchedTitleAndEmployer}?${searchedTitleAndEmployer}">
-                    <input style="display:none" type="text" name="page" th:value="${currentPage-1}">
-                    <button type="submit" style="padding:0px;" class="page-item btn" th:if="${currentPage > 1}"><a
-                            style="color:white; background-color:seagreen;"
-                            class="page-link">
-                        <i style="color:white" class="fas fa-arrow-left"></i> </a></button>
+                    <input class="noDisplay" type="text" name="locationSearch" th:attrappend="value=${searchedLocation}?${searchedLocation}">
+                    <input class="noDisplay" type="text" name="fieldSearch" th:attrappend="value=${searchedFieldId}?${searchedFieldId}">
+                    <input class="noDisplay" type="text" name="titleAndEmployerSearch" th:attrappend="value=${searchedTitleAndEmployer}?${searchedTitleAndEmployer}">
+                    <input class="noDisplay" type="text" name="page" th:value="${currentPage-1}">
+                    <button type="submit" class="page-item btn padding0" th:if="${currentPage > 1}">
+                        <a class="page-link pagenavButton">
+                        <i class="fas fa-arrow-left white"></i> </a></button>
                 </form>
                 <li class="page-item">
                     <button type="button" class="btn btn-light" disabled
                             th:text="'Stránka ' + ${currentPage} + ' z ' + ${totalPages}"></button>
                 </li>
                 <form action="#" th:action="@{/searchOffers}" method="get">
-                    <input style="display:none" type="text" name="locationSearch" th:attrappend="value=${searchedLocation}?${searchedLocation}">
-                    <input style="display:none" type="text" name="fieldSearch" th:attrappend="value=${searchedFieldId}?${searchedFieldId}">
-                    <input style="display:none" type="text" name="titleAndEmployerSearch" th:attrappend="value=${searchedTitleAndEmployer}?${searchedTitleAndEmployer}">
-                    <input style="display:none" type="text" name="page" th:value="${currentPage+1}">
-                    <button type="submit" style="padding:0px;" class="page-item btn" th:if="${currentPage < totalPages}"><a
-                            style="color:white; background-color:seagreen;"
-                            class="page-link">
-                        <i style="color:white" class="fas fa-arrow-right"></i> </a></button>
+                    <input class="noDisplay" type="text" name="locationSearch" th:attrappend="value=${searchedLocation}?${searchedLocation}">
+                    <input class="noDisplay" type="text" name="fieldSearch" th:attrappend="value=${searchedFieldId}?${searchedFieldId}">
+                    <input class="noDisplay" type="text" name="titleAndEmployerSearch" th:attrappend="value=${searchedTitleAndEmployer}?${searchedTitleAndEmployer}">
+                    <input class="noDisplay" type="text" name="page" th:value="${currentPage+1}">
+                    <button type="submit" class="page-item btn padding0" th:if="${currentPage < totalPages}">
+                        <a class="page-link pagenavButton">
+                        <i class="fas fa-arrow-right white"></i> </a></button>
                 </form>
             </ul>
         </nav>
-        <p style="font-size:0.8em" class="text-center"
+        <p class="text-center font-size-08"
            th:text="'Zobrazuji nabídky ' + ${firstOfferNum} + ' - ' + ${lastOfferNum} + ' z celkem ' + ${totalOffers}"></p>
     </div>
     <div th:if="${relevanceScore != null}">
-        <nav aria-label="pagenav" style="padding-top:1.5em">
+        <nav aria-label="pagenav" class="bottomNav">
             <ul class="pagination justify-content-center">
-                <li class="page-item" th:if="${currentPage > 1}"><a style="color:white; background-color:seagreen"
-                                                                    class="page-link"
-                                                                    th:href="'/personalizedOffers/region/' + ${regionId} + '/page/' + ${currentPage-1}">
-                    <i style="color:white" class="fas fa-arrow-left"></i> </a></li>
+                <li class="page-item" th:if="${currentPage > 1}">
+                    <a class="page-link pagenavButton" th:href="'/personalizedOffers/region/' + ${regionId} + '/page/' + ${currentPage-1}">
+                    <i class="fas fa-arrow-left white"></i> </a></li>
                 <li class="page-item">
                     <button type="button" class="btn btn-light" disabled
                             th:text="${currentPage} + '. stránka'"></button>
                 </li>
-                <li class="page-item" th:if="${personalizationHasNextPage == true}"><a
-                        style="color:white; background-color:seagreen"
-                        class="page-link"
+                <li class="page-item" th:if="${personalizationHasNextPage == true}">
+                    <a class="page-link pagenavButton"
                         th:href="'/personalizedOffers/region/' + ${regionId} + '/page/' + ${currentPage+1}">
-                    <i style="color:white" class="fas fa-arrow-right"></i> </a></li>
+                    <i class="fas fa-arrow-right white"></i> </a></li>
             </ul>
         </nav>
     </div>
-
 </div>
 </body>
 </html>

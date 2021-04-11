@@ -6,6 +6,7 @@
 <head>
     <title>Administrace - Pracovní portál</title>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" type="text/css" href="/css/admin-all-users.css"/>
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script type="text/javascript" src="/js/searchAutocomplete.js"></script>
@@ -14,40 +15,34 @@
 <div layout:fragment="content">
     <div th:if="${message_notification !=''}" class="alert alert-success alert-dismissible fade show">
         <button type="button" class="close" data-dismiss="alert">&times;</button>
-        <i class="fas fa-check-circle" style="color:green"></i>
+        <i class="fas fa-check-circle green"></i>
         <strong th:text="' ' + ${message_notification}"></strong>
     </div>
-    <h4 style="padding-bottom: 0.3em; padding-top:1em" class="text-center">Správa uživatelských účtů</h4>
-    <p class="text-center" th:if="${usersCount > 0}"><i style='color:green' class='fas fa-users'></i> <span
+    <h4 id="userEditHeading" class="text-center">Správa uživatelských účtů</h4>
+    <p class="text-center" th:if="${usersCount > 0}"><i class="fas fa-users green"></i> <span
             th:text="'V databázi je celkem ' + ${usersCount} + ' registrovaných uživatelů'"></span></p>
-    <p class="text-center" th:if="${usersCount == 0}"><i style='color:red' class='fas fa-users-slash'></i> Databáze
+    <p class="text-center" th:if="${usersCount == 0}"><i class="fas fa-users-slash red"></i> Databáze
         zatím neobsahuje žádné registrované uživatele...</p>
     <div class="container">
-        <form class="form-inline" style="padding: 25px" action="#" th:action="@{/admin/searchUsers}" method="post">
+        <form id="searchForm" class="form-inline" action="#" th:action="@{/admin/searchUsers}" method="post">
             <label>Hledání a filtry:</label>
-            <input style="margin: 8px" type="number" name="idSearch" id="idSearch" class="form-control"
+            <input type="number" name="idSearch" id="idSearch" class="form-control searchInput"
                    placeholder="ID uživatele" th:attrappend="value=${searchedId}?${searchedId}">
-            <input style="margin: 8px" type="text" name="emailSearch" id="emailSearch" class="form-control"
+            <input type="text" name="emailSearch" id="emailSearch" class="form-control searchInput"
                    placeholder="Email/login uživatele" th:attrappend="value=${searchedEmail}?${searchedEmail}">
-            <input style="margin: 8px" type="text" name="fullNameSearch" id="fullNameSearch" class="form-control"
+            <input type="text" name="fullNameSearch" id="fullNameSearch" class="form-control searchInput"
                    placeholder="Jméno a příjmení uživatele"
                    th:attrappend="value=${searchedFullName}?${searchedFullName}">
             <button type="submit" class="btn btn-info">Hledat</button>
         </form>
     </div>
     <div th:if="${totalPages != null}" class="container">
-        <p th:if="${(searchedEmail != null) || (searchedFullName != null)}" style="width:95%; margin-block-end:0em">
+        <p th:if="${(searchedEmail != null) || (searchedFullName != null)}" id="adminSearchResults">
             Výsledky vyhledávání pro filtry:
-            <span style="font-size: 0.9em" th:if="${searchedEmail != null}"
-                  th:text="'(email/login obsahuje řetězec '"></span><i style="color:blue; font-size: 0.9em"
-                                                                       th:text="${searchedEmail}"></i><span
-                th:if="${searchedEmail != null}" style="font-size: 0.9em">)</span>
-            <span style="font-size: 0.9em" th:if="${searchedFullName != null}"
-                  th:text="'(jméno a příjmení obsahuje řetězec '"></span><i style="color:blue; font-size: 0.9em"
-                                                                            th:text="${searchedFullName}"></i><span
-                th:if="${searchedFullName != null}" style="font-size: 0.9em">)</span>
+            <span class="font-size-09" th:if="${searchedEmail != null}" th:text="'(email/login obsahuje řetězec '"></span><i class="searchedItem" th:text="${searchedEmail}"></i><span th:if="${searchedEmail != null}" class="font-size-09">)</span>
+            <span class="font-size-09" th:if="${searchedFullName != null}" th:text="'(jméno a příjmení obsahuje řetězec '"></span><i class="searchedItem" th:text="${searchedFullName}"></i><span th:if="${searchedFullName != null}" class="font-size-09">)</span>
         </p>
-        <p style="width:95%" th:text="'Nalezeno celkem ' + ${totalUsers} + ' výsledků'"></p>
+        <p id="totalFound" th:text="'Nalezeno celkem ' + ${totalUsers} + ' výsledků'"></p>
     </div>
     <div class="container">
         <table id="registeredUsers" class="table table-striped">
@@ -69,16 +64,12 @@
                 <td th:text="${registeredUser.gender}"></td>
                 <td class="text-center">
                     <button id="buttonDetail" type="button" data-toggle="modal"
-                            th:attr="data-target='#modalDetails'+*{registeredUser.id}" class="btn btn-info"
-                            style="font-size: 1em;padding: 0.05em 0.6em 0.02em 0.6em;"><i style="color:white"
-                                                                                          class="fas fa-info-circle"></i>
+                            th:attr="data-target='#modalDetails'+*{registeredUser.id}" class="btn btn-info userControlButton"><i class="fas fa-info-circle white"></i>
                     </button>
                 </td>
                 <td class="text-center">
                     <button id="buttonDelete" type="button" data-toggle="modal"
-                            th:attr="data-target='#modalDelete'+*{registeredUser.id}" class="btn btn-danger"
-                            style="font-size: 1em;padding: 0.05em 0.6em 0.02em 0.6em;"><i style="color:white"
-                                                                                          class="far fa-trash-alt"></i>
+                            th:attr="data-target='#modalDelete'+*{registeredUser.id}" class="btn btn-danger userControlButton"><i class="far fa-trash-alt white"></i>
                     </button>
                 </td>
             </tr>
@@ -118,7 +109,7 @@
             <!-- Modal details -->
             <div class="modal fade" th:id="*{'modalDetails'+{registeredUser.id}}" tabindex="-1" role="dialog"
                  aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" style="max-width:50em" role="document">
+                <div id="modalDetailsDialog" class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="modalDetailTitle">Detailní informace o uživateli</h5>
@@ -138,15 +129,15 @@
                             <p><b>Obecný obor nejvyššího dosaženého vzdělání:</b> <span
                                     th:text="${registeredUser.eduGeneralField.prettyName}"></span></p>
 
-                            <div class="container" style="margin-left: 0em; max-width:27em">
-                                <span style="color:steelblue"><b>Predikovaná skóre relevancí pro jednotlivé obory: </b></span>
-                                <table th:each="relevanceScore : ${relevanceScores}" th:if="${relevanceScore.userId == registeredUser.id}" class="table table-sm text-center" style="font-size:0.7em">
+                            <div id="predictedRelevancesBlock" class="container">
+                                <span class="steelblue"><b>Predikovaná skóre relevancí pro jednotlivé obory: </b></span>
+                                <table th:each="relevanceScore : ${relevanceScores}" th:if="${relevanceScore.userId == registeredUser.id}" class="table table-sm text-center font-size-07">
                                     <thead class="thead-dark">
                                     <tr>
                                         <th th:each="i : ${#numbers.sequence(0, 2)}" th:text="${relevanceScore.getFieldName(i)}"></th>
                                     </tr>
                                     </thead>
-                                    <tbody style="color:steelblue">
+                                    <tbody class="steelblue">
                                     <tr>
                                         <td th:each="i : ${#numbers.sequence(0, 2)}"><b
                                                 th:text="${relevanceScore.getPercentRelevanceScore(i)}"></b></td>
@@ -157,7 +148,7 @@
                                         <th th:each="i : ${#numbers.sequence(3, 5)}" th:text="${relevanceScore.getFieldName(i)}"></th>
                                     </tr>
                                     </thead>
-                                    <tbody style="color:steelblue">
+                                    <tbody class="steelblue">
                                     <tr>
                                         <td th:each="i : ${#numbers.sequence(3, 5)}"><b
                                                 th:text="${relevanceScore.getPercentRelevanceScore(i)}"></b></td>
@@ -168,7 +159,7 @@
                                         <th th:each="i : ${#numbers.sequence(6, 8)}" th:text="${relevanceScore.getFieldName(i)}"></th>
                                     </tr>
                                     </thead>
-                                    <tbody style="color:steelblue">
+                                    <tbody class="steelblue">
                                     <tr>
                                         <td th:each="i : ${#numbers.sequence(6, 8)}"><b
                                                 th:text="${relevanceScore.getPercentRelevanceScore(i)}"></b></td>
@@ -179,7 +170,7 @@
                                         <th th:each="i : ${#numbers.sequence(9, 11)}" th:text="${relevanceScore.getFieldName(i)}"></th>
                                     </tr>
                                     </thead>
-                                    <tbody style="color:steelblue">
+                                    <tbody class="steelblue">
                                     <tr>
                                         <td th:each="i : ${#numbers.sequence(9, 11)}"><b
                                                 th:text="${relevanceScore.getPercentRelevanceScore(i)}"></b></td>
@@ -190,7 +181,7 @@
                                         <th th:each="i : ${#numbers.sequence(12, 14)}" th:text="${relevanceScore.getFieldName(i)}"></th>
                                     </tr>
                                     </thead>
-                                    <tbody style="color:steelblue">
+                                    <tbody class="steelblue">
                                     <tr>
                                         <td th:each="i : ${#numbers.sequence(12, 14)}"><b
                                                 th:text="${relevanceScore.getPercentRelevanceScore(i)}"></b></td>
@@ -209,52 +200,47 @@
         </div>
 
     <div th:if="${(totalPages != null) && (totalUsers > 0)}">
-        <nav th:if="${searching == null}" aria-label="pagenav" style="padding-top:1.5em">
+        <nav th:if="${searching == null}" class="bottomNav" aria-label="pagenav">
             <ul class="pagination justify-content-center">
-                <li class="page-item" th:if="${currentPage > 1}"><a style="color:white; background-color:seagreen"
-                                                                    class="page-link"
-                                                                    th:href="'/admin/allUsers/page/' + ${currentPage-1}">
-                    <i style="color:white" class="fas fa-arrow-left"></i> </a></li>
+                <li class="page-item" th:if="${currentPage > 1}">
+                    <a class="page-link pagenavButton" th:href="'/admin/allUsers/page/' + ${currentPage-1}">
+                    <i class="fas fa-arrow-left white"></i> </a></li>
                 <li class="page-item">
                     <button type="button" class="btn btn-light" disabled
                             th:text="'Stránka ' + ${currentPage} + ' z ' + ${totalPages}"></button>
                 </li>
-                <li class="page-item" th:if="${currentPage < totalPages}"><a
-                        style="color:white; background-color:seagreen"
-                        class="page-link"
-                        th:href="'/admin/allUsers/page/' + ${currentPage+1}">
-                    <i style="color:white" class="fas fa-arrow-right"></i> </a></li>
+                <li class="page-item" th:if="${currentPage < totalPages}">
+                    <a class="page-link pagenavButton" th:href="'/admin/allUsers/page/' + ${currentPage+1}">
+                    <i class="fas fa-arrow-right white"></i> </a></li>
             </ul>
         </nav>
-        <nav th:if="${searching == true}" aria-label="pagenav" style="padding-top:1.5em">
+        <nav th:if="${searching == true}" aria-label="pagenav" class="bottomNav">
             <ul class="pagination justify-content-center">
                 <form action="#" th:action="@{/admin/searchUsers}" method="post">
-                    <input style="display:none" type="number" name="idSearch" th:attrappend="value=${searchedId}?${searchedId}">
-                    <input style="display:none" type="text" name="emailSearch" th:attrappend="value=${searchedEmail}?${searchedEmail}">
-                    <input style="display:none" type="text" name="fullNameSearch" th:attrappend="value=${searchedFullName}?${searchedFullName}">
-                    <input style="display:none" type="text" name="page" th:value="${currentPage-1}">
-                    <button type="submit" style="padding:0px;" class="page-item btn" th:if="${currentPage > 1}"><a
-                            style="color:white; background-color:seagreen;"
-                            class="page-link">
-                        <i style="color:white" class="fas fa-arrow-left"></i> </a></button>
+                    <input class="noDisplay" type="number" name="idSearch" th:attrappend="value=${searchedId}?${searchedId}">
+                    <input class="noDisplay" type="text" name="emailSearch" th:attrappend="value=${searchedEmail}?${searchedEmail}">
+                    <input class="noDisplay" type="text" name="fullNameSearch" th:attrappend="value=${searchedFullName}?${searchedFullName}">
+                    <input class="noDisplay" type="text" name="page" th:value="${currentPage-1}">
+                    <button type="submit" class="page-item btn padding0" th:if="${currentPage > 1}">
+                        <a class="page-link pagenavButton">
+                        <i class="fas fa-arrow-left white"></i> </a></button>
                 </form>
                 <li class="page-item">
                     <button type="button" class="btn btn-light" disabled
                             th:text="'Stránka ' + ${currentPage} + ' z ' + ${totalPages}"></button>
                 </li>
                 <form action="#" th:action="@{/admin/searchUsers}" method="post">
-                    <input style="display:none" type="number" name="idSearch" th:attrappend="value=${searchedId}?${searchedId}">
-                    <input style="display:none" type="text" name="emailSearch" th:attrappend="value=${searchedEmail}?${searchedEmail}">
-                    <input style="display:none" type="text" name="fullNameSearch" th:attrappend="value=${searchedFullName}?${searchedFullName}">
-                    <input style="display:none" type="text" name="page" th:value="${currentPage+1}">
-                    <button type="submit" style="padding:0px;" class="page-item btn" th:if="${currentPage < totalPages}"><a
-                            style="color:white; background-color:seagreen;"
-                            class="page-link">
-                        <i style="color:white" class="fas fa-arrow-right"></i> </a></button>
+                    <input class="noDisplay" type="number" name="idSearch" th:attrappend="value=${searchedId}?${searchedId}">
+                    <input class="noDisplay" type="text" name="emailSearch" th:attrappend="value=${searchedEmail}?${searchedEmail}">
+                    <input class="noDisplay" type="text" name="fullNameSearch" th:attrappend="value=${searchedFullName}?${searchedFullName}">
+                    <input class="noDisplay" type="text" name="page" th:value="${currentPage+1}">
+                    <button type="submit" class="page-item btn padding0" th:if="${currentPage < totalPages}">
+                        <a class="page-link pagenavButton">
+                        <i class="fas fa-arrow-right white"></i> </a></button>
                 </form>
             </ul>
         </nav>
-        <p style="font-size:0.8em" class="text-center"
+        <p class="text-center font-size-08"
            th:text="'Zobrazuji nabídky ' + ${firstUserNum} + ' - ' + ${lastUserNum} + ' z celkem ' + ${totalUsers}"></p>
     </div>
 

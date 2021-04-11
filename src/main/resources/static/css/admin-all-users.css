@@ -1,0 +1,108 @@
+#userEditHeading{
+padding-bottom: 0.3em;
+padding-top:1em;
+}
+
+#searchForm{
+padding: 25px;
+}
+
+.searchInput{
+margin: 8px;
+}
+
+.font-size-09{
+font-size: 0.9em;
+}
+
+.font-size-08{
+font-size: 0.8em;
+}
+
+.font-size-07{
+font-size: 0.7em;
+}
+
+.font-size-06{
+font-size: 0.6em;
+}
+
+#adminSearchResults{
+width:95%;
+margin-block-end:0em;
+}
+
+.searchedItem{
+color:blue;
+font-size: 0.9em;
+}
+
+#totalFound{
+width:95%;
+}
+
+#adminOfferId{
+font-size: 0.6em;
+color:red;
+margin:0;
+}
+
+.userControlButton{
+font-size: 1em;
+padding: 0.05em 0.6em 0.02em 0.6em;
+}
+
+#offer{
+width:95%;
+margin-bottom:1.2em;
+}
+
+#offer > thead{
+background-color: #5d7aca;
+color:white;
+}
+
+.th0740{
+font-size:0.7em;
+width:40%;
+}
+
+.th0730{
+font-size:0.7em;
+width:30%;
+}
+
+#dates{
+background-color:#E6E6FA;
+}
+
+#dates > th{
+font-size:0.7em;
+color: #1160c3;
+}
+
+#modalDetailsDialog{
+max-width:50em;
+}
+
+#predictedRelevancesBlock{
+margin-left: 0em;
+max-width:27em;
+}
+
+.pagenavButton{
+color:white;
+background-color:seagreen;
+}
+
+.bottomNav{
+padding-top:1.5em;
+}
+
+.noDisplay{
+display: none;
+}
+
+.padding0{
+padding:0px;
+}

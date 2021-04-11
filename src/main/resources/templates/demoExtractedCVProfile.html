@@ -3,15 +3,16 @@
        xmlns:th="https://www.thymeleaf.org"
        xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout">
 <head>
+    <link rel="stylesheet" type="text/css" href="/css/demo.css"/>
     <title>Extrahované informace</title>
 </head>
 <body>
 <div layout:fragment="content">
-    <img style="max-width: 100%; height: auto; margin-top: -1em;" class="img-responsive" src="../static/resources/images/icon.jpg" th:src="@{/resources/images/icon.jpg}"/>
+    <img id="iconImage" class="img-responsive" src="../static/resources/images/icon.jpg" th:src="@{/resources/images/icon.jpg}"/>
     <p></p>
     <h2 class="text-center">Extrahované informace</h2>
     <p></p>
-    <div class="container" style="width:45%">
+    <div class="container lowHeightContainer">
         <table class="table table-sm">
             <thead class="thead-dark">
             <tr>
@@ -22,61 +23,61 @@
             <tbody>
             <tr>
                 <td>Jméno: </td>
-                <td style="color:green" th:text="${cvProfile.firstName}"></td>
+                <td class="green" th:text="${cvProfile.firstName}"></td>
             </tr>
             <tr>
                 <td>Příjmení: </td>
-                <td style="color:green"  th:text="${cvProfile.lastName}"></td>
+                <td class="green"  th:text="${cvProfile.lastName}"></td>
             </tr>
             <tr>
                 <td>Akademický titul: </td>
-                <td><p style="margin:0;color:green" th:each="title : ${cvProfile.titleList}" th:text="${title.officialVersion}"></p>
-                    <p style="margin:0;color:green" th:if="${cvProfile.titleList.isEmpty()}">BEZ TITULU</p></td>
+                <td><p class="paragraphGreen" th:each="title : ${cvProfile.titleList}" th:text="${title.officialVersion}"></p>
+                    <p class="paragraphGreen" th:if="${cvProfile.titleList.isEmpty()}">BEZ TITULU</p></td>
             </tr>
             <tr>
                 <td>Pohlaví: </td>
-                <td style="color:green" th:text="${cvProfile.gender}"></td>
+                <td class="green" th:text="${cvProfile.gender}"></td>
             </tr>
             <tr th:if="${cvProfile.birthDate != null}">
                 <td>Datum narození: </td>
-                <td style="color:green" th:text="${cvProfile.birthDate}"></td>
+                <td class="green" th:text="${cvProfile.birthDate}"></td>
             </tr>
             <tr th:if="${cvProfile.birthYear != 0}">
                 <td>Rok narození: </td>
-                <td style="color:green" th:text="${cvProfile.birthYear}"></td>
+                <td class="green" th:text="${cvProfile.birthYear}"></td>
             </tr>
             <tr>
                 <td>Věk: </td>
-                <td style="color:green" th:text="${cvProfile.age}"></td>
+                <td class="green" th:text="${cvProfile.age}"></td>
             </tr>
             <tr>
                 <td>Email: </td>
-                <td style="color:green" th:text="${cvProfile.email}"></td>
+                <td class="green" th:text="${cvProfile.email}"></td>
             </tr>
             <tr>
                 <td>Mobil: </td>
-                <td style="color:green" th:text="${cvProfile.mobile}"></td>
+                <td class="green" th:text="${cvProfile.mobile}"></td>
             </tr>
             <tr>
                 <td>Nejvyšší dosažený stupeň vzdělání: </td>
-                <td style="color:green" th:text="${cvProfile.maxEducation.maxEduLvl.eduLevel.prettyName}"></td>
+                <td class="green" th:text="${cvProfile.maxEducation.maxEduLvl.eduLevel.prettyName}"></td>
             </tr>
             <tr>
                 <td>Obecný obor nejvyššího dosaženého vzdělání: </td>
-                <td style="color:green" th:text="${cvProfile.maxEducation.eduGeneralField.prettyName}"></td>
+                <td class="green" th:text="${cvProfile.maxEducation.eduGeneralField.prettyName}"></td>
             </tr>
             </tbody>
         </table>
     </div>
 
     <div class="container text-center">
-        <a href="/demo" class="btn btn-info" style="margin-top:1em; margin-bottom: 2em" role="button">Zpět do demo menu</a>
+        <a class="btn btn-info demoHref" href="/demo" role="button">Zpět do demo menu</a>
     </div>
 
     <p></p>
     <h4 class="text-center">Predikovaná skóre relevance pro pracovní obory</h4>
     <p></p>
-    <div class="container" style="width:45%">
+    <div class="container lowHeightContainer">
         <table class="table table-sm">
             <thead class="thead-dark">
             <tr>
@@ -87,14 +88,14 @@
             <tbody>
             <tr th:each="i : ${#numbers.sequence(0, 14)}">
                 <td th:text="${relevanceScore.getFieldName(i)}"></td>
-                <td style="color:green"  th:text="${relevanceScore.getPercentRelevanceScore(i)}"></td>
+                <td class="green" th:text="${relevanceScore.getPercentRelevanceScore(i)}"></td>
             </tr>
             </tbody>
         </table>
     </div>
 
     <div class="container text-center">
-    <a href="/demo" class="btn btn-info" style="margin-top:1em; margin-bottom: 2em" role="button">Zpět do demo menu</a>
+    <a class="btn btn-info demoHref" href="/demo" role="button">Zpět do demo menu</a>
 </div>
 
     <div class="container text-center">

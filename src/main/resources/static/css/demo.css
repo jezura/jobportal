@@ -1,0 +1,33 @@
+#iconImage{
+max-width: 100%; height: auto; margin-top: -5em;
+}
+
+.lowHeightContainer{
+width:45%;
+}
+
+.green{
+color: green;
+}
+
+.paragraphGreen{
+margin:0;
+color:green;
+}
+
+#descriptionDiv{
+color:#1A3346;
+}
+
+.font-size-085{
+font-size: 0.85em;
+}
+
+#processCv{
+padding-bottom: 5em;
+}
+
+.demoHref{
+margin-top:1em;
+margin-bottom: 2em;
+}

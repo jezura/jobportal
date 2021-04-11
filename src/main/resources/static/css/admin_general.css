@@ -1,0 +1,202 @@
+.nav-white-link{
+text-decoration:none;
+color:white;
+}
+
+.flexBodyClear{
+height: 100%;
+display: flex;
+flex-direction: column;
+}
+
+.flexContent{
+flex: 1 0 auto;
+}
+
+#mainHeaderAdminNav{
+margin-bottom: 0.3em;
+padding-bottom:0.15em;
+padding-right:2em;
+padding-left:2em;
+}
+
+#top > h4{
+color:white;
+padding-top: 0.6em;
+font-family: 'Tahoma';
+font-weight: bold;
+padding-top: 0.2em;
+padding-bottom: 0.1em;
+margin-bottom:0.2em;
+}
+
+#dashboard{
+color:white;
+font-family: 'Tahoma';
+font-size: 0.8em;
+margin-bottom: 0em;
+padding-top: 0em;
+}
+
+.green{
+color:green !important;
+}
+
+.steelblue{
+color:steelblue;
+}
+
+.blue{
+color:blue;
+}
+
+.red{
+color:red !important;
+}
+
+#overview{
+padding-left: 1.5em;
+}
+
+#footer{
+background-color: #343a40!important
+}
+
+#footerNav{
+margin-bottom: 0em;
+padding-bottom:0.15em;
+padding-right:2em;
+padding-left:2em;
+}
+
+#footerNav > ul {
+margin: 0 auto;
+}
+
+.white{
+color: white;
+}
+
+#author{
+text-align: center;
+color: white;
+font-size: 0.7em;
+margin-block-end: 0em;
+padding-bottom: 1em;
+}
+
+#codebookCheckResult{
+padding-top:1.5em;
+}
+
+#codebookHeading{
+padding-bottom: 1em;
+padding-top:1em;
+}
+
+#dataLoadHeading{
+padding-bottom: 0.8em;
+padding-top:1em;
+}
+
+#deployDisabledInfo{
+font-size: 0.7em;
+color: red;
+}
+
+#info{
+margin-top:0em;
+}
+
+#progress{
+margin:0 auto;
+}
+
+.countCodebook{
+margin-top:0em;
+}
+
+.countLoad{
+margin:0 auto;
+}
+
+#time{
+margin-top:0em;
+font-size: 0.8em;
+}
+
+#deleteHeading{
+padding-bottom: 0.5em;
+padding-top:1.5em;
+}
+
+#loadHeading{
+padding-bottom: 0.5em;
+padding-top:0.2em;
+}
+
+.font-size-085{
+font-size: 0.85em;
+}
+
+#expired{
+display: block;
+}
+
+#dates{
+display:block;
+padding-top:0.75em;
+}
+
+.selectDeleteDatesDiv{
+max-width: 80%;
+margin: 0 auto;
+}
+
+.selectLoadDatesDiv{
+max-width: 85%;
+margin: 0 auto;
+}
+
+.selectDeleteDatesSpan{
+width: 21em;
+}
+
+.selectLoadDatesSpan{
+width: 15em;
+}
+
+#loader{
+padding-top:1em;
+}
+
+#filters{
+margin-top:0em;
+font-size:0.8em;
+}
+
+.dataActionDiv{
+padding-top:1em;
+}
+
+#deployedVersionRestrictions{
+font-size: 0.7em;
+color: red;
+margin-block-end: 0.1em;
+}
+
+.downSpan{
+padding-bottom: 0.3em;
+padding-top:1.5em;
+visibility:hidden;
+}
+
+#actualInsertionDate{
+margin:0 auto;
+font-size:0.8em;
+}
+
+#actualEditDate{
+margin:0 auto;
+font-size:0.8em;
+}
