@@ -4,7 +4,6 @@ import jobportal.dao.FieldsRelevancyRepository;
 import jobportal.models.internal_models.data_entites.FieldsRelevancy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;

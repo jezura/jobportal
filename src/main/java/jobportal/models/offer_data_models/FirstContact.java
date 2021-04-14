@@ -1,8 +1,11 @@
 package jobportal.models.offer_data_models;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
+/**
+ * Model class for FirstContact entity.
+ * An instance represents row in first_contacts table.
+ */
 @Entity
 @Table(name = "first_contacts")
 public class FirstContact {

@@ -1,7 +1,6 @@
 package jobportal.controllers;
 
 import org.springframework.boot.web.servlet.error.ErrorController;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,6 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * Controller for errors handling and error.html page displaying
+ */
 @Controller
 public class AppErrorController implements ErrorController {
 
@@ -20,7 +22,6 @@ public class AppErrorController implements ErrorController {
 
         if (status != null) {
             Integer statusCode = Integer.valueOf(status.toString());
-            System.out.println("Status code: " + statusCode);
             switch (statusCode) {
                 case 400: {
                     errorMsg = "Bad request";
@@ -59,7 +60,6 @@ public class AppErrorController implements ErrorController {
                 }
             }
         }
-
         model.addAttribute("errorMsg", errorMsg);
         model.addAttribute("errorCode", errorCode);
         return "error";

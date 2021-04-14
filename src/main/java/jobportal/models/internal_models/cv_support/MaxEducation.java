@@ -1,4 +1,5 @@
 package jobportal.models.internal_models.cv_support;
+
 import jobportal.dao.EduGeneralFieldRepository;
 import jobportal.models.internal_models.codebooks.EduGeneralField;
 import org.springframework.stereotype.Component;
@@ -6,10 +7,13 @@ import org.springframework.stereotype.Component;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * MaxEducation class was created to extract and keep information
+ * about education level and general education field from PDF/DOCX CV file.
+ */
 @Component
 public class MaxEducation {
     private EduGeneralFieldRepository eduGeneralFieldRepository;
-
     private MaxEduLvl maxEduLvl;
     private EduGeneralField eduGeneralField;
     private int eduSectionStartIndex;
@@ -47,7 +51,13 @@ public class MaxEducation {
     }
 
 
-    // Method returns the start index of education section in CV (Vzdělání: ...). If not found, returns 0.
+    /**
+     * Method find the start index of education section in CV (Vzdělání: ...). If not found, returns 0.
+     *
+     * @param extractedText - String with extracted text content from attached CV file
+     * @param eduLog        - EduLog object to store process log information
+     * @return boolean (True if section "Vzdělání" was found)
+     */
     public boolean findEduSectionStartIndex(String extractedText, EduLog eduLog) {
         String regex = "(\\s[Vv]zdělání|\\sVZDĚLÁNÍ|\\s[Ss]tudium|\\sSTUDIUM)";
         Pattern pattern = Pattern.compile(regex);
@@ -59,16 +69,25 @@ public class MaxEducation {
                     matcher.end() + ", nastavuji jej jako eduSectionStartIndex..");
             setEduSectionStartIndex(matcher.end());
             return true;
-        }else{
+        } else {
             eduLog.addLogText("MaxEducation-findEduSectionStartIndex :: Nepodařilo se najít oblast vzdělání..");
             return false;
         }
     }
 
-    public boolean findFieldForVSLevel(String extractedText, Boolean useAreaIndexes, Boolean useEduSectionStartIndex,
-                                       EduLog eduLog) {
-        String textAreaSubString;
 
+    /**
+     * Method find and set general education field for University (Vysokoškolský) education level
+     *
+     * @param extractedText           - String with extracted text content from attached CV file
+     * @param useAreaIndexes          - boolean - if True, areaIndexes will be used during searching/extracting process
+     * @param useEduSectionStartIndex - boolean - if True, eduSectionStartIndex will be used during searching/extracting process
+     * @param eduLog                  - EduLog object to store process log information
+     * @return boolean (True if general edu field was found and set)
+     */
+    public boolean findFieldForVSLevel(String extractedText, Boolean useAreaIndexes,
+                                       Boolean useEduSectionStartIndex, EduLog eduLog) {
+        String textAreaSubString;
         String regex;
         Pattern pattern;
         Matcher matcher;
@@ -81,7 +100,7 @@ public class MaxEducation {
             eduLog.addLogText("MaxEducation-findFieldforVSLevel:: " +
                     "Hledam pomoci maxEndIndex s hodnotou: " + maxEduLvl.getEndPosIndex());
         } else if ((useAreaIndexes) && ((maxEduLvl.getEndPosIndex() == 0))) {
-            //nespoustim hledani v rezimu useAreaIndexes => indexy nebyly spravne nalezeny a neohranicuji zadnou oblast
+            // do not run search in useAreaIndexes mode => indexes not found correctly and do not delimit back area
             eduLog.addLogText("MaxEducation-findFieldforVSLevel:: Nespoustim hledani v rezimu useAreaIndexes," +
                     " indexy nebyly spravne nalezeny a neohranicuji zadnou oblast");
             return false;
@@ -259,30 +278,39 @@ public class MaxEducation {
         eduLog.addLogText("\n");
         int maxMatches = 0;
         int j = -1;
-        for(int i=0;i<VSFields.length;i++) {
+        for (int i = 0; i < VSFields.length; i++) {
             eduLog.addLogText("Matches pro obor: " + VSFields[i] + " je: " + VSFieldsMatches[i]);
-            if(VSFieldsMatches[i] > maxMatches) {
+            if (VSFieldsMatches[i] > maxMatches) {
                 maxMatches = VSFieldsMatches[i];
-                j=i;
+                j = i;
             }
         }
 
-        if(j > -1) {
+        if (j > -1) {
             setEduGeneralField(VSFields[j]);
             eduLog.addLogText("Nejvíce shod jsem našel na indexu: " + j);
             eduLog.addLogText("Jedná se o obor: " + eduGeneralField.getPrettyName());
             return true;
-        }else{
-            //nepodarilo se najit zadnou shodu => zadny obecny obor nebyl identifikovan
+        } else {
+            // failed to find match => no general edu field was identified
             eduLog.addLogText("Nenalezl jsem obor");
             return false;
         }
     }
 
-    public boolean findFieldForVOSSSMatLevel(String extractedText, Boolean useAreaIndexes, Boolean useEduSectionStartIndex,
-                                             EduLog eduLog) {
+    /**
+     * Method find and set general education field for High School
+     * (Středoškolský maturitní a VOŠ) education level
+     *
+     * @param extractedText           - String with extracted text content from attached CV file
+     * @param useAreaIndexes          - boolean - if True, areaIndexes will be used during searching/extracting process
+     * @param useEduSectionStartIndex - boolean - if True, eduSectionStartIndex will be used during searching/extracting process
+     * @param eduLog                  - EduLog object to store process log information
+     * @return boolean (True if general edu field was found and set)
+     */
+    public boolean findFieldForVOSSSMatLevel(String extractedText, Boolean useAreaIndexes,
+                                             Boolean useEduSectionStartIndex, EduLog eduLog) {
         String textAreaSubString;
-
         String regex;
         Pattern pattern;
         Matcher matcher;
@@ -295,7 +323,7 @@ public class MaxEducation {
             eduLog.addLogText("MaxEducation-findFieldforVOSSSMatLevel:: " +
                     "Hledam pomoci maxEndIndex s hodnotou: " + maxEduLvl.getEndPosIndex());
         } else if ((useAreaIndexes) && ((maxEduLvl.getEndPosIndex() == 0))) {
-            //nespoustim hledani v rezimu useAreaIndexes => indexy nebyly spravne nalezeny a neohranicuji zadnou oblast
+            // do not run search in useAreaIndexes mode => indexes not found correctly and do not delimit back area
             eduLog.addLogText("MaxEducation-findFieldforVOSSSMatLevel:: Nespoustim hledani v rezimu useAreaIndexes," +
                     " indexy nebyly spravne nalezeny a neohranicuji zadnou oblast");
             return false;
@@ -494,30 +522,38 @@ public class MaxEducation {
         eduLog.addLogText("\n");
         int maxMatches = 0;
         int j = -1;
-        for(int i=0;i<VOSSSMatFields.length;i++) {
+        for (int i = 0; i < VOSSSMatFields.length; i++) {
             eduLog.addLogText("Matches pro obor: " + VOSSSMatFields[i] + " je: " + VOSSSMatFieldsMatches[i]);
-            if(VOSSSMatFieldsMatches[i] > maxMatches) {
+            if (VOSSSMatFieldsMatches[i] > maxMatches) {
                 maxMatches = VOSSSMatFieldsMatches[i];
-                j=i;
+                j = i;
             }
         }
 
-        if(j > -1) {
+        if (j > -1) {
             setEduGeneralField(VOSSSMatFields[j]);
             eduLog.addLogText("Nejvíce shod jsem našel na indexu: " + j);
             eduLog.addLogText("Jedná se o obor: " + eduGeneralField.getPrettyName());
             return true;
-        }else{
-            //nepodarilo se najit zadnou shodu => zadny obecny obor nebyl identifikovan
+        } else {
+            // failed to find match => no general edu field was identified
             eduLog.addLogText("Nenalezl jsem obor");
             return false;
         }
     }
 
-    public boolean findFieldForSSLevel(String extractedText, Boolean useAreaIndexes, Boolean useEduSectionStartIndex,
-                                       EduLog eduLog) {
+    /**
+     * Method find and set general education field for (Středoškolský / vyučen / bez maturity) education level
+     *
+     * @param extractedText           - String with extracted text content from attached CV file
+     * @param useAreaIndexes          - boolean - if True, areaIndexes will be used during searching/extracting process
+     * @param useEduSectionStartIndex - boolean - if True, eduSectionStartIndex will be used during searching/extracting process
+     * @param eduLog                  - EduLog object to store process log information
+     * @return boolean (True if general edu field was found and set)
+     */
+    public boolean findFieldForSSLevel(String extractedText, Boolean useAreaIndexes,
+                                       Boolean useEduSectionStartIndex, EduLog eduLog) {
         String textAreaSubString;
-
         String regex;
         Pattern pattern;
         Matcher matcher;
@@ -530,7 +566,7 @@ public class MaxEducation {
             eduLog.addLogText("MaxEducation-findFieldforSSLevel:: " +
                     "Hledam pomoci maxEndIndex s hodnotou: " + maxEduLvl.getEndPosIndex());
         } else if ((useAreaIndexes) && ((maxEduLvl.getEndPosIndex() == 0))) {
-            //nespoustim hledani v rezimu useAreaIndexes => indexy nebyly spravne nalezeny a neohranicuji zadnou oblast
+            // do not run search in useAreaIndexes mode => indexes not found correctly and do not delimit back area
             eduLog.addLogText("MaxEducation-findFieldforSSLevel:: Nespoustim hledani v rezimu useAreaIndexes," +
                     " indexy nebyly spravne nalezeny a neohranicuji zadnou oblast");
             return false;
@@ -634,7 +670,6 @@ public class MaxEducation {
         }
 
 
-
         regex = "([Hh]utn[ií][ck]|[Kk]ameník|[Kk]amnař|[Kk]erami|[Kk]lempíř|[Kk]nihař|[Kk]omin[ií]|[Kk]ožeděl" +
                 "|[Ll]odník|[Mm]odelář|[Oo]bráběč|[Ss]troj|[Kk]arosář|[Nn]ástrojař|[Pp]odkovář|[Kk]ovář|[Dd]laždič" +
                 "|[Pp]odlahář|[Pp]uškař|[Ss]klář|[Ss]klenář|[Ss]lévač|[Tt]esař|[Tt]iskař|[Tt]ruhlář|[Vv]čelař" +
@@ -650,28 +685,29 @@ public class MaxEducation {
         eduLog.addLogText("\n");
         int maxMatches = 0;
         int j = -1;
-        for(int i=0;i<SSFields.length;i++) {
+        for (int i = 0; i < SSFields.length; i++) {
             eduLog.addLogText("Matches pro obor: " + SSFields[i] + " je: " + SSFieldsMatches[i]);
-            if(SSFieldsMatches[i] > maxMatches) {
+            if (SSFieldsMatches[i] > maxMatches) {
                 maxMatches = SSFieldsMatches[i];
-                j=i;
+                j = i;
             }
         }
 
-        if(j > -1) {
+        if (j > -1) {
             setEduGeneralField(SSFields[j]);
             eduLog.addLogText("Nejvíce shod jsem našel na indexu: " + j);
             eduLog.addLogText("Jedná se o obor: " + eduGeneralField.getPrettyName());
             return true;
-        }else{
-            if(useAreaIndexes || useEduSectionStartIndex) {
-                //nepodarilo se najit zadnou shodu => zadny obecny obor nebyl identifikovan
+        } else {
+            if (useAreaIndexes || useEduSectionStartIndex) {
+                // failed to find match => no general edu field was identified
                 eduLog.addLogText("Nenalezl jsem obor");
                 return false;
-            }else{ //pokud se jedna uz o druhy pokus s plosnym hledanim v celem textu
-                //natvrdo nastavit "Remeslna_vyroba"
+            } else {
+                // if this is the second attempt with a flat search in the whole text
+                // hard set "Remeslna_vyroba"
                 setEduGeneralField(SSFields[7]);
-                eduLog.addLogText("Nenalezen obor - natvrdo nastaven obor Řemeslná výroba..");
+                eduLog.addLogText("Nenalezen obor - fixně nastaven obor Řemeslná výroba..");
                 return true;
             }
         }

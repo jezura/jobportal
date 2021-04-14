@@ -1,16 +1,13 @@
 package jobportal.services;
 
-
 import jobportal.models.internal_models.data_entites.user.Administrator;
 import jobportal.models.internal_models.data_entites.user.RegisteredUser;
 import jobportal.models.internal_models.security.MyUser;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
 import java.util.Optional;
 
 @Service

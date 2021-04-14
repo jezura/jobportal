@@ -5,6 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * Simple Rest Controller created to check codebook data tables, if they have complete data
+ */
 @RestController
 public class CodebookRestController {
 
@@ -38,7 +41,10 @@ public class CodebookRestController {
     private EducationService educationService;
 
 
-    // method checks if all codebook tables are populated with data, if so it will return true
+    /**
+     * Method checks if all codebook tables are populated with data, if so it will return true.
+     * @return - boolean (If true, all codebook tables are already populated with data..
+     */
     @GetMapping(value = "/admin/checkCodebookData")
     public boolean checkIfAllCodebookDataPresent() {
         if((benefitService.getCount() > 0)

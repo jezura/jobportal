@@ -1,6 +1,5 @@
 package jobportal.dao;
 
-
 import jobportal.models.internal_models.codebooks.EduGeneralField;
 import org.springframework.data.repository.CrudRepository;
 

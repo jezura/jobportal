@@ -14,6 +14,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.ParseException;
 import org.json.simple.parser.JSONParser;
+
 import java.io.*;
 import java.net.URL;
 import java.time.LocalDate;
@@ -21,6 +22,13 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+/**
+ * REST Controller responsible for whole parsing processes for offers data as well as all codebook data.
+ * ParsingRestController is used during new data loading process - it transforms/parse all common source MPSV data to local
+ * objects which are then saved/persisted to DB.>
+ * ParsingRestController is one of the most important controllers in this app - it realizes connection to open data
+ * of the Ministry of Labor and Social Affairs CZ.
+ */
 @RestController
 public class ParsingRestController {
     private int codebookParsingProgress = 0;
@@ -72,39 +80,66 @@ public class ParsingRestController {
     @Autowired
     private OfferService offerService;
 
-    // method returns codebook parsing progress, it is number of processed codebook tables from total
+    /**
+     * Method returns codebook parsing progress, it is number of already processed codebook tables from total
+     *
+     * @return int - number of already processed codebook tables from total
+     */
     @GetMapping(value = "/admin/codebookParsingProgress")
     public int getCodebookParsingProgress() {
         return codebookParsingProgress;
     }
 
-    // method returns actual count of already parsed and loaded codebook data records
+    /**
+     * Method returns actual count of already parsed and loaded codebook data records
+     *
+     * @return int - count of already parsed and loaded codebook data records
+     */
     @GetMapping(value = "/admin/codebookParsedRecords")
     public int getCodebookParsedRecords() {
         return codebookParsedRecords;
     }
 
-    // method returns insertion date of actually parsed job offer
+    /**
+     * Method returns insertion date of actually parsed job offer
+     *
+     * @return String - insertion date
+     */
     @GetMapping(value = "/admin/actualParsedOfferInsertionDate")
     public String getActualParsedOfferInsertionDate() {
         return actualParsedOfferInsertionDate;
     }
 
-    // method returns edit date of actually parsed job offer
+    /**
+     * Method returns edit date of actually parsed job offer
+     *
+     * @return String - edit date
+     */
     @GetMapping(value = "/admin/actualParsedOfferEditDate")
     public String getActualParsedOfferEditDate() {
         return actualParsedOfferEditDate;
     }
 
-    // method returns progress/actual count of already parsed and loaded job offers data records
+    /**
+     * Method returns progress/actual count of already parsed and loaded job offers data records
+     *
+     * @return int - count of already parsed and loaded job offers data records
+     */
     @GetMapping(value = "/admin/parsedOffersCount")
     public int getParsedOffersCount() {
         return parsedOffersCount;
     }
 
-    // method parse all codebook data and store to the app database, if success returns true
+    /**
+     * Method parse all codebook data and store to the app database, if success returns true.
+     *
+     * @return boolean (If true, parsing was success)
+     * @throws IOException    - data source file/API exception
+     * @throws ParseException - parsing exception
+     */
     @GetMapping(value = "/admin/parseAllCodeBookData")
     public boolean parseAllCodeBookData() throws IOException, ParseException {
+        // kraje (regions) parsing
         URL url = new URL("https://data.mpsv.cz/od/soubory/ciselniky/kraje.json");
         BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
         Object obj = new JSONParser().parse(in);
@@ -125,6 +160,7 @@ public class ParsingRestController {
         }
         codebookParsingProgress++;
 
+        // okresy (districts) parsing
         url = new URL("https://data.mpsv.cz/od/soubory/ciselniky/okresy.json");
         in = new BufferedReader(new InputStreamReader(url.openStream()));
         obj = new JSONParser().parse(in);
@@ -146,6 +182,7 @@ public class ParsingRestController {
         }
         codebookParsingProgress++;
 
+        // obce (villages) parsing
         url = new URL("https://data.mpsv.cz/od/soubory/ciselniky/obce.json");
         in = new BufferedReader(new InputStreamReader(url.openStream()));
         obj = new JSONParser().parse(in);
@@ -166,6 +203,7 @@ public class ParsingRestController {
         }
         codebookParsingProgress++;
 
+        // casti obci (village parts) parsing
         url = new URL("https://data.mpsv.cz/od/soubory/ciselniky/casti-obci.json");
         in = new BufferedReader(new InputStreamReader(url.openStream()));
         obj = new JSONParser().parse(in);
@@ -185,6 +223,7 @@ public class ParsingRestController {
         }
         codebookParsingProgress++;
 
+        // kraje (regions) parsing
         url = new URL("https://data.mpsv.cz/od/soubory/ciselniky/dovednosti.json");
         in = new BufferedReader(new InputStreamReader(url.openStream()));
         obj = new JSONParser().parse(in);
@@ -204,6 +243,7 @@ public class ParsingRestController {
         }
         codebookParsingProgress++;
 
+        // typy mista vykonu prace (place types) parsing
         url = new URL("https://data.mpsv.cz/od/soubory/ciselniky/typy-mista-vykonu-prace.json");
         in = new BufferedReader(new InputStreamReader(url.openStream()));
         obj = new JSONParser().parse(in);
@@ -223,6 +263,7 @@ public class ParsingRestController {
         }
         codebookParsingProgress++;
 
+        // vhodnosti pro typ zamestnance (suitabilities) parsing
         url = new URL("https://data.mpsv.cz/od/soubory/ciselniky/vhodnosti-pro-typ-zamestnance.json");
         in = new BufferedReader(new InputStreamReader(url.openStream()));
         obj = new JSONParser().parse(in);
@@ -242,6 +283,7 @@ public class ParsingRestController {
         }
         codebookParsingProgress++;
 
+        // vyhody volnych mist (benefits) parsing
         url = new URL("https://data.mpsv.cz/od/soubory/ciselniky/vyhody-volneho-mista.json");
         in = new BufferedReader(new InputStreamReader(url.openStream()));
         obj = new JSONParser().parse(in);
@@ -261,6 +303,7 @@ public class ParsingRestController {
         }
         codebookParsingProgress++;
 
+        // jazyky (languages) parsing
         url = new URL("https://data.mpsv.cz/od/soubory/ciselniky/jazyky.json");
         in = new BufferedReader(new InputStreamReader(url.openStream()));
         obj = new JSONParser().parse(in);
@@ -280,6 +323,7 @@ public class ParsingRestController {
         }
         codebookParsingProgress++;
 
+        // obory cinnosti (fields) parsing
         url = new URL("https://data.mpsv.cz/od/soubory/ciselniky/obory-cinnosti-vm.json");
         in = new BufferedReader(new InputStreamReader(url.openStream()));
         obj = new JSONParser().parse(in);
@@ -299,6 +343,7 @@ public class ParsingRestController {
         }
         codebookParsingProgress++;
 
+        // profese (professions) parsing
         url = new URL("https://data.mpsv.cz/od/soubory/ciselniky/czisco.json");
         in = new BufferedReader(new InputStreamReader(url.openStream()));
         obj = new JSONParser().parse(in);
@@ -333,6 +378,7 @@ public class ParsingRestController {
         }
         codebookParsingProgress++;
 
+        // pracovnepravni vztahy (work ships) parsing
         url = new URL("https://data.mpsv.cz/od/soubory/ciselniky/pracovnepravni-vztahy.json");
         in = new BufferedReader(new InputStreamReader(url.openStream()));
         obj = new JSONParser().parse(in);
@@ -352,6 +398,7 @@ public class ParsingRestController {
         }
         codebookParsingProgress++;
 
+        // smennosti (work shifts) parsing
         url = new URL("https://data.mpsv.cz/od/soubory/ciselniky/smennosti.json");
         in = new BufferedReader(new InputStreamReader(url.openStream()));
         obj = new JSONParser().parse(in);
@@ -371,6 +418,7 @@ public class ParsingRestController {
         }
         codebookParsingProgress++;
 
+        // vzdelani (educations) parsing
         url = new URL("https://data.mpsv.cz/od/soubory/ciselniky/vzdelani.json");
         in = new BufferedReader(new InputStreamReader(url.openStream()));
         obj = new JSONParser().parse(in);
@@ -394,232 +442,15 @@ public class ParsingRestController {
         return true;
     }
 
-    @GetMapping(value = "/admin/parseRegions")
-    public String parseRegions() throws IOException, ParseException {
-        File file = new ClassPathResource("offers_json_data/codebook_data/kraje.json").getFile();
-        Object obj = new JSONParser().parse(new FileReader(file));
-        JSONObject jsonObject = (JSONObject) obj;
-        JSONArray polozky = (JSONArray) jsonObject.get("polozky");
 
-        Iterator<JSONObject> iterator = polozky.iterator();
-        while (iterator.hasNext()) {
-            JSONObject nextObject = iterator.next();
-            Region region = new Region();
-            region.setId(nextObject.get("id").toString());
-            region.setCode(nextObject.get("kod").toString());
-            region.setKodNuts3(nextObject.get("kodNuts3").toString());
-            region.setName(nextObject.get("nazev").toString());
-
-            regionService.saveRegion(region);
-        }
-
-        return "redirect:/admin/index";
-    }
-
-    @GetMapping(value = "/admin/parseDistricts")
-    public String parseDistricts() throws IOException, ParseException {
-        File file = new ClassPathResource("offers_json_data/codebook_data/okresy.json").getFile();
-        Object obj = new JSONParser().parse(new FileReader(file));
-        JSONObject jsonObject = (JSONObject) obj;
-        JSONArray polozky = (JSONArray) jsonObject.get("polozky");
-
-        Iterator<JSONObject> iterator = polozky.iterator();
-        while (iterator.hasNext()) {
-            JSONObject nextObject = iterator.next();
-            District district = new District();
-            district.setId(nextObject.get("id").toString());
-            district.setCode(nextObject.get("kod").toString());
-            district.setKodLau(nextObject.get("kodLau").toString());
-            district.setName(nextObject.get("nazev").toString());
-            district.setRegion(regionService.findRegionById(nextObject.get("kraj").toString()));
-
-            districtService.saveDistrict(district);
-        }
-
-        return "redirect:/admin/index";
-    }
-
-    @GetMapping(value = "/admin/parseVillages")
-    public String parseVillages() throws IOException, ParseException {
-        File file = new ClassPathResource("offers_json_data/codebook_data/obce.json").getFile();
-        Object obj = new JSONParser().parse(new FileReader(file));
-        JSONObject jsonObject = (JSONObject) obj;
-        JSONArray polozky = (JSONArray) jsonObject.get("polozky");
-
-        Iterator<JSONObject> iterator = polozky.iterator();
-        while (iterator.hasNext()) {
-            JSONObject nextObject = iterator.next();
-            Village village = new Village();
-            village.setId(nextObject.get("id").toString());
-            village.setCode(nextObject.get("kod").toString());
-            village.setName(nextObject.get("nazev").toString());
-            village.setDistrict(districtService.findDistrictById(nextObject.get("okres").toString()));
-
-            villageService.saveVillage(village);
-        }
-
-        return "redirect:/admin/index";
-    }
-
-    @GetMapping(value = "/admin/parseSkills")
-    public String parseSkills() throws IOException, ParseException {
-        File file = new ClassPathResource("offers_json_data/codebook_data/dovednosti.json").getFile();
-        Object obj = new JSONParser().parse(new FileReader(file));
-        JSONObject jsonObject = (JSONObject) obj;
-        JSONArray polozky = (JSONArray) jsonObject.get("polozky");
-
-        Iterator<JSONObject> iterator = polozky.iterator();
-        while (iterator.hasNext()) {
-            JSONObject nextObject = iterator.next();
-            Skill skill = new Skill();
-            skill.setId(nextObject.get("id").toString());
-            skill.setCode(nextObject.get("kod").toString());
-            skill.setName(nextObject.get("nazev").toString());
-
-            skillService.saveSkill(skill);
-        }
-
-        return "redirect:/admin/index";
-    }
-
-    @GetMapping(value = "/admin/parseLanguages")
-    public String parseLanguages() throws IOException, ParseException {
-        File file = new ClassPathResource("offers_json_data/codebook_data/jazyky.json").getFile();
-        Object obj = new JSONParser().parse(new FileReader(file));
-        JSONObject jsonObject = (JSONObject) obj;
-        JSONArray polozky = (JSONArray) jsonObject.get("polozky");
-
-        Iterator<JSONObject> iterator = polozky.iterator();
-        while (iterator.hasNext()) {
-            JSONObject nextObject = iterator.next();
-            Language language = new Language();
-            language.setId(nextObject.get("id").toString());
-            language.setCode(nextObject.get("kod").toString());
-            language.setName(nextObject.get("nazev").toString());
-
-            languageService.saveLanguage(language);
-        }
-
-        return "redirect:/admin/index";
-    }
-
-    @GetMapping(value = "/admin/parseFields")
-    public String parseFields() throws IOException, ParseException {
-        File file = new ClassPathResource("offers_json_data/codebook_data/obory-cinnosti-vm.json").getFile();
-        Object obj = new JSONParser().parse(new FileReader(file));
-        JSONObject jsonObject = (JSONObject) obj;
-        JSONArray polozky = (JSONArray) jsonObject.get("polozky");
-
-        Iterator<JSONObject> iterator = polozky.iterator();
-        while (iterator.hasNext()) {
-            JSONObject nextObject = iterator.next();
-            Field field = new Field();
-            field.setId(nextObject.get("id").toString());
-            field.setCode(nextObject.get("kod").toString());
-            field.setName(nextObject.get("nazev").toString());
-
-            fieldService.saveField(field);
-        }
-
-        return "redirect:/admin/index";
-    }
-
-    @GetMapping(value = "/admin/parseProfessions")
-    public String parseProfessions() throws IOException, ParseException {
-        File file = new ClassPathResource("offers_json_data/codebook_data/profese-czisco.json").getFile();
-        Object obj = new JSONParser().parse(new FileReader(file));
-        JSONObject jsonObject = (JSONObject) obj;
-        JSONArray polozky = (JSONArray) jsonObject.get("polozky");
-
-        Iterator<JSONObject> iterator = polozky.iterator();
-        while (iterator.hasNext()) {
-            JSONObject nextObject = iterator.next();
-            Profession profession = new Profession();
-            profession.setId(nextObject.get("id").toString());
-            profession.setCode(nextObject.get("kod").toString());
-            profession.setName(nextObject.get("nazev").toString());
-
-            // !! oboru muze byt vice polozek - ukladaji se jako M:N do setu (id vs id) / pomocna tabulka
-            JSONArray fields = (JSONArray) nextObject.get("oboryCinnosti");
-            Iterator<JSONObject> iteratorFields = fields.iterator();
-            Set<Field> fieldSet = new HashSet<Field>();
-
-            while (iteratorFields.hasNext()) {
-                JSONObject fieldObject = iteratorFields.next();
-                fieldSet.add(fieldService.findFieldById(fieldObject.get("id").toString()));
-            }
-            profession.setFields(fieldSet);
-
-            professionService.saveProfession(profession);
-        }
-
-        return "redirect:/admin/index";
-    }
-
-    @GetMapping(value = "/admin/parseWorkships")
-    public String parseWorkships() throws IOException, ParseException {
-        File file = new ClassPathResource("offers_json_data/codebook_data/pracovnepravni-vztahy.json").getFile();
-        Object obj = new JSONParser().parse(new FileReader(file));
-        JSONObject jsonObject = (JSONObject) obj;
-        JSONArray polozky = (JSONArray) jsonObject.get("polozky");
-
-        Iterator<JSONObject> iterator = polozky.iterator();
-        while (iterator.hasNext()) {
-            JSONObject nextObject = iterator.next();
-            Workship workship = new Workship();
-            workship.setId(nextObject.get("id").toString());
-            workship.setCode(nextObject.get("kod").toString());
-            workship.setName(nextObject.get("nazev").toString());
-
-            workshipService.saveWorkship(workship);
-        }
-
-        return "redirect:/admin/index";
-    }
-
-    @GetMapping(value = "/admin/parseWorkshifts")
-    public String parseWorkshifts() throws IOException, ParseException {
-        File file = new ClassPathResource("offers_json_data/codebook_data/smennosti.json").getFile();
-        Object obj = new JSONParser().parse(new FileReader(file));
-        JSONObject jsonObject = (JSONObject) obj;
-        JSONArray polozky = (JSONArray) jsonObject.get("polozky");
-
-        Iterator<JSONObject> iterator = polozky.iterator();
-        while (iterator.hasNext()) {
-            JSONObject nextObject = iterator.next();
-            Workshift workshift = new Workshift();
-            workshift.setId(nextObject.get("id").toString());
-            workshift.setCode(nextObject.get("kod").toString());
-            workshift.setName(nextObject.get("nazev").toString());
-
-            workshiftService.saveWorkshift(workshift);
-        }
-
-        return "redirect:/admin/index";
-    }
-
-    @GetMapping(value = "/admin/parseEducations")
-    public String parseEducations() throws IOException, ParseException {
-        File file = new ClassPathResource("offers_json_data/codebook_data/vzdelani.json").getFile();
-        Object obj = new JSONParser().parse(new FileReader(file));
-        JSONObject jsonObject = (JSONObject) obj;
-        JSONArray polozky = (JSONArray) jsonObject.get("polozky");
-
-        Iterator<JSONObject> iterator = polozky.iterator();
-        while (iterator.hasNext()) {
-            JSONObject nextObject = iterator.next();
-            Education education = new Education();
-            education.setId(nextObject.get("id").toString());
-            education.setCode(nextObject.get("kod").toString());
-            education.setName(nextObject.get("nazev").toString());
-
-            educationService.saveEducation(education);
-        }
-
-        return "redirect:/admin/index";
-    }
-
-    // method parse all job offers data according to given parameters and store to the app database, if success returns true
+    /**
+     * Method parse all job offers data according to given parameters and store to the app database,
+     * if success returns true.
+     *
+     * @return boolean (if success, returns true)
+     * @throws IOException    - data source file/API exception
+     * @throws ParseException - parsing exception
+     */
     @GetMapping(value = "/admin/parseOffers")
     public boolean parseOffers(
             @Param("insertionDateFrom") String insertionDateFrom,
@@ -1102,20 +933,29 @@ public class ParsingRestController {
         return true;
     }
 
-    // vynulovani progress hodnot pro codebook data
+    /**
+     * Reseting of progress values for codebook data
+     */
     private void resetCodebookCounters() {
         codebookParsedRecords = 0;
         codebookParsingProgress = 0;
     }
 
-    // vynulovani progress hodnot pro codebook data
+    /**
+     * Reseting of progress values for offers data
+     */
     private void resetOffersCounters() {
         parsedOffersCount = 1;
         actualParsedOfferInsertionDate = "zatím žádný";
         actualParsedOfferEditDate = "zatím žádný";
     }
 
-    // do console vypisuje log objektu, ktere byly behem procesu parsovani ve zdrojovych JSON datech identifikovany jak chybejici - NULL
+    /**
+     * Method lists in the console the log of objects that were identified as missing during the parsing process in the source JSON data - NULL
+     *
+     * @param targetObject - String - target object name/description
+     * @param offerId      - Long - ID of offer
+     */
     private void logNPException(String targetObject, Long offerId) {
         System.out.println("NullPointerException for target object: " + targetObject + " - these data was not set in parsed JSON file for offer with ID: " + offerId);
     }

@@ -29,6 +29,9 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Controller for managing data and actions related to users and user accounts
+ */
 @Controller
 public class UserController {
     private static final int pageSize = 20;
@@ -54,11 +57,26 @@ public class UserController {
     EduGeneralFieldRepository eduGeneralFieldRepository;
 
 
+    /**
+     * Method redirects to showAdminAllUsersPageable() to display 1st page of registered users in administration
+     * part od this app
+     *
+     * @param model - Model instance
+     * @return - it will call showAdminAllUsersPageable(model, 1) method to display 1st page with users list
+     */
     @RequestMapping(value = "/admin/allUsers")
     public String showAdminAllUsers(Model model) {
         return showAdminAllUsersPageable(model, 1);
     }
 
+    /**
+     * Method loads all registered users for selected page number and other needed data from repository
+     * and then returns adminAllUsers.html template (displaying registered users list in administrator view mode)
+     *
+     * @param model       - Model instance
+     * @param currentPage - current page number
+     * @return String - "adminAllUsers.html" template name
+     */
     @GetMapping(value = "/admin/allUsers/page/{pageNumber}")
     public String showAdminAllUsersPageable(Model model, @PathVariable("pageNumber") int currentPage) {
         Page<RegisteredUser> registeredUserPage = personService.findAllRegisteredUsersPageable(currentPage, pageSize);
@@ -92,6 +110,17 @@ public class UserController {
         return "adminAllUsers";
     }
 
+    /**
+     * Method evaluates the received search parameters and decides to call another method showAdminFilteredUsersPageable or
+     * showAdminAllUsersPageable
+     *
+     * @param model          - Model instance
+     * @param emailSearch    - email searched value
+     * @param idSearch       - user id searched value
+     * @param fullNameSearch - user full name searched value
+     * @param page           - page number
+     * @return - it will call showAdminFilteredUsersPageable() or showAdminAllUsersPageable(model, 1) method
+     */
     @PostMapping(value = "/admin/searchUsers")
     public String showFilteredUsers(Model model, @RequestParam(name = "emailSearch", required = false) String emailSearch,
                                     @RequestParam(name = "idSearch", required = false) String idSearch,
@@ -111,6 +140,12 @@ public class UserController {
         return showAdminFilteredUsersPageable(model, currentPage, Integer.valueOf(idSearch), emailSearch, fullNameSearch);
     }
 
+    /**
+     * Email search term AJAX autocomplete method
+     *
+     * @param term - searched user email term
+     * @return - List of Strings - autocompleted/suggested emails from DB
+     */
     @RequestMapping(value = "/emailsAutocomplete")
     @ResponseBody
     public List<String> autoEmail(@RequestParam(value = "term", required = false, defaultValue = "") String term) {
@@ -118,6 +153,12 @@ public class UserController {
         return emails;
     }
 
+    /**
+     * Full name search term AJAX autocomplete method
+     *
+     * @param term - searched user full name term
+     * @return - List of Strings - autocompleted/suggested full names of registered users from DB
+     */
     @RequestMapping(value = "/fullNamesAutocomplete")
     @ResponseBody
     public List<String> autoFullName(@RequestParam(value = "term", required = false, defaultValue = "") String term) {
@@ -125,6 +166,19 @@ public class UserController {
         return fullNames;
     }
 
+    /**
+     * Search/filtering results for administrator..
+     * Method loads all registered users meeting search and filter parameters for selected page number, and also other
+     * needed data from repository and then returns adminAllUsers.html template (displaying filtered registered users
+     * list in administrator view mode)
+     *
+     * @param model          - Model instance
+     * @param currentPage    - current page number
+     * @param userId         - user id search value
+     * @param emailSearch    - user email search value
+     * @param fullNameSearch - user full name search value
+     * @return String - "adminAllUsers.html" template name
+     */
     @GetMapping(value = "/admin/searchedUsers/page/{pageNumber}")
     public String showAdminFilteredUsersPageable(Model model, @PathVariable("pageNumber") int currentPage, int userId, String emailSearch, String fullNameSearch) {
         List<RegisteredUser> registeredUsers = new ArrayList<>();
@@ -183,6 +237,13 @@ public class UserController {
         return "adminAllUsers";
     }
 
+    /**
+     * New user standard registration..
+     * Method creates new RegisteredUser instance and displays registration page for standard registration
+     *
+     * @param model - Model instance
+     * @return String - "registration.html" template name
+     */
     @GetMapping(value = "/registration")
     public String showRegistrationForm(Model model) {
         RegisteredUser registeredUser = new RegisteredUser();
@@ -191,6 +252,19 @@ public class UserController {
         return "registration";
     }
 
+    /**
+     * New user QUICK registration..
+     * Method creates new RegisteredUser instance and then runs extraction process on received
+     * CV PDF/DOCX file using CVExtractor. Then, using the extracted information, builds the CVProfile object,
+     * which is used to finally prefill RegisteredUser attributes with extracted information from CV.
+     * Finally, this method displays quickRegistration page for QUICK registration
+     * (page with prefilled registration form).
+     *
+     * @param model - Model instance
+     * @param files - file with CV to extract information from it
+     * @return String - "quickRegistration.html" template name
+     * @throws IOException file exception
+     */
     @PostMapping(value = "/quickRegistration")
     public String showQuickRegistrationForm(
             Model model,
@@ -211,6 +285,16 @@ public class UserController {
         return "quickRegistration";
     }
 
+    /**
+     * Save user after filled/sent registration page form
+     *
+     * @param registeredUser - RegisteredUser instance
+     * @param bindingResult  - BindingResult
+     * @param passwordCheck  - second password to perform equality check
+     * @param model          - Model instance
+     * @return redirect to: /login IF success or display back registration.html page to correct errors
+     * @throws IOException - exception
+     */
     @RequestMapping(value = "/saveUser", method = RequestMethod.POST)
     public String saveUser(@Valid @ModelAttribute("registeredUser") RegisteredUser registeredUser, BindingResult bindingResult,
                            @RequestParam("passwordCheck") String passwordCheck,
@@ -249,6 +333,12 @@ public class UserController {
         return "redirect:/login";
     }
 
+    /**
+     * Method will delete selected RegisteredUser by user id
+     *
+     * @param id - id of user to delete
+     * @return redirect to: /admin/allUsers
+     */
     @PostMapping(value = "/admin/deleteUser/{id}")
     public String deleteUser(@PathVariable(name = "id") int id) {
         personService.deleteRegisteredUser(id);
@@ -256,6 +346,14 @@ public class UserController {
         return "redirect:/admin/allUsers";
     }
 
+    /**
+     * Login page..
+     * Method will display login page with login form
+     *
+     * @param model - Model instance
+     * @param error - error message
+     * @return String - "login.html" template name
+     */
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login(Model model, String error) {
         if (error != null)
@@ -263,9 +361,16 @@ public class UserController {
         return "login";
     }
 
+    /**
+     * Account overview..
+     * Method load currently logged-in user and all his needed data and displays page with account information overview
+     *
+     * @param openModalChangePassword - auto open modal to change password?
+     * @param model                   - Model instance
+     * @return String - "accountOverview.html" template name
+     */
     @GetMapping(value = "/registeredUser/accountOverview/{openModalChangePassword}")
     public String showAccountOverviewPage(@PathVariable(name = "openModalChangePassword") String openModalChangePassword, Model model) {
-        System.out.println("Boolean openModalChangePassword: " + openModalChangePassword);
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         RegisteredUser registeredUser;
         String email;
@@ -286,6 +391,18 @@ public class UserController {
         return "registeredUser/accountOverview";
     }
 
+    /**
+     * Update user data
+     * Method updates selected users attributes and create new request for prediction service (if edu information changed)
+     *
+     * @param id                 - id of user to update
+     * @param newLastName        - new last name to update
+     * @param newRegion          - new region to update
+     * @param newEduLevel        - new education level to update
+     * @param newEduGeneralField - new education general field to update
+     * @return redirect to: /registeredUser/accountOverview/modalFalse
+     * @throws IOException exception
+     */
     @RequestMapping(value = "/registeredUser/updateUser/{id}", method = RequestMethod.POST)
     public String updateUser(@PathVariable(name = "id") int id,
                              @RequestParam("newLastName") String newLastName,
@@ -324,7 +441,7 @@ public class UserController {
                 registeredUser.setEduGeneralField(eduGeneralFieldService.findEduGeneralFieldById(newEduGeneralFieldId));
             }
 
-            // predict new work fields relevancies and update it
+            // predict new job fields relevancies and update it
             int oldRelevaciesId = registeredUser.getFieldsRelevancy().getId();
             FieldsRelevancy fr = new FieldsRelevancy();
             fr.setRelevancies(registeredUser);
@@ -340,6 +457,16 @@ public class UserController {
         return "redirect:/registeredUser/accountOverview/modalFalse";
     }
 
+    /**
+     * Update users password
+     * Method updates password for selected user
+     *
+     * @param userId           - user id to change password
+     * @param oldPassword      - old password
+     * @param newPassword      - new password
+     * @param newPasswordCheck - second new password (to perform equality check)
+     * @return - redirect to: /registeredUser/accountOverview/modalFalse
+     */
     @RequestMapping(value = "/registeredUser/changePassword/{userId}", method = RequestMethod.POST)
     public String changePassword(@PathVariable(name = "userId") int userId,
                                  @RequestParam("oldPassword") String oldPassword,
@@ -350,24 +477,29 @@ public class UserController {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
         // if the current password is correct -> user is authenticated
-        if(bCryptPasswordEncoder.matches(oldPassword, registeredUser.getPassword())){
+        if (bCryptPasswordEncoder.matches(oldPassword, registeredUser.getPassword())) {
             // if the both new passwords are equals
-            if(newPassword.equals(newPasswordCheck)){
+            if (newPassword.equals(newPasswordCheck)) {
                 // encrypt new password and update it in database
                 registeredUser.setPassword(bCryptPasswordEncoder.encode(newPassword));
                 personService.saveRegisteredUser(registeredUser);
                 message_notification = "Vaše heslo bylo úspěšně změněno";
                 return "redirect:/registeredUser/accountOverview/modalFalse";
-            }else{
+            } else {
                 message_notification = "Chyba: Nově zadaná hesla se neshodují, zkuste to prosím znovu";
                 return "redirect:/registeredUser/accountOverview/modalFalse";
             }
-        }else{
+        } else {
             message_notification = "Chyba: Vaše dosavadní heslo bylo zadáno chybně, zkuste to prosím znovu";
             return "redirect:/registeredUser/accountOverview/modalFalse";
         }
     }
 
+    /**
+     * Method will populate model instance with needed codebook data
+     *
+     * @param model - Model instance
+     */
     private void populateWithData(Model model) {
         Collection<Region> regions = regionService.findAllRegions();
         Collection<EduLevel> eduLevels = eduLevelService.findAllEduLevels();

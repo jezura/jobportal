@@ -3,6 +3,10 @@ package jobportal.models.offer_data_models;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+/**
+ * Model class for Employer entity.
+ * An instance represents row in employers table.
+ */
 @Entity
 @Table(name = "employers")
 public class Employer {

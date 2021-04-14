@@ -4,7 +4,6 @@ import jobportal.dao.LanguageRepository;
 import jobportal.models.offer_data_models.codebooks.Language;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;

@@ -14,6 +14,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+/**
+ * Spring Security configuration class
+ */
 @EnableWebSecurity
 @EnableJpaRepositories(basePackageClasses = RegisteredUserRepository.class)
 public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
@@ -26,11 +29,12 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(myUserDetailService).passwordEncoder(passwordEncoder());
     }
 
+    // configuration of Spring Security behavior
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
-                .antMatchers("/registeredUser/**").hasAnyRole("REGISTERED_USER","ADMINISTRATOR")
+                .antMatchers("/registeredUser/**").hasAnyRole("REGISTERED_USER", "ADMINISTRATOR")
                 .antMatchers("/admin/**").hasRole("ADMINISTRATOR")
                 .and()
                 .formLogin()
@@ -46,7 +50,7 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 }

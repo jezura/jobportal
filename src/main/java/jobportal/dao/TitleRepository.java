@@ -1,6 +1,5 @@
 package jobportal.dao;
 
-
 import jobportal.models.internal_models.codebooks.Title;
 import org.springframework.data.repository.CrudRepository;
 

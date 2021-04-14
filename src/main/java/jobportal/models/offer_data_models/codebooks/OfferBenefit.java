@@ -1,10 +1,13 @@
 package jobportal.models.offer_data_models.codebooks;
 
-
 import jobportal.models.offer_data_models.Offer;
-
 import javax.persistence.*;
 
+/**
+ * Model class for OfferBenefit codebook data entity.
+ * M:N relationship multiplicity linking/join table.
+ * An instance represents row in offer_benefit table.
+ */
 @Entity
 @Table(name = "offer_benefit")
 public class OfferBenefit {

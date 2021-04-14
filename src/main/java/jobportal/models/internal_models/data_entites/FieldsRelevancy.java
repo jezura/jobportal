@@ -12,12 +12,16 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.Calendar;
 
+/**
+ * Model class for FieldsRelevancy entity.
+ * An instance represents row in fields_relevancies table.
+ */
 @Entity
 @Table(name = "fields_relevancies")
 public class FieldsRelevancy {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     @NotNull(message = "Choose relevancy for job general field1")
@@ -103,9 +107,18 @@ public class FieldsRelevancy {
         this.relevancyField15 = relevancyField15;
     }
 
+    /**
+     * Method selects all necessary prediction information from given RegisteredUser instance attributes
+     * (gender, maxEduLvl, eduGeneralField), estimates the users age, constructs a URL for the prediction service query,
+     * and then stores all predicted relevance scores from response in a local float variables (so that it can be stored
+     * in a database).
+     *
+     * @param registeredUser - RegisteredUser instance
+     * @throws IOException - exception when prediction service is not available
+     */
     public void setRelevancies(RegisteredUser registeredUser) throws IOException {
         int gender = 0;
-        if(registeredUser.getGender().equals("zena")) {
+        if (registeredUser.getGender().equals("zena")) {
             gender = 1;
         }
 
@@ -144,7 +157,7 @@ public class FieldsRelevancy {
     }
 
     public float[] getRelevanceScoresArray() {
-        float [] relevanceScores = new float[15];
+        float[] relevanceScores = new float[15];
         relevanceScores[0] = getRelevancyField1();
         relevanceScores[1] = getRelevancyField2();
         relevanceScores[2] = getRelevancyField3();

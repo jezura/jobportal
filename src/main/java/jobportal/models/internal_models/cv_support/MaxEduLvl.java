@@ -9,16 +9,20 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * MaxEduLvl class was created to extract and keep information
+ * about the highest level of education attained from PDF/DOCX CV file.
+ */
 @Component
 public class MaxEduLvl {
     private EduLevelRepository eduLevelRepository;
-
     private EduLevel eduLevel;
     private int startPosIndex;
     private int endPosIndex;
     private static double startIndexDistanceMultiplicator = 2;
 
-    public MaxEduLvl(){}
+    public MaxEduLvl() {
+    }
 
     public MaxEduLvl(EduLevelRepository eduLevelRepository) {
         this.eduLevelRepository = eduLevelRepository;
@@ -48,6 +52,13 @@ public class MaxEduLvl {
         this.endPosIndex = endPosIndex;
     }
 
+    /**
+     * Method will find and set searching area indexes (minStartIndex and maxEndIndex) of education area
+     *
+     * @param extractedText - String with extracted text content from attached CV file
+     * @param aroundArea    - the size of the around area (area in text where to search)
+     * @param eduLog        - EduLog object to store process log information
+     */
     public void findAreaIndexesForVSLevel(String extractedText, int aroundArea, EduLog eduLog) {
         String regex;
         int minStartIndex;
@@ -73,7 +84,6 @@ public class MaxEduLvl {
             default:
                 regex = ".*";
                 break;
-
         }
 
         Pattern pattern = Pattern.compile(regex);
@@ -118,7 +128,15 @@ public class MaxEduLvl {
         eduLog.addLogText("MaxEduLvl-findAreaIndexesForVSLevel:: Nastavil jsem maxEndIndex na hodnotu: " + getEndPosIndex());
     }
 
-
+    /**
+     * Method find and set max education level
+     *
+     * @param extractedText        - String with extracted text content from attached CV file
+     * @param eduSectionStartIndex - start index of detected education area
+     * @param aroundArea           - the size of the around area (area in text where to search)
+     * @param eduLog               - EduLog object to store process log information
+     * @return boolean (True if max education level was found/extracted and set)
+     */
     public boolean findMaxEduLvl(String extractedText, int eduSectionStartIndex, int aroundArea, EduLog eduLog) {
         String textAreaSubstring;
         if (eduSectionStartIndex > 0) {
@@ -157,7 +175,6 @@ public class MaxEduLvl {
                 setStartPosIndex(0);
             }
             setEndPosIndex(matcher.end() + eduSectionStartIndex + aroundArea);
-
             return true;
         }
 
@@ -177,7 +194,6 @@ public class MaxEduLvl {
                 setStartPosIndex(0);
             }
             setEndPosIndex(matcher.end() + eduSectionStartIndex + aroundArea);
-
             return true;
         }
 
@@ -200,8 +216,6 @@ public class MaxEduLvl {
                 setStartPosIndex(0);
             }
             setEndPosIndex(matcher.end() + eduSectionStartIndex + aroundArea);
-            ;
-
             return true;
         }
 
@@ -220,7 +234,6 @@ public class MaxEduLvl {
                 setStartPosIndex(0);
             }
             setEndPosIndex(matcher.end() + eduSectionStartIndex + aroundArea);
-
             return true;
         }
 
@@ -282,7 +295,7 @@ public class MaxEduLvl {
             return true;
         }
 
-        // pokud se jiz jedna o pruchod celeho extracted textu
+        // if it is already a matter of passing the entire extracted text
         if (eduSectionStartIndex == 0) {
             eduLog.addLogText("Nenasel jsem keyword, nastavuji maxEduLvlName na: " + maxEduLvls[6]);
             setStartPosIndex(0);

@@ -1,18 +1,3 @@
-/*
- * Copyright 2012-2019 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      https://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package jobportal.models.offer_data_models;
 
 import jobportal.models.base.LongIdEntity;
@@ -27,7 +12,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- *
+ * Model class for main Offer entity.
+ * An instance represents row in offers table.
  */
 @Entity
 @Table(name = "offers")
@@ -99,17 +85,17 @@ public class Offer extends LongIdEntity {
 
     @OneToMany
             (mappedBy = "offer",
-            cascade=CascadeType.ALL)
+                    cascade = CascadeType.ALL)
     private Set<OfferLanguage> offerLanguages = new HashSet<OfferLanguage>();
 
     @OneToMany
             (mappedBy = "offer",
-            cascade=CascadeType.ALL)
+                    cascade = CascadeType.ALL)
     private Set<OfferBenefit> offerBenefits = new HashSet<OfferBenefit>();
 
     @OneToMany
             (mappedBy = "offer",
-            cascade=CascadeType.ALL)
+                    cascade = CascadeType.ALL)
     private Set<OfferSkill> offerSkills = new HashSet<OfferSkill>();
 
     @ManyToMany
@@ -129,12 +115,12 @@ public class Offer extends LongIdEntity {
     @JoinColumn(name = "placetype_id")
     private PlaceType placeType;
 
-    @OneToOne(cascade=CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     @NotNull(message = "Choose work place")
     @JoinColumn(name = "workplace_id")
     private WorkPlace workPlace;
 
-    @OneToOne(cascade=CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "firstcontact_id")
     private FirstContact firstContact;
 

@@ -5,20 +5,34 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import java.time.LocalDate;
 
+/**
+ * REST Controller responsible for providing selected progress data about offers - during new data load or data
+ * deleting processes in administration environment.
+ * OfferRestController is responsible also for selected offers data deleting.
+ */
 @RestController
 public class OfferRestController {
     @Autowired
     private OfferService offerService;
 
-    // method returns count of all job offers stored in app database
+    /**
+     * Method returns count of all job offers stored in app database
+     *
+     * @return int - count of all job offers stored in app database
+     */
     @GetMapping(value = "/admin/getOffersCount")
     public int getOffersCount() {
         return Long.valueOf(offerService.getCount()).intValue();
     }
 
-    // method delete all job offers from app database and returns number of deleted offers
+    /**
+     * Method delete all job offers from app database and returns number of deleted offers
+     *
+     * @return int - number of deleted offers
+     */
     @GetMapping(value = "/admin/deleteAllOffers")
     public int deleteAllOffers() {
         int startOffersCount = Long.valueOf(offerService.getCount()).intValue();
@@ -26,13 +40,21 @@ public class OfferRestController {
         return startOffersCount;
     }
 
-    // method delete all expired job offers from app database and returns number of deleted offers
+    /**
+     * Method delete all expired job offers from app database and returns number of deleted offers
+     *
+     * @return int - number of deleted offers
+     */
     @GetMapping(value = "/admin/deleteAllExpiredOffers")
     public int deleteAllExpiredOffers() {
         return offerService.deleteAllExpiredOffers();
     }
 
-    // method delete all job offers oldest than given dates from app database and returns number of deleted offers
+    /**
+     * Method delete all job offers oldest than given dates from app database and returns number of deleted offers
+     *
+     * @return int - number of deleted offers
+     */
     @GetMapping(value = "/admin/deleteAllOffersBeforeGivenDates")
     public int deleteAllOffersBeforeGivenDates(
             @Param("oldestInsertionDate") String oldestInsertionDate,
@@ -41,15 +63,15 @@ public class OfferRestController {
         LocalDate localOldestInsertionDate;
         LocalDate localOldestEditDate;
 
-        if(!oldestInsertionDate.isEmpty()) {
+        if (!oldestInsertionDate.isEmpty()) {
             localOldestInsertionDate = LocalDate.parse(oldestInsertionDate);
-        }else{
+        } else {
             localOldestInsertionDate = null;
         }
 
-        if(!oldestEditDate.isEmpty()) {
+        if (!oldestEditDate.isEmpty()) {
             localOldestEditDate = LocalDate.parse(oldestEditDate);
-        }else{
+        } else {
             localOldestEditDate = null;
         }
         return offerService.deleteAllOffersBeforeGivenDates(localOldestInsertionDate, localOldestEditDate);

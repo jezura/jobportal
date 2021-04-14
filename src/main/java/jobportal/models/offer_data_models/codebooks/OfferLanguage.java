@@ -4,11 +4,16 @@ import jobportal.models.offer_data_models.Offer;
 
 import javax.persistence.*;
 
+/**
+ * Model class for OfferLanguage codebook data entity.
+ * M:N relationship multiplicity linking/join table.
+ * An instance represents row in offer_language table.
+ */
 @Entity
 public class OfferLanguage {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     @ManyToOne
@@ -25,7 +30,8 @@ public class OfferLanguage {
     @Column(name = "description")
     private String description;
 
-    public OfferLanguage() {}
+    public OfferLanguage() {
+    }
 
     public OfferLanguage(int id, Offer offer, Language language, String level, String description) {
         this.id = id;

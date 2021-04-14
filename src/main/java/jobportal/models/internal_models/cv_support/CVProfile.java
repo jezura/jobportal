@@ -12,8 +12,15 @@ import java.time.temporal.ChronoUnit;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * CVProfile class was created mainly to store all extracted CV owner information in structural way.
+ * So this class is mainly data store oriented and represents specific CV.
+ * CVProfile object is a standard input for further work with extracted information - especially the prediction
+ * of relevance scores for job fields or quick registration SMART function.
+ * CVProfile is also responsible to prefill available RegisteredUser
+ * information when quick registration using CV is selected.
+ */
 public class CVProfile {
-
     private String firstName;
     private String lastName;
     private String gender;
@@ -24,7 +31,6 @@ public class CVProfile {
     private String email;
     private String mobile;
     private MaxEducation maxEducation;
-
 
     public CVProfile() {
     }
@@ -123,7 +129,15 @@ public class CVProfile {
         this.maxEducation = maxEducation;
     }
 
+    /**
+     * Method create/build complete CVProfile object using given CVExtractor instance and other params
+     *
+     * @param cvExtractor   - CVExtractor instance
+     * @param allCzechNames - Collection of all most common czech names from database
+     * @param allTitles     - Collection of all most common academic titles from database
+     */
     public void buildCompleteCvProfile(CVExtractor cvExtractor, Collection<CzechName> allCzechNames, Collection<Title> allTitles) {
+        // extracting information from CV file using given CVExtractor instance
         CzechName extractedFirstName = cvExtractor.extractFirstName(allCzechNames, 40);
         setFirstName(extractedFirstName.getName());
         setGender(extractedFirstName.getGender());
@@ -133,15 +147,14 @@ public class CVProfile {
         setMobile(cvExtractor.extractMobile());
         setMaxEducation(cvExtractor.extractMaxEducationAndGeneralEduField(getTitleList()));
 
-        // extract and set age and birthDate or birthYear
+        // extract and set age and birthDate or birthYear using given CVExtractor instance
         LocalDate extractedBirthDate = cvExtractor.extractBirthDate();
         if (extractedBirthDate != null) {
             long years;
-            if(extractedBirthDate.getYear() < 1950)
-            {
+            if (extractedBirthDate.getYear() < 1950) {
                 extractedBirthDate = extractedBirthDate.plusYears(100);
                 setBirthYear(extractedBirthDate.getYear());
-            }else{
+            } else {
                 setBirthDate(extractedBirthDate);
             }
             years = ChronoUnit.YEARS.between(extractedBirthDate, LocalDate.now());
@@ -149,33 +162,42 @@ public class CVProfile {
         }
     }
 
+    /**
+     * Method is responsible to prefill all available RegisteredUser information when quick registration using CV
+     * is selected
+     *
+     * @param registeredUser            - instance of new RegisteredUser to register
+     * @param eduLevelRepository        - repository of education levels codebook data
+     * @param eduGeneralFieldRepository - repository of education general fields codebook data
+     * @return RegisteredUser object with prefilled available information
+     */
     public RegisteredUser preFillRegisteredUserAttributesWithIdentifiedInformation(
             RegisteredUser registeredUser,
             EduLevelRepository eduLevelRepository,
             EduGeneralFieldRepository eduGeneralFieldRepository) {
-        if(!getFirstName().isBlank()) {
+        if (!getFirstName().isBlank()) {
             registeredUser.setFirstName(getFirstName());
         }
-        if(!getLastName().isBlank()) {
+        if (!getLastName().isBlank()) {
             registeredUser.setLastName(getLastName());
         }
-        if(!getEmail().isBlank()) {
+        if (!getEmail().isBlank()) {
             registeredUser.setEmail(getEmail());
         }
-        if(!getGender().isBlank()) {
+        if (!getGender().isBlank()) {
             registeredUser.setGender(getGender());
         }
 
-        if(getBirthDate() != null) {
+        if (getBirthDate() != null) {
             registeredUser.setBirthYear(getBirthDate().getYear());
-        }else if(getBirthYear() > 0) {
+        } else if (getBirthYear() > 0) {
             registeredUser.setBirthYear(getBirthYear());
         }
 
-        if(!getMaxEducation().getMaxEduLvl().getEduLevel().getName().isBlank()) {
+        if (!getMaxEducation().getMaxEduLvl().getEduLevel().getName().isBlank()) {
             registeredUser.setEduLevel(eduLevelRepository.findEduLevelByName(getMaxEducation().getMaxEduLvl().getEduLevel().getName()));
         }
-        if(!getMaxEducation().getEduGeneralField().getName().isBlank()) {
+        if (!getMaxEducation().getEduGeneralField().getName().isBlank()) {
             registeredUser.setEduGeneralField(eduGeneralFieldRepository.findEduGeneralFieldByName(getMaxEducation().getEduGeneralField().getName()));
         }
         return registeredUser;

@@ -1,18 +1,3 @@
-/*
- * Copyright 2012-2019 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      https://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package jobportal.models.internal_models.data_entites.user;
 
 import jobportal.models.internal_models.codebooks.EduGeneralField;
@@ -20,6 +5,7 @@ import jobportal.models.internal_models.codebooks.EduLevel;
 import jobportal.models.internal_models.data_entites.FieldsRelevancy;
 import jobportal.models.offer_data_models.codebooks.Region;
 import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -28,7 +14,8 @@ import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
 /**
- * Trida objektu RegisteredUser
+ * Model class for RegisteredUser entity.
+ * An instance represents row in registered_users table.
  */
 
 @Entity
@@ -45,8 +32,8 @@ public class RegisteredUser extends Person {
     private String gender;
 
     @NotNull(message = "Rok narození musí být zadán")
-    @Min(value=1940, message="Rok narození musí být roven nebo větší než rok 1940")
-    @Max(value=2006, message="Rok narození musí být menší nebo roven než rok 2006")
+    @Min(value = 1940, message = "Rok narození musí být roven nebo větší než rok 1940")
+    @Max(value = 2006, message = "Rok narození musí být menší nebo roven než rok 2006")
     @Column(name = "birth_year")
     private int birthYear;
 
@@ -65,12 +52,13 @@ public class RegisteredUser extends Person {
     @JoinColumn(name = "region_id")
     private Region region;
 
-    @OneToOne(cascade=CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "fields_relevancy_id")
     private FieldsRelevancy fieldsRelevancy;
 
 
-    public RegisteredUser() {}
+    public RegisteredUser() {
+    }
 
     public RegisteredUser(LocalDate registerDate, @NotNull(message = "Pohlaví musí být zadáno") String gender, @NotNull(message = "Rok narození musí být zadán") int birthYear, @NotNull(message = "Stupeň nejvyššího dosaženého vzdělání musí být vybrán") EduLevel eduLevel, @NotNull(message = "Obecný obor nejvyššího dosaženého vzdělání musí být vybrán") EduGeneralField eduGeneralField, @NotNull(message = "Kraj bydliště musí být vybrán") Region region, @NotNull(message = "Musí být přiřazen odpovídající objekt uchovávající relevance pracovních oborů") FieldsRelevancy fieldsRelevancy) {
         this.registerDate = registerDate;

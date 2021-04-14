@@ -4,7 +4,6 @@ import jobportal.dao.RegionRepository;
 import jobportal.models.offer_data_models.codebooks.Region;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -34,5 +33,4 @@ public class RegionService {
     public void saveRegion(Region r){
         regionRepository.save(r);
     }
-
 }

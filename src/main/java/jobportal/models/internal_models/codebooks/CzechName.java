@@ -3,12 +3,16 @@ package jobportal.models.internal_models.codebooks;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+/**
+ * Model class for CzechName codebook data entity.
+ * An instance represents row in czech_names table.
+ */
 @Entity
 @Table(name = "czech_names")
 public class CzechName {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     @NotNull(message = "Choose first name")

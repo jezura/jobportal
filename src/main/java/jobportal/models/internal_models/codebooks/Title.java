@@ -3,12 +3,16 @@ package jobportal.models.internal_models.codebooks;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+/**
+ * Model class for Title codebook data entity.
+ * An instance represents row in titles table.
+ */
 @Entity
 @Table(name = "titles")
 public class Title {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     @NotNull(message = "Choose academic title")

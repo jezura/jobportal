@@ -4,7 +4,6 @@ import jobportal.dao.CzechNameRepository;
 import jobportal.models.internal_models.codebooks.CzechName;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
