@@ -147,7 +147,6 @@ public class AdministrationController {
      */
     @RequestMapping({"/admin/updateOffer/{id}"})
     public String updateOffer(@PathVariable(name = "id") Long id, @RequestParam("offerTitle") String offerTitle, @RequestParam("offerText") String offerText) {
-        System.out.println("New offer title is: " + offerTitle);
         Offer offer = this.offerService.findOfferById(id);
         offer.setTitle(offerTitle);
         offer.setOfferText(offerText);
@@ -249,7 +248,6 @@ public class AdministrationController {
             model.addAttribute("totalPages", totalPages);
         }
 
-        System.out.println("Offers list size: " + offers.size());
         Collection<Field> fields = this.fieldService.findAllFields();
         model.addAttribute("fields", fields);
         model.addAttribute("offers", offers);

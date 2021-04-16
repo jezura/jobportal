@@ -26,7 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 /**
  * CVExtractor is one of the most important classes of the project
- * CVExxtractor class was created for extraction of the entire text from PDF / DOCX files,
+ * CVExtractor class was created for extraction of the entire text from PDF / DOCX files,
  * for identification and extraction of selected information from CVs and also for control
  * of the entire extraction process
  */
@@ -57,6 +57,11 @@ public class CVExtractor {
         return this.extractedText;
     }
 
+    // only for unit testing purposes
+    public void setExtractedText(String extractedText){
+        this.extractedText = extractedText;
+    }
+
     /**
      * Method extracts all text content and inserts it into the local extractedText variable
      *
@@ -77,6 +82,7 @@ public class CVExtractor {
 
         // Extracting of whole text content from attached PDF / DOCX file
         this.extractedText = getCvTextData(savedFile, fileName);
+        System.out.println("Extracted text: " + extractedText);
 
         // Deleting of saved file
         if (savedFile.delete()) {

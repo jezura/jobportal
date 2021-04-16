@@ -217,7 +217,6 @@ public class UserController {
         }
 
         long usersCount = personService.getRegisteredUsersCount();
-        System.out.println("Registered users list size: " + registeredUsers.size());
 
         if (registeredUsers.size() > 0) {
             Collection<Region> regions = regionService.findAllRegions();

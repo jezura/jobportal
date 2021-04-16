@@ -281,7 +281,7 @@ public class OfferController {
      * @param switchUseLocalization - useLocalizedRegion?
      * @param regionId              - id of localized region
      * @param files                 - file with CV to extract information from it
-     * @return - it will call showIndexWithPersonalizedOffersPageable() method with proper parameters
+     * @return - redirect to: /personalizedOffers/region/{regionId}/page/1
      * @throws IOException - file exception
      */
     @RequestMapping(value = "/personalizedOffers", method = RequestMethod.POST)
@@ -303,10 +303,10 @@ public class OfferController {
 
         if (switchUseLocalization != null) {
             if ((switchUseLocalization.equals("isChecked")) && (!regionId.isBlank())) {
-                return showIndexWithPersonalizedOffersPageable(model, 1, regionId.replaceAll("/", "-"));
+                return "redirect:/personalizedOffers/region/" + regionId.replaceAll("/", "-") + "/page/1";
             }
         }
-        return showIndexWithPersonalizedOffersPageable(model, 1, "all-regions");
+        return "redirect:/personalizedOffers/region/all-regions/page/1";
     }
 
     /**
@@ -369,6 +369,13 @@ public class OfferController {
         }
         registeredUser = personService.findRegisteredUserByEmail(email);
         int todayDay = LocalDate.now().getDayOfYear();
+        Collection<Region> regions = regionService.findAllRegions();
+        Collection<District> districts = districtService.findAllDistricts();
+        Collection<Field> fields = fieldService.findAllFields();
+
+        model.addAttribute("regions", regions);
+        model.addAttribute("districts", districts);
+        model.addAttribute("fields", fields);
         model.addAttribute("user", registeredUser);
         model.addAttribute("offers", offers);
         model.addAttribute("cvProfile", cvProfile);
