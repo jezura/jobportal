@@ -69,16 +69,16 @@ public class CVExtractor {
      */
     public void processCvAndSetTextContentToExtractedTextVariable(MultipartFile[] files) {
         String fileName = files[0].getOriginalFilename();
-        //Path fileNameAndPath = Paths.get("D:\\",fileName);
-        Path fileNameAndPath = Paths.get(new ClassPathResource("filename").getPath());
+        Path fileNameAndPath = Paths.get("D:\\",fileName);
+        // - Heroku deployed version --> Path fileNameAndPath = Paths.get(new ClassPathResource("filename").getPath());
         try {
             Files.write(fileNameAndPath, files[0].getBytes());
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        //File savedFile = new File("D:\\" + files[0].getOriginalFilename());
-        File savedFile = new File(String.valueOf(fileNameAndPath));
+        File savedFile = new File("D:\\" + files[0].getOriginalFilename());
+        // - Heroku deployed version --> File savedFile = new File(String.valueOf(fileNameAndPath));
 
         // Extracting of whole text content from attached PDF / DOCX file
         this.extractedText = getCvTextData(savedFile, fileName);
