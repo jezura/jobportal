@@ -344,7 +344,7 @@ public class ParsingRestController {
         codebookParsingProgress++;
 
         // profese (professions) parsing
-        url = new URL("https://data.mpsv.cz/od/soubory/ciselniky/czisco.json");
+        url = new URL("https://data.mpsv.cz/od/soubory/ciselniky/cz-isco.json");
         in = new BufferedReader(new InputStreamReader(url.openStream()));
         obj = new JSONParser().parse(in);
         jsonObject = (JSONObject) obj;
