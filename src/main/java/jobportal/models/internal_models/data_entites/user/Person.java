@@ -16,11 +16,11 @@ public class Person {
     private int id;
 
     @Column(name = "first_name")
-    @Pattern(regexp = "^[a-zA-ZáéíóúůýčšžřÁÉÍÓÚŮÝČŠŽŘ'´]{3,20}", message = "Neplatné křestní jméno, povolená délka 3-20 znaků")
+    @Pattern(regexp = "^[a-zA-ZáéíóúůýčšžřěÁÉÍÓÚŮÝČŠŽŘĚ'´]{3,20}", message = "Neplatné křestní jméno, povolená délka 3-20 znaků")
     private String firstName;
 
     @Column(name = "last_name")
-    @Pattern(regexp = "^[a-zA-ZáéíóúůýčšžřÁÉÍÓÚŮÝČŠŽŘ'´]{3,20}", message = "Neplatné příjmení. Povolená délka 3-20 znaků")
+    @Pattern(regexp = "^[a-zA-ZáéíóúůýčšžřěÁÉÍÓÚŮÝČŠŽŘĚ'´]{3,20}", message = "Neplatné příjmení. Povolená délka 3-20 znaků")
     private String lastName;
 
     @Column(name = "email")
