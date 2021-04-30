@@ -22,7 +22,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.*;
@@ -107,7 +106,7 @@ public class UserController {
         model.addAttribute("relevanceScores", relevanceScores);
         model.addAttribute("message_notification", message_notification);
         message_notification = "";
-        return "adminAllUsers";
+        return "admin/adminAllUsers";
     }
 
     /**
@@ -233,7 +232,7 @@ public class UserController {
         model.addAttribute("searching", true);
         model.addAttribute("message_notification", message_notification);
         message_notification = "";
-        return "adminAllUsers";
+        return "admin/adminAllUsers";
     }
 
     /**

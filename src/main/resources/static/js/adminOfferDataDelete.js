@@ -54,10 +54,10 @@ function datadeletestart() {
 		var width = 1;
 		var id = setInterval(frame, 1);
 		function frame() {
-		  if (width >= 100) {
+		  if (width >= 500) {
 			width=1;
 		  }else{
-			if(width == 99) {
+			if(width == 499) {
 				if((info.textContent.includes("Mažu")) || (info.textContent.includes("Processing"))) {
 					getOffersCount();
 					location.href = "#down";
