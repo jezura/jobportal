@@ -118,6 +118,8 @@ public class RelevanceScore {
         String line = br.readLine();
         String[] strPredictions = line.split("<br>");
 
+        is.close();
+
         // Get obtained relevance scores to local array
         for (int i = 0; i < 15; i++) {
             predicitons[i] = Float.valueOf(strPredictions[i]);

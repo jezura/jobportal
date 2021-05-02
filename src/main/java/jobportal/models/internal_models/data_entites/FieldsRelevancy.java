@@ -138,6 +138,7 @@ public class FieldsRelevancy {
 
         String line = br.readLine();
         String[] strPredictions = line.split("<br>");
+        is.close();
 
         setRelevancyField1(Float.valueOf(strPredictions[0]));
         setRelevancyField2(Float.valueOf(strPredictions[1]));

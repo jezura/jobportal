@@ -82,7 +82,6 @@ public class CVExtractor {
 
         // Extracting of whole text content from attached PDF / DOCX file
         this.extractedText = getCvTextData(savedFile, fileName);
-        System.out.println("Extracted text: " + extractedText);
 
         // Deleting of saved file
         if (savedFile.delete()) {
