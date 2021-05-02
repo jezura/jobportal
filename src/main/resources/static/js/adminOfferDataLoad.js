@@ -40,10 +40,10 @@ function dataloadingstart(useApiSource) {
 		var width = 1;
 		var id = setInterval(frame, 1);
 		function frame() {
-		  if (width >= 500) {
+		  if (width >= 100) {
 			width=1;
 		  }else{
-			if(width == 499) {
+			if(width == 99) {
 				var i = document.getElementById("info").textContent;
 				if((i.includes("Nahrávání")) || (i.includes("Čekání"))) {
 					getParsedOffersCount(useApiSource);

@@ -28,7 +28,7 @@
                 <span class="slider round"></span>
             </label>
             <span class="font-size-085">Jako datový zdroj využít internetvou API na https://data.mpsv.cz/...</span><br>
-            <p id="deployedVersionRestrictions">V nasazené verzi aplikace byla funkce nahrávání ext. dat <b>deaktivována</b> z důvodu nedostačujících alokovaných HW prostředků v rámci Heroku Hobby programu - <b>512 MB RAM a omezení SQL queries/hodina</b>.<br>Aplikace samotná vyžaduje zhruba 480 MB RAM a po spuštění hromadného nahrávání nabídek dojde k <b>překročení kvóty</b> - bylo by nutné přejít na vyšší program serveru i databáze (+ cca 90$).<br>Funkci nahrávání je možné plně vyzkoušet při lokálním spuštění aplikace.</p>
+            <!--<p id="deployedVersionRestrictions">V nasazené verzi aplikace byla funkce nahrávání ext. dat <b>deaktivována</b> z důvodu nedostačujících alokovaných HW prostředků v rámci Heroku Hobby programu - <b>512 MB RAM a omezení SQL queries/hodina</b>.<br>Aplikace samotná vyžaduje zhruba 480 MB RAM a po spuštění hromadného nahrávání nabídek dojde k <b>překročení kvóty</b> - bylo by nutné přejít na vyšší program serveru i databáze (+ cca 90$).<br>Funkci nahrávání je možné plně vyzkoušet při lokálním spuštění aplikace.</p>-->
             <div class="input-group selectLoadDatesDiv">
                 <div class="input-group-prepend">
                     <span class="input-group-text selectLoadDatesSpan">Datum vložení od-do</span>
@@ -44,7 +44,7 @@
                 <input type="date" name="editDateTo" class="form-control">
             </div>
             <div class="form-group dataActionDiv">
-                <button id= "buttonLoad" type="button" onclick="return parseOffers()" class="btn btn-success" disabled>Nahrát odpovídající pracovní nabídky</button>
+                <button id= "buttonLoad" type="button" onclick="return parseOffers()" class="btn btn-success">Nahrát odpovídající pracovní nabídky</button>
             </div>
         </form>
         <div id="loader"></div>

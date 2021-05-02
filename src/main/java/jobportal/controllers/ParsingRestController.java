@@ -493,22 +493,24 @@ public class ParsingRestController {
         // --- DATA SOURCE ---
 
         // -- STANDARDNI VERZE --
-        /*if (useApiSource.equals("switchedOn")) {
+        if (useApiSource.equals("switchedOn")) {
             // oficialni datovy zdroj MPSV CR s velkym souborem (300 MB)
             URL url = new URL("https://data.mpsv.cz/od/soubory/volna-mista/volna-mista.json");
             BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
             obj = new JSONParser().parse(in);
+            in.close();
         } else {
             // verze s lokalnim stazenym JSON souborem - s daty pouze pro dny 2021_03_22-23
             File file = new ClassPathResource("offers_json_data/volna-mista-2021_03_22-23.json").getFile();
             obj = new JSONParser().parse(new FileReader(file));
-        }*/
+        }
 
         // -- VERZE PRO HEROKU DEPLOYMENT --
         // datovy zdroj s mensim souborem s daty pouze pro dny 2021_03_22-23 - urceny pro verzi deployed na Heroku (kvuli HW pozadavkum - RAM a DB)
-        URL url = new URL("https://raw.githubusercontent.com/jezura/jobportal/master/src/main/resources/offers_json_data/volna-mista-2021_03_22-23.json");
+        /*URL url = new URL("https://raw.githubusercontent.com/jezura/jobportal/master/src/main/resources/offers_json_data/volna-mista-2021_03_22-23.json");
         BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
         obj = new JSONParser().parse(in);
+        in.close();*/
 
 
         JSONObject jsonObject = (JSONObject) obj;

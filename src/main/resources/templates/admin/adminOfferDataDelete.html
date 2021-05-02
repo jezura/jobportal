@@ -29,7 +29,7 @@
                 <span class="slider round"></span>
             </label>
             <span class="font-size-085">Identifikovat a smazat pouze a jenom data všech expirovaných pracovních nabídek</span><br>
-                <p id="deployedVersionRestrictions">V nasazené verzi aplikace byla funkce hromadného mazání nabídek <b>deaktivována</b> z důvodu nedostačujících alokovaných HW prostředků v rámci Heroku Hobby programu - <b>512 MB RAM a omezení SQL queries/hodina</b>.<br>Aplikace samotná vyžaduje zhruba 480 MB RAM a po spuštění hromadného mazání nabídek dojde k překročení kvóty - bylo by nutné přejít na vyšší program serveru i databáze (+ cca 90$).<br>Funkci mazání je možné plně vyzkoušet při lokálním spuštění aplikace.</p>
+                <!--<p id="deployedVersionRestrictions">V nasazené verzi aplikace byla funkce hromadného mazání nabídek <b>deaktivována</b> z důvodu nedostačujících alokovaných HW prostředků v rámci Heroku Hobby programu - <b>512 MB RAM a omezení SQL queries/hodina</b>.<br>Aplikace samotná vyžaduje zhruba 480 MB RAM a po spuštění hromadného mazání nabídek dojde k překročení kvóty - bylo by nutné přejít na vyšší program serveru i databáze (+ cca 90$).<br>Funkci mazání je možné plně vyzkoušet při lokálním spuštění aplikace.</p>-->
             </div>
             <div id="dates">
                 <p class="text-center">Odstranit data všech nabídek starších než zvolené filtry:</p>
@@ -47,7 +47,7 @@
                 </div>
             </div>
             <div class="form-group dataActionDiv">
-                <button id= "buttonDelete" type="button" onclick="return deleteOffers()" class="btn btn-danger" disabled>Trvale smazat odpovídající pracovní nabídky</button>
+                <button id= "buttonDelete" type="button" onclick="return deleteOffers()" class="btn btn-danger">Trvale smazat odpovídající pracovní nabídky</button>
             </div>
         </form>
         <div id="loader"></div>
